@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  fullName String
+  username String @unique
+  email    String @unique
+  password String
+
+  level     Int?    @default(0)
+  avatarUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blogs Blog[]
+}
+
+model Blog {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  slug      String
+  title     String
+  thumbnail String
+
+  status      String?
+  description String?
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String @db.ObjectId
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  blogHashtags BlogHashtag[]
+}
+
+model BlogHashtag {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  blogId    String @map("_blogId") @db.ObjectId
+  hashtagId String @map("_hashtagId") @db.ObjectId
+
+  Blog    Blog    @relation(fields: [blogId], references: [id])
+  Hashtag Hashtag @relation(fields: [hashtagId], references: [id])
+}
+
+model Hashtag {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String        @unique
+  blogHashtags BlogHashtag[]
+}
