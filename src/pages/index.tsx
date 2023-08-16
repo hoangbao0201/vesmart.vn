@@ -3,9 +3,19 @@ import { GetStaticProps } from "next";
 
 import blogService from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
+import { PageSEO } from "@/components/share/SEO";
+import siteMetadata from "@/siteMetadata";
 
 const HomePage = ({ blogs }: any) => {
-    return <div className="">Home Page</div>;
+    return (
+        <>  
+            <PageSEO
+                title="Home Page - VESMART"
+                description={siteMetadata.description}
+            />
+            <div className="">Home Page</div>
+        </>
+    );
 };
 
 export default HomePage;
