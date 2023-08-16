@@ -1,0 +1,11 @@
+
+
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://vesmart.vn
+
+# Sitemaps
+Sitemap: https://vesmart.vn/sitemap.xml
