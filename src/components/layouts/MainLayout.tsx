@@ -22,7 +22,7 @@ const MainLayout = ({ children, isHeader = true, isFooter = true, isContact = tr
 
     return (
         
-        <div>
+        <div className="">
 
             { isHeader && <Header /> }
 
