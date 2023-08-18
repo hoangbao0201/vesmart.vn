@@ -1,4 +1,3 @@
-
 type ClassType = {
     className: string;
 };
@@ -236,6 +235,34 @@ export const IconShoppingBag = ({ className }: ClassType) => {
             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
             <path d="M3 6h18" />
             <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+    );
+};
+
+export const IconMinus = ({ className }: ClassType) => {
+    return (
+        <svg
+            enableBackground="new 0 0 10 10"
+            viewBox="0 0 10 10"
+            x="0"
+            y="0"
+            className={className}
+        >
+            <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5"></polygon>
+        </svg>
+    );
+};
+
+export const IconPlus = ({ className }: ClassType) => {
+    return (
+        <svg
+            enableBackground="new 0 0 10 10"
+            viewBox="0 0 10 10"
+            x="0"
+            y="0"
+            className={className}
+        >
+            <polygon points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5"></polygon>
         </svg>
     );
 };

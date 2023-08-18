@@ -5,6 +5,7 @@ import blogService from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
 import { PageSEO } from "@/components/share/SEO";
 import siteMetadata from "@/siteMetadata";
+import ListProduct from "@/components/pages/PageHome/ListProduct";
 
 const HomePage = ({ blogs }: any) => {
     return (
@@ -13,7 +14,9 @@ const HomePage = ({ blogs }: any) => {
                 title="Home Page - VESMART"
                 description={siteMetadata.description}
             />
-            <div className="">Home Page</div>
+            <div className="">
+                <ListProduct />
+            </div>
         </>
     );
 };
