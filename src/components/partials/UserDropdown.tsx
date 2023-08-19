@@ -14,7 +14,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
         <div>
             <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button>
-                    <button className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">
+                    <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">
                         <Image
                             alt={email}
                             src={
@@ -24,7 +24,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
                             width={45}
                             height={45}
                         />
-                    </button>
+                    </span>
                 </Menu.Button>
                 <Transition
                     as={Fragment}
