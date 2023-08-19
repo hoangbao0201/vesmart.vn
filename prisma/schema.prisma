@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
@@ -63,4 +62,29 @@ model Hashtag {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String        @unique
   blogHashtags BlogHashtag[]
+}
+
+// ----
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  brand       String
+  rating      Int?     @default(5)
+  images      Image[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  price Int?
+  stock Int?
+}
+
+model Image {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  url      String
+  publicId String
+
+  ImageId String  @db.ObjectId
+  Product Product @relation(fields: [ImageId], references: [id])
 }

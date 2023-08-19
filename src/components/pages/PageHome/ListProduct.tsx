@@ -1,38 +1,61 @@
+import { ProductTypes } from "@/types";
 import Image from "next/image"
 import Link from "next/link";
 
-const ListProduct = () => {
+interface ListProductProps {
+    products: ProductTypes[]
+}
+
+// [1,2,3,4,5,6,7,8,9,10,11,12]
+
+const ListProduct = ({ products } : ListProductProps) => {
 
     return (
         <div>
-            <ul className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-3">
+            <ul className="flex flex-wrap px-1">
                 {
-                    [1,2,3,4,5,6,7,8,9,10,11,12].map(product => {
+                    products && [
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                        products[0],
+                    ].map((product, index) => {
                         return (
-                            <li key={product} className="bg-white border hover:shadow-md group">
-                                <Link href={`/san-pham/${product}`}>
-                                    <article>
-                                        <div className="relative w-full sm:h-56 h-48 overflow-hidden flex justify-center items-center">
+                            <li key={product.id + index} className="group transition-all ease-linear px-[5px] mb-3 xl:basis-2/12 md:basis-3/12 sm:basis-4/12 basis-1/2">
+                                <Link href={`/san-pham/${product?.title}`} title={product?.title}>
+                                    <article className="bg-white rounded-b-sm overflow-hidden border-[1px] group-hover:border-red-500">
+                                        <div style={{ paddingTop: "100%" }} className="relative w-full bg-red-500">
                                             <Image
                                                 width={300}
                                                 height={300}
                                                 alt="Ảnh sản phẩm"
-                                                src="https://image.folderstyle.com/data/folderstyle_data/images/product/00/00/05/76/74/b_0000057674.gif?w=243&f=webp"
-                                                className="h-48 w-full object-cover"
+                                                src={product.images[0].url}
+                                                className="absolute w-full object-contain align-bottom top-0 left-0 bg-white opacity-1"
                                             />
-                                            <div className="absolute px-2 py-1 w-full bg-black/60 text-white/80 group-hover:bottom-0 -bottom-60 transition-all ease-out">HELLO</div>
+                                            {/* <div className="absolute px-2 py-1 w-full bg-black/60 text-white/80 group-hover:bottom-0 -bottom-60 transition-all ease-out">HELLO</div> */}
                                         </div>
-                                        <div className="px-2 py-2">
-                                            <div>
-                                                <h3 className="line-clamp-2">Điện thoại Xiaomi Redmi Note 12 (4GB/128GB) - Hàng chính hãng</h3>
-                                            </div>
-                                            <div className="text-sm">
-                                                Đã bán 7
-                                            </div>
-                                            <div className="text-lg flex items-center">
-                                                <span className="font-semibold">3.970.000<sub className="top-0 ml-1">₫</sub></span>
+                                        <div className="px-2 py-3">
+                                            <h3 className="line-clamp-2 text-black font-medium mb-3">
+                                                {/* {product?.title} */}
+                                                Móc khóa thú hàn quốc hàng cao cấp nhiều mẫu hot trend phụ kiện túi xách ArsC Store
+                                            </h3>
+                                            <div className="text-lg flex items-center mb-2">
+                                                <span className="font-semibold text-rose-500">
+                                                    {product?.price}<sub className="top-0 ml-1">₫</sub>
+                                                </span>
                                                 {/* <span className="bg-gray-200 px-1 ml-auto pl-2">-20%</span> */}
                                             </div>
+                                            <div className="text-gray-600 text-sm">TP. Đà Nẵng</div>
                                         </div>
                                     </article>
                                 </Link>

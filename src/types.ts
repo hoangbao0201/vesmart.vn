@@ -28,5 +28,24 @@ export interface BlogTypes {
     updatedAt: Date;
 
     authorId: String;
-    author: Partial<UserTypes>
+    author: Partial<UserTypes>;
+}
+export interface ProductTypes {
+    id: string;
+    title: string;
+    description: string;
+    brand: string;
+    rating: number;
+    images: ImageTypes[];
+    createdAt: Date;
+    updatedAt: Date;
+
+    price?: number;
+    stock?: number;
+}
+
+export interface ImageTypes {
+    id: string;
+    url: string;
+    publicId: string;
 }
