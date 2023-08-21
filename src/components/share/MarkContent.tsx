@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Link from "next/link";
 import Image from 'next/image';
 
@@ -15,7 +15,7 @@ const config = {
 };
 
 interface MarkContentProps {
-    children: any
+    children?: any
 }
 
 const MarkContent = ({ children } : MarkContentProps) => {

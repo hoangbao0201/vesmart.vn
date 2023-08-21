@@ -112,6 +112,16 @@ class BlogService {
                     slug: slug
                 },
                 include: {
+                    blogHashtags: {
+                        include: {
+                            Hashtag: {
+                                select: {
+                                    id: true,
+                                    name: true
+                                }
+                            }
+                        }
+                    },
                     author: {
                         select: {
                             id: true,

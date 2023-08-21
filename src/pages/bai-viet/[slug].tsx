@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 import { ParsedUrlQuery } from "querystring";
@@ -11,6 +12,7 @@ import { BlogSEO } from "@/components/share/SEO";
 import blogService from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
 import MarkContent from "@/components/share/MarkContent";
+import Breadcrumb from "@/components/share/Breadcrumb";
 
 
 export interface Params extends ParsedUrlQuery {
@@ -32,22 +34,48 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                         {
                             blog && (
                                 <>
-                                    <BlogSEO
-                                        title={`${blog.title}`}
-                                        author={blog.author.fullName || siteMetadata.author}
-                                        createdAt={blog.createdAt}
-                                        updatedAt={blog.updatedAt}
-                                        summary={blog.description}
-                                        url={blog.slug}
-                                        canonicalUrl={`${siteMetadata?.siteUrl}/bai-viet/${blog.slug}`}
+                                    <Breadcrumb
+                                        path={[
+                                            {
+                                                title: blog?.title || "",
+                                                url: "/bai-viet/" + blog?.slug
+                                            }
+                                        ]}
                                     />
-
-                                    <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">{blog?.title}</h1>
-                                    <p>{blog?.description}</p>
-                                        
-                                    <MarkContent>
-                                        {blog?.content}
-                                    </MarkContent>
+                                    <article>
+    
+                                        <BlogSEO
+                                            title={`${blog.title}`}
+                                            author={blog.author.fullName || siteMetadata.author}
+                                            createdAt={blog.createdAt}
+                                            updatedAt={blog.updatedAt}
+                                            summary={blog.description}
+                                            url={blog.slug}
+                                            canonicalUrl={`${siteMetadata?.siteUrl}/bai-viet/${blog.slug}`}
+                                        />
+                            
+                                        <header>
+                                            <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">{blog?.title}</h1>
+                                            <ul className="my-6 flex flex-wrap">
+                                                {
+                                                    blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
+                                                        return (
+                                                            <li className="" key={hashTag.id}>
+                                                                <Link href={`/`} className={`px-2 py-[2px] border border-transparent rounded-sm dev-tag-blog-${index}`}>
+                                                                    #{hashTag.Hashtag.name}
+                                                                </Link>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                            <p className="prose mb-7">{blog?.description}</p>
+                                        </header>
+                                        <MarkContent>
+                                            {blog?.content}
+                                        </MarkContent>
+    
+                                    </article>
                                 </>
                             )
                         }

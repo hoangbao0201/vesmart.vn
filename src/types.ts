@@ -12,6 +12,8 @@ export interface UserTypes {
     createdAt: Date;
     updatedAt: Date;
 }
+
+// Blog
 export interface BlogTypes {
     id: string;
 
@@ -29,7 +31,21 @@ export interface BlogTypes {
 
     authorId: String;
     author: Partial<UserTypes>;
+
+    blogHashtags?: BlogHashtagType[]
 }
+
+interface BlogHashtagType {
+    id: string
+    Hashtag: HashtagType
+}
+
+interface HashtagType {
+    id: string
+    name: string
+}
+
+// Product
 export interface ProductTypes {
     id: string;
     title: string;
