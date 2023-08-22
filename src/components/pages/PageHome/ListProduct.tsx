@@ -1,6 +1,8 @@
-import { ProductTypes } from "@/types";
-import Image from "next/image"
 import Link from "next/link";
+import Image from "next/image"
+
+import { ProductTypes } from "@/types";
+import convertPrice from "@/utils/convertPrice";
 
 interface ListProductProps {
     products: ProductTypes[]
@@ -50,8 +52,9 @@ const ListProduct = ({ products } : ListProductProps) => {
                                                 Móc khóa thú hàn quốc hàng cao cấp nhiều mẫu hot trend phụ kiện túi xách ArsC Store
                                             </h3>
                                             <div className="text-lg flex items-center mb-2">
-                                                <span className="font-semibold text-rose-500">
-                                                    {product?.price}<sub className="top-0 ml-1">₫</sub>
+                                                <span className="font-semibold text-rose-500 ">
+                                                    {convertPrice(product?.price || 0)}
+                                                    {/* <sub className="top-0 ml-1">₫</sub> */}
                                                 </span>
                                                 {/* <span className="bg-gray-200 px-1 ml-auto pl-2">-20%</span> */}
                                             </div>

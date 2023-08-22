@@ -46,7 +46,8 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
     
                                         <BlogSEO
                                             title={`${blog.title}`}
-                                            author={blog.author.fullName || siteMetadata.author}
+                                            // blog.author.fullName || 
+                                            author={siteMetadata.author}
                                             createdAt={blog.createdAt}
                                             updatedAt={blog.updatedAt}
                                             summary={blog.description}

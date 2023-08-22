@@ -28,11 +28,73 @@ const CommonSEO = ({
     isHiddenFromSearch,
 }: CommonSEOProps) => {
     const router = useRouter();
+
+    const ldJsonWeb1 = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: "Công Ty cổ Phần Vesmart",
+        image: "https://vesmart.vn/favicon.ico",
+        "@id": "https://vesmart.vn/favicon.ico",
+        url: siteMetadata.siteUrl,
+        address: {
+            "@type": "PostalAddress",
+            streetAddress: siteMetadata.address,
+            addressLocality: "Đà nẵng",
+            postalCode: "550000",
+            addressCountry: "VN",
+        },
+        geo: {
+            "@type": "GeoCoordinates",
+            latitude: siteMetadata.latitude,
+            longitude: siteMetadata.longitude,
+        },
+        openingHoursSpecification: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+            ],
+            opens: "07:00",
+            closes: "18:00",
+        },
+        sameAs: siteMetadata.urlFanpageFacebook,
+    };
+    const ldJsonWeb2 = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        url: "https://vesmart.vn",
+        name: "Công Ty cổ Phần Vesmart",
+        logo: "https://vesmart.vn/favicon.ico",
+    };
+    const ldJsonBreadcrumbList = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "vesmart.vn",
+                item: "https://vesmart.vn/",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: title,
+            },
+        ],
+    };
+
     return (
         <Head>
             <title>{title}</title>
             <meta name="description" content={description} />
             <link rel="manifest" href="/manifest.json" />
+            <link rel="icon" href="/favicon.ico"></link>
             <meta charSet="utf-8" />
             <meta name="application-name" content="vesmart"></meta>
             <meta property="og:site_name" content={siteMetadata.title} />
@@ -48,7 +110,7 @@ const CommonSEO = ({
                 content={
                     isHiddenFromSearch ? "noindex, follow" : "follow, index"
                 }
-            />  
+            />
             <meta
                 property="og:url"
                 content={`${siteMetadata.siteUrl}${router.asPath}`}
@@ -90,6 +152,27 @@ const CommonSEO = ({
             />
             <meta name="msapplication-starturl" content="/" />
 
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(ldJsonWeb1, null, 2),
+                }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(ldJsonWeb2, null, 2),
+                }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(ldJsonBreadcrumbList, null, 2),
+                }}
+            />
+
+            
         </Head>
     );
 };
@@ -213,6 +296,14 @@ export const BlogSEO = ({
             },
         },
         description: summary,
+
+        // Test
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            bestRating: "5",
+            ratingCount: "6",
+        },
     };
 
     const twImageUrl = featuredImages[0].url;
@@ -251,3 +342,40 @@ export const BlogSEO = ({
         </>
     );
 };
+
+
+// const ldJsonWeb3 = {
+//     "@context": "https://schema.org/",
+//     "@type": "Person",
+//     name: "Vesmart",
+//     //   "url": "https://toplist.vn//tac-gia/thịnh-nguyễn-sỹ-79223/",
+//     //   "image": "https://toplist.vn/images/avatars/79223.jpg",
+//     jobTitle: "Copywriter",
+//     worksFor: {
+//         "@type": "Organization",
+//         name: "Công Ty cổ Phần Vesmart",
+//     },
+// };
+// const ldJsonWeb4 = {
+//     "@context": "https://schema.org",
+//     "@type": "ItemList",
+//     itemListElement: [
+//         "Danke Clean Đà Nẵng",
+//         "Smart Tech Đà Nẵng",
+//         "TSmart Home Đà Nẵng",
+//     ],
+//     itemListOrder: "https://schema.org/ItemListOrderDescending",
+//     name: "Top 3 Địa chỉ sửa chữa các loại robot hút bụi uy tín nhất Đà Nẵng ",
+//     numberOfItems: "3",
+// };
+// const ldJsonWeb5 = {
+//     "@context": "https://schema.org/",
+//     "@type": "CreativeWorkSeries",
+//     name: "Top 3 Địa chỉ sửa chữa các loại robot hút bụi uy tín nhất Đà Nẵng ",
+//     aggregateRating: {
+//         "@type": "AggregateRating",
+//         ratingValue: "4.9",
+//         bestRating: "5",
+//         ratingCount: "10",
+//     },
+// };
