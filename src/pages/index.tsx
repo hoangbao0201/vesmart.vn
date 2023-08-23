@@ -1,12 +1,11 @@
 import { ReactNode } from "react";
 import { GetStaticProps } from "next";
 
-import blogService from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
 import { PageSEO } from "@/components/share/SEO";
 import siteMetadata from "@/siteMetadata";
 import ListProduct from "@/components/pages/PageHome/ListProduct";
-import productService from "@/services/product.service";
+import productService from "@/serverless/product.service";
 import { ProductTypes } from "@/types";
 import { NextPageWithLayout } from "./_app";
 
@@ -16,6 +15,8 @@ interface HomePageProps {
 }
 
 const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
+
+    console.log(products)
 
     return (
         <>  

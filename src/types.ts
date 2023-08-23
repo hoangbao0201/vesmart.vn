@@ -47,21 +47,35 @@ interface HashtagType {
 
 // Product
 export interface ProductTypes {
-    id: string;
-    title: string;
-    description: string;
-    brand: string;
-    rating: number;
-    images: ImageTypes[];
-    createdAt: Date;
-    updatedAt: Date;
+    id: string
+    slug: string
+    title: string
+    description: string
+    brand: string
+    rating: number
+    images: ImageTypes[]
+    createdAt: Date
+    updatedAt: Date
 
-    price?: number;
-    stock?: number;
+    price?: number
+    stock?: number
+
+    productDetail?: ProductDetailTypes
+}
+
+interface ProductDetailTypes {
+    id: string
+    productInformationItems: ProductInformationItem[]
+}
+
+interface ProductInformationItem {
+    id: string
+    name: string
+    value: string
 }
 
 export interface ImageTypes {
-    id: string;
-    url: string;
-    publicId: string;
+    id: string
+    url: string
+    publicId: string
 }

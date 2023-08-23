@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 import siteMetadata from "@/siteMetadata";
-import blogService from "@/services/blog.service";
+import blogService from "@/serverless/blog.service";
 
 interface BlogSiteProps {
     id: string

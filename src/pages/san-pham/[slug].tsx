@@ -1,18 +1,30 @@
 import Image from "next/image";
+import { useState } from "react";
+import { ParsedUrlQuery } from "querystring";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 import { NextPageWithLayout } from "../_app";
 import { ListStar } from "@/components/share/ListStar";
 import MainLayout from "@/components/layouts/MainLayout";
 import { IconHeart } from "../../../public/static/icons/IconSvg";
-import InputQuantity from "./InputQuantity";
-import { useState } from "react";
+import InputQuantity from "@/components/share/InputQuantity";
+import productService from "@/serverless/product.service";
+import { ProductTypes } from "@/types";
+import convertPrice from "@/utils/convertPrice";
 
 
-interface ProductDetailProps {
 
+export interface Params extends ParsedUrlQuery {
+    slug: string;
 }
 
-const ProductDetail : NextPageWithLayout<ProductDetailProps> = () => {
+interface ProductDetailProps {
+    product: ProductTypes
+}
+
+const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => {
+
+    console.log(product)
 
     const [countProduct, setCountProduct] = useState<number>(0);
     const [dataBuy, setDataBuy] = useState({
@@ -41,11 +53,15 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = () => {
                     </div>
                     <div className="relative md:w-8/12 px-3 mb-3">
                         <div className="mb-4">
-                            <h1 className="font-semibold text-2xl">Móc khóa nhân vật hoạt hình đáng yêu dùng làm phụ kiện hay quà tặng</h1>
+                            <h1 className="font-semibold text-2xl">
+                                {product?.title}
+                            </h1>
                         </div>
     
                         <div className="p-4 mb-4 bg-gray-100 flex items-end leading-none">
-                            <div className="font-semibold text-[30px] text-rose-500 mr-3">599.000 ₫</div>
+                            <div className="font-semibold text-[30px] text-rose-500 mr-3">
+                                {convertPrice(product?.price || 0)}
+                            </div>
                             <div className="line-through mr-3">856.000 ₫</div>
                             <div className="font-semibold text-rose-500">-30%</div>
                         </div>
@@ -90,48 +106,32 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = () => {
                     <h2 className="font-semibold text-lg mb-4">Thông tin chi tiết</h2>
     
                     <ul className="block [&>li]:flex [&>li]:py-2">
-                        <li className="bg-gray-100 px-3">
-                            <div className="basis-[35%]">Danh Mục</div>
-                            <p className="ml-4 flex-1">Nội thất phòng ngủ</p>
-                        </li>
-                        <li className="px-3">
-                            <div className="basis-[35%]">Cung cấp bởi</div>
-                            <p className="ml-4 flex-1">Vando Official Store</p>
-                        </li>
-                        <li className="bg-gray-100 px-3">
-                            <div className="basis-[35%]">Thương hiệu</div>
-                            <p className="ml-4 flex-1">VANDO</p>
-                        </li>
-                        <li className="px-3">
-                            <div className="basis-[35%]">Xuất xứ thương hiệu</div>
-                            <p className="ml-4 flex-1">Việt Nam</p>
-                        </li>
-                        <li className="bg-gray-100 px-3">
-                            <div className="basis-[35%]">Chất liệu</div>
-                            <p className="ml-4 flex-1">Chất liệu: Nhựa (PP+HIPS+PS) </p>
-                        </li>
-                        <li className="px-3">
-                            <div className="basis-[35%]">Hướng dẫn sử dụng</div>
-                            <p className="ml-4 flex-1">Video được thực hiện vởi VANDO - Click xem Tại đây</p>
-                        </li>
-                        <li className="bg-gray-100 px-3">
-                            <div className="basis-[35%]">Xuất xứ</div>
-                            <p className="ml-4 flex-1">Trung Quốc</p>
-                        </li>
-                        <li className="px-3">
-                            <div className="basis-[35%]">Sản phẩm có được bảo hành không?</div>
-                            <p className="ml-4 flex-1">Không</p>
-                        </li>
+
+                        {
+                            product && product?.productDetail?.productInformationItems.map((itemInfo, index) => {
+                                return (
+                                    <li key={itemInfo.id} className={`px-3 ${index%2===0 && "bg-gray-100"}`}>
+                                        <div className="basis-[35%]">{itemInfo?.name}</div>
+                                        <p className="ml-4 flex-1">{itemInfo?.value}</p>
+                                    </li>
+                                )
+                            })
+                        }
+
                     </ul>
                 </div>
 
                 <div className="bg-white px-3 py-4 my-4">
                     <h2 className="font-semibold text-lg mb-4">Thông tin chi tiết</h2>
-                    <div>
-                        Giải trí bất tận mỗi ngày, thoải mái thưởng thức nhiều nội dung hơn với màn hình tràn viền vô cực Infinity-V 6,5inch trên Galaxy A04s. Tận hưởng nội dung hiển thị rõ ràng và sắc nét đến không ngờ nhờ màn hình HD+ với tần số quét 90Hz giúp hiển thị mượt mà.
+
+                    <div>{product?.description}</div>
+
+                    {/* <div dangerouslySetInnerHTML={{ __html: product?.description }}> */}
+                        {/* Giải trí bất tận mỗi ngày, thoải mái thưởng thức nhiều nội dung hơn với màn hình tràn viền vô cực Infinity-V 6,5inch trên Galaxy A04s. Tận hưởng nội dung hiển thị rõ ràng và sắc nét đến không ngờ nhờ màn hình HD+ với tần số quét 90Hz giúp hiển thị mượt mà.
                         <br/>
-                        Thiết kế liền mạch với cụm camera không viền thời thượng mang đến một Galaxy A04s đầy mị lực và sự thoải mái khi cầm nắm. Trọn bộ công nghệ đột phá đi kèm với 3 màu phá cách Đồng ánh hồng, Xanh dương xỉ, Đen tinh vân cho bạn thỏa sức khoe cái tôi cá tính.
-                    </div>
+                        Thiết kế liền mạch với cụm camera không viền thời thượng mang đến một Galaxy A04s đầy mị lực và sự thoải mái khi cầm nắm. Trọn bộ công nghệ đột phá đi kèm với 3 màu phá cách Đồng ánh hồng, Xanh dương xỉ, Đen tinh vân cho bạn thỏa sức khoe cái tôi cá tính. */}
+                        
+                    {/* </div> */}
                 </div>
 
                 <div className="bg-white px-3 py-4 my-4">
@@ -145,6 +145,31 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = () => {
 }
 
 export default ProductDetail;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const { slug } = context.params as Params;
+
+    const productsRes = await productService.findOne(slug);
+
+    if (!productsRes?.success) {
+        return {
+            props: {
+                products: null,
+            },
+        };
+    }
+
+    return {
+        props: {
+            product: JSON.parse(JSON.stringify(productsRes?.product)),
+        },
+        revalidate: 60 * 5,
+    };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    return { paths: [], fallback: true };
+};
 
 ProductDetail.getLayout = (page) => {
     return <MainLayout>{page}</MainLayout>;

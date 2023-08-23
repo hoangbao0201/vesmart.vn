@@ -9,10 +9,11 @@ import { BlogTypes } from "@/types";
 import siteMetadata from "@/siteMetadata";
 import { NextPageWithLayout } from "../_app";
 import { BlogSEO } from "@/components/share/SEO";
-import blogService from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
 import MarkContent from "@/components/share/MarkContent";
 import Breadcrumb from "@/components/share/Breadcrumb";
+import BlogLoad from "@/components/share/skeleton/BlogLoad";
+import blogService from "@/serverless/blog.service";
 
 
 export interface Params extends ParsedUrlQuery {
@@ -30,9 +31,9 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
         <>
             <div className="lg:flex -mx-3">
                 <div className="lg:w-8/12 md:px-3 mb-5">
-                    <div className="bg-white md:px-14 px-4 py-10 md:rounded-lg border min-h-screen">
+                    <div className="bg-white md:px-14 px-4 py-10 md:rounded-lg border min-h-screen relative">
                         {
-                            blog && (
+                            blog ? (
                                 <>
                                     <Breadcrumb
                                         path={[
@@ -56,7 +57,9 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                         />
                             
                                         <header>
-                                            <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">{blog?.title}</h1>
+                                            <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">
+                                                {blog?.title}
+                                            </h1>
                                             <ul className="my-6 flex flex-wrap">
                                                 {
                                                     blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
@@ -78,6 +81,8 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
     
                                     </article>
                                 </>
+                            ) : (
+                                <BlogLoad />
                             )
                         }
                     </div>

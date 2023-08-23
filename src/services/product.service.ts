@@ -1,5 +1,8 @@
 import prismaService from "@/lib/prismaService";
 import { BlogTypes } from "@/types";
+import axiosClient from "./axiosClient";
+import axios from "axios";
+
 
 class ProductService {
 
@@ -61,78 +64,67 @@ class ProductService {
     
     // }
 
-    async findAll(query: any) {
-        try {
-
-            const { page = 0, limit = 10 } = query;
-
-            const products = await prismaService.product.findMany({
-                select: {
-                    id: true,
-                    title: true,
-                    brand: true,
-                    images: {
-                        take: 1,
-                    },
-                    price: true,
-                    stock: true,
-                    rating: true,
-                    description: true,
-                    createdAt: true,
-                    updatedAt: true       
-                },
-                orderBy: {
-                    createdAt: "desc"
-                },
-                take: Number(limit) || 10,
-                skip: Number(page) ? (page-1)*limit : 0
-            });
-        
-            return {
-                success: true,
-                message: "Get products successful",
-                products: products
-            };
-        } catch (error) {
-            return {
-                success: false,
-                message: "error products successful",
-                error: error
-            };
-        }
-    }
-
-    // async findOne(slug: string) {
+    // async findAll(query: any) {
     //     try {
-    //         const blog = await prismaService.blog.findFirst({
-    //             where: {
-    //                 slug: slug
-    //             },
-    //             include: {
-    //                 author: {
-    //                     select: {
-    //                         id: true,
-    //                         fullName: true,
-    //                         username: true,
-    //                         email: true
-    //                     }
-    //                 }
-    //             }
-    //         })
 
+    //         const { page = 0, limit = 10 } = query;
+
+    //         const products = await prismaService.product.findMany({
+    //             select: {
+    //                 id: true,
+    //                 title: true,
+    //                 brand: true,
+    //                 images: {
+    //                     take: 1,
+    //                 },
+    //                 price: true,
+    //                 stock: true,
+    //                 rating: true,
+    //                 description: true,
+    //                 createdAt: true,
+    //                 updatedAt: true       
+    //             },
+    //             orderBy: {
+    //                 createdAt: "desc"
+    //             },
+    //             take: Number(limit) || 10,
+    //             skip: Number(page) ? (page-1)*limit : 0
+    //         });
+        
     //         return {
     //             success: true,
-    //             message: "Get blog successful",
-    //             blog: blog
+    //             message: "Get products successful",
+    //             products: products
     //         };
     //     } catch (error) {
     //         return {
     //             success: false,
-    //             message: "error blogs successful",
+    //             message: "error products successful",
     //             error: error
     //         };
     //     }
     // }
+
+    async findOne(slug: string) {
+        try {
+            const product = await axios.get("http://localhost:4000/api/products");
+            // if(blog || blog?.success) {
+
+            // } 
+
+            return {
+                success: true,
+                message: "Get product successful",
+                product: product
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: "error product successful",
+                error: error
+            };
+        }
+    }
 
     // async update(id: string, data: any) {
     //     try {

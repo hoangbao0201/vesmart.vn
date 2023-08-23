@@ -298,12 +298,12 @@ export const BlogSEO = ({
         description: summary,
 
         // Test
-        aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "4.9",
-            bestRating: "5",
-            ratingCount: "6",
-        },
+        // aggregateRating: {
+        //     "@type": "AggregateRating",
+        //     ratingValue: "4.9",
+        //     bestRating: "5",
+        //     ratingCount: "6",
+        // },
     };
 
     const twImageUrl = featuredImages[0].url;
