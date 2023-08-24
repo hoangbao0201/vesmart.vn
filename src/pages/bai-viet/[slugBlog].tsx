@@ -17,7 +17,7 @@ import blogService from "@/serverless/blog.service";
 
 
 export interface Params extends ParsedUrlQuery {
-    slug: string;
+    slugBlog: string;
 }
 
 interface BlogDetailPageProps {
@@ -102,9 +102,9 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
 export default BlogDetailPage;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { slug } = context.params as Params;
+    const { slugBlog } = context.params as Params;
 
-    const blogRes = await blogService.findOne(slug);
+    const blogRes = await blogService.findOne(slugBlog);
 
     if (!blogRes?.success) {
         return {

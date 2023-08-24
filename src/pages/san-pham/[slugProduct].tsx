@@ -3,19 +3,20 @@ import { useState } from "react";
 import { ParsedUrlQuery } from "querystring";
 import { GetStaticPaths, GetStaticProps } from "next";
 
+import { ProductTypes } from "@/types";
 import { NextPageWithLayout } from "../_app";
+import convertPrice from "@/utils/convertPrice";
 import { ListStar } from "@/components/share/ListStar";
 import MainLayout from "@/components/layouts/MainLayout";
-import { IconHeart } from "../../../public/static/icons/IconSvg";
-import InputQuantity from "@/components/share/InputQuantity";
+import MarkContent from "@/components/share/MarkContent";
 import productService from "@/serverless/product.service";
-import { ProductTypes } from "@/types";
-import convertPrice from "@/utils/convertPrice";
+import InputQuantity from "@/components/share/InputQuantity";
+import { IconHeart } from "../../../public/static/icons/IconSvg";
 
 
 
 export interface Params extends ParsedUrlQuery {
-    slug: string;
+    slugProduct: string;
 }
 
 interface ProductDetailProps {
@@ -24,7 +25,7 @@ interface ProductDetailProps {
 
 const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => {
 
-    console.log(product)
+    // console.log(product)
 
     const [countProduct, setCountProduct] = useState<number>(0);
     const [dataBuy, setDataBuy] = useState({
@@ -89,21 +90,21 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                         />
                         
                         <div className="flex">
-                            <button className="sm:p-4 p-3 border mr-2 bg-white hover:bg-slate-50">
+                            {/* <button className="sm:p-4 p-3 border mr-2 bg-white hover:bg-slate-50">
                                 <IconHeart className="w-5 h-5"/>
-                            </button>
-                            <button className="sm:py-3 py-2 border bg-gray-600 hover:bg-gray-700/80 text-white uppercase font-semibold flex-1 mr-2">
+                            </button> */}
+                            <button className="sm:py-3 py-2 border bg-gray-600 hover:bg-gray-700/80 text-white uppercase font-semibold w-2/3 mr-2">
                                 Thêm vào giỏ hàng
                             </button>
-                            <button className="sm:py-3 py-2 border bg-blue-600 hover:bg-blue-700/90 text-white uppercase font-semibold flex-1">
+                            <button className="sm:py-3 py-2 border bg-blue-600 hover:bg-blue-700/90 text-white uppercase font-semibold w-1/3">
                                 Mua ngay
                             </button>
                         </div>
                     </div>
                 </div>
     
-                <div className="bg-white px-3 py-4 my-4">
-                    <h2 className="font-semibold text-lg mb-4">Thông tin chi tiết</h2>
+                <div className="bg-white px-3 py-4 my-4 min-h-[250px]">
+                    <h2 className="font-semibold text-xl mb-4">Thông tin chi tiết</h2>
     
                     <ul className="block [&>li]:flex [&>li]:py-2">
 
@@ -121,20 +122,16 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                     </ul>
                 </div>
 
-                <div className="bg-white px-3 py-4 my-4">
-                    <h2 className="font-semibold text-lg mb-4">Thông tin chi tiết</h2>
+                <div className="bg-white px-3 py-4 my-4 min-h-[250px]">
+                    <h2 className="font-semibold text-xl mb-4">Mô tả sản phẩm</h2>
 
-                    <div>{product?.description}</div>
+                    <MarkContent>
+                        {product?.description}
+                    </MarkContent>
 
-                    {/* <div dangerouslySetInnerHTML={{ __html: product?.description }}> */}
-                        {/* Giải trí bất tận mỗi ngày, thoải mái thưởng thức nhiều nội dung hơn với màn hình tràn viền vô cực Infinity-V 6,5inch trên Galaxy A04s. Tận hưởng nội dung hiển thị rõ ràng và sắc nét đến không ngờ nhờ màn hình HD+ với tần số quét 90Hz giúp hiển thị mượt mà.
-                        <br/>
-                        Thiết kế liền mạch với cụm camera không viền thời thượng mang đến một Galaxy A04s đầy mị lực và sự thoải mái khi cầm nắm. Trọn bộ công nghệ đột phá đi kèm với 3 màu phá cách Đồng ánh hồng, Xanh dương xỉ, Đen tinh vân cho bạn thỏa sức khoe cái tôi cá tính. */}
-                        
-                    {/* </div> */}
                 </div>
 
-                <div className="bg-white px-3 py-4 my-4">
+                <div className="bg-white px-3 py-4 my-4 min-h-[250px]">
                     <h2 className="font-semibold text-lg mb-4">Đánh Giá - Nhận Xét Từ Khách Hàng</h2>
                 </div>
 
@@ -147,9 +144,9 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
 export default ProductDetail;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { slug } = context.params as Params;
+    const { slugProduct } = context.params as Params;
 
-    const productsRes = await productService.findOne(slug);
+    const productsRes = await productService.findOne(slugProduct);
 
     if (!productsRes?.success) {
         return {

@@ -32,4 +32,3 @@ const MarkContent = ({ children } : MarkContentProps) => {
 }
 
 export default MarkContent;
-{/* <div className="prose contents" dangerouslySetInnerHTML={{ __html: marked(content) }} /> */}

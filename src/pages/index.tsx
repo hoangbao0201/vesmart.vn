@@ -16,7 +16,7 @@ interface HomePageProps {
 
 const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
 
-    console.log(products)
+    // console.log(products);
 
     return (
         <>  
