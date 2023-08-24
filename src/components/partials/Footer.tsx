@@ -18,14 +18,14 @@ const Footer = () => {
                 <div className="px-3 md:w-8/12 mb-5">
                     <h4 className="text-xl font-semibold mb-4">Từ khóa</h4>
                     <ul className="flex flex-wrap gap-2">
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>Đà Nẵng</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>limosa.vn</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>toplist.vn</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>Robot hút bụi</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>AZ Smart Home</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>Phụ kiện điện tử</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>Linh kiện điện tử</Link></li>
-                        <li><Link className="border px-2 border-gray-300 rounded-sm" href={`/`}>sửa chữa robot hút bụi đà nẵng</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>Đà Nẵng</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>limosa.vn</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>toplist.vn</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>Robot hút bụi</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>AZ Smart Home</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>Phụ kiện điện tử</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>Linh kiện điện tử</Link></li>
+                        <li><Link className="border px-2 border-gray-300 rounded-sm whitespace-nowrap" href={`/`}>sửa chữa robot hút bụi đà nẵng</Link></li>
     
                         
     
