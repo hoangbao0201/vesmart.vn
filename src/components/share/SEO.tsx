@@ -152,7 +152,6 @@ const CommonSEO = ({
             />
             <meta name="msapplication-starturl" content="/" />
 
-
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -171,8 +170,6 @@ const CommonSEO = ({
                     __html: JSON.stringify(ldJsonBreadcrumbList, null, 2),
                 }}
             />
-
-            
         </Head>
     );
 };
@@ -272,7 +269,7 @@ export const BlogSEO = ({
 
     let authorList = {
         "@type": "Person",
-        name: author,
+        name: "Vesmart",
     };
 
     const structuredData = {
@@ -280,7 +277,7 @@ export const BlogSEO = ({
         "@type": "Article",
         mainEntityOfPage: {
             "@type": "WebPage",
-            "@id": url,
+            "@id": canonicalUrl,
         },
         headline: title,
         image: featuredImages,
@@ -296,14 +293,19 @@ export const BlogSEO = ({
             },
         },
         description: summary,
-
-        // Test
-        // aggregateRating: {
-        //     "@type": "AggregateRating",
-        //     ratingValue: "5",
-        //     bestRating: "5",
-        //     ratingCount: "1",
-        // },
+    };
+    const structureDataRating = {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": canonicalUrl,
+        },
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "5",
+            ratingCount: "1",
+        },
     };
 
     const twImageUrl = featuredImages[0].url;
@@ -338,11 +340,16 @@ export const BlogSEO = ({
                         __html: JSON.stringify(structuredData, null, 2),
                     }}
                 />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(structureDataRating, null, 2),
+                    }}
+                />
             </Head>
         </>
     );
 };
-
 
 // const ldJsonWeb3 = {
 //     "@context": "https://schema.org/",

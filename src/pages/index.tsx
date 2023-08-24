@@ -21,7 +21,7 @@ const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
     return (
         <>  
             <PageSEO
-                title="Home Page - VESMART"
+                title="Trang chủ - VESMART"
                 description={siteMetadata.description}
             />
             <div className="-mx-3">
