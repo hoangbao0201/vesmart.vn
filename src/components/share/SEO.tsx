@@ -301,6 +301,15 @@ export const BlogSEO = ({
             "@type": "WebPage",
             "@id": canonicalUrl,
         },
+        headline: title,
+        image:featuredImages,
+        author: {
+            "@type": "Person",
+            name: "Vesmart",
+        },
+        datePublished: publishedAt,
+        dateModified: modifiedAt,
+        description: summary,
         aggregateRating: {
             "@type": "AggregateRating",
             ratingValue: "5",
