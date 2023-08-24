@@ -294,49 +294,49 @@ export const BlogSEO = ({
         },
         description: summary,
     };
-    const structureDataRating = {
-        "@context": "https://schema.org/",
-        "@type": "Review",
-        itemReviewed: {
-            "@type": "BlogPosting",
-            image: "https://www.example.com/blog-post-image.jpg",
-            name: title,
-            headline: title,
-            datePublished: publishedAt,
-            dateModified: modifiedAt,
-            author: {
-                "@type": "Person",
-                name: "Vesmart",
-            },
-            publisher: {
-                "@type": "Organization",
-                name: "BlogSiteName",
-                logo: {
-                    "@type": "ImageObject",
-                    url: canonicalUrl,
-                },
-            },
-            mainEntityOfPage: {
-                "@type": "WebPage",
-                "@id": canonicalUrl,
-            },
-        },
-        reviewRating: {
-            "@type": "Rating",
-            ratingValue: "4",
-            bestRating: "5",
-        },
-        name: title,
-        reviewBody: summary,
-        author: {
-            "@type": "Person",
-            name: "Vesmart",
-        },
-        publisher: {
-            "@type": "Organization",
-            name: "Vesmart",
-        },
-    };
+    // const structureDataRating = {
+    //     "@context": "https://schema.org/",
+    //     "@type": "Review",
+    //     itemReviewed: {
+    //         "@type": "BlogPosting",
+    //         image: "https://www.example.com/blog-post-image.jpg",
+    //         name: title,
+    //         headline: title,
+    //         datePublished: publishedAt,
+    //         dateModified: modifiedAt,
+    //         author: {
+    //             "@type": "Person",
+    //             name: "Vesmart",
+    //         },
+    //         publisher: {
+    //             "@type": "Organization",
+    //             name: "BlogSiteName",
+    //             logo: {
+    //                 "@type": "ImageObject",
+    //                 url: canonicalUrl,
+    //             },
+    //         },
+    //         mainEntityOfPage: {
+    //             "@type": "WebPage",
+    //             "@id": canonicalUrl,
+    //         },
+    //     },
+    //     reviewRating: {
+    //         "@type": "Rating",
+    //         ratingValue: "4",
+    //         bestRating: "5",
+    //     },
+    //     name: title,
+    //     reviewBody: summary,
+    //     author: {
+    //         "@type": "Person",
+    //         name: "Vesmart",
+    //     },
+    //     publisher: {
+    //         "@type": "Organization",
+    //         name: "Vesmart",
+    //     },
+    // };
     const twImageUrl = featuredImages[0].url;
 
     return (
@@ -369,12 +369,12 @@ export const BlogSEO = ({
                         __html: JSON.stringify(structuredData, null, 2),
                     }}
                 />
-                <script
+                {/* <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(structureDataRating, null, 2),
                     }}
-                />
+                /> */}
             </Head>
         </>
     );
