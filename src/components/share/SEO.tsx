@@ -295,28 +295,48 @@ export const BlogSEO = ({
         description: summary,
     };
     const structureDataRating = {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": canonicalUrl,
+        "@context": "https://schema.org/",
+        "@type": "Review",
+        itemReviewed: {
+            "@type": "BlogPosting",
+            image: "https://www.example.com/blog-post-image.jpg",
+            name: title,
+            headline: title,
+            datePublished: publishedAt,
+            dateModified: modifiedAt,
+            author: {
+                "@type": "Person",
+                name: "Vesmart",
+            },
+            publisher: {
+                "@type": "Organization",
+                name: "BlogSiteName",
+                logo: {
+                    "@type": "ImageObject",
+                    url: canonicalUrl,
+                },
+            },
+            mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": canonicalUrl,
+            },
         },
-        headline: title,
-        image:featuredImages,
+        reviewRating: {
+            "@type": "Rating",
+            ratingValue: "4",
+            bestRating: "5",
+        },
+        name: title,
+        reviewBody: summary,
         author: {
             "@type": "Person",
             name: "Vesmart",
         },
-        datePublished: publishedAt,
-        dateModified: modifiedAt,
-        description: summary,
-        aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "5",
-            ratingCount: "1",
+        publisher: {
+            "@type": "Organization",
+            name: "Vesmart",
         },
     };
-
     const twImageUrl = featuredImages[0].url;
 
     return (
