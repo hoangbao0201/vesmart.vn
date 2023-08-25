@@ -57,11 +57,49 @@ export interface ProductTypes {
     createdAt: Date
     updatedAt: Date
 
-    price?: number
-    stock?: number
-
     productDetail?: ProductDetailTypes
+    variants: VariantTypes[]
+    skus: SKUTypes[]
+
 }
+
+interface VariantTypes {
+    id: string
+    name: string
+    productId: string
+    product: string
+    subVariants?: SubVariantTypes[]
+}
+  
+interface SubVariantTypes {
+    id: string
+    name: string
+    variantId: string
+    variant: string
+    skus: SKUSubVariantTypes[]
+}
+  
+interface SKUTypes {
+    id: string   
+    price: number  
+    sku: string
+    stock: number 
+    
+    productId: string
+    product: ProductTypes
+    subVariants: SKUSubVariantTypes[]
+}
+  
+interface SKUSubVariantTypes {
+    id: string
+
+    skuId: string   
+    sku: SKUTypes
+    subVariantId: string 
+    subVariant: SubVariantTypes
+}
+
+
 
 interface ProductDetailTypes {
     id: string

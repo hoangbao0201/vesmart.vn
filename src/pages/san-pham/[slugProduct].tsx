@@ -11,7 +11,9 @@ import MainLayout from "@/components/layouts/MainLayout";
 import MarkContent from "@/components/share/MarkContent";
 import productService from "@/serverless/product.service";
 import InputQuantity from "@/components/share/InputQuantity";
-import { IconHeart } from "../../../public/static/icons/IconSvg";
+import { useDispatch, useSelector } from "react-redux";
+import { CartSlideState, addCartHandle, setCartHandle } from "@/redux/cartSlice";
+
 
 
 
@@ -25,7 +27,10 @@ interface ProductDetailProps {
 
 const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => {
 
-    // console.log(product)
+    const dispatch = useDispatch();
+    const { products } : { products: CartSlideState[] } = useSelector(
+        (state: any) => state.cart
+    );
 
     const [countProduct, setCountProduct] = useState<number>(0);
     const [dataBuy, setDataBuy] = useState({
@@ -34,6 +39,34 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         ]
     })
 
+    const handleAddCartProduct = () => {
+        if(countProduct===0){
+            return;
+        }
+        if(products.length > 0) {
+            const setCart = products.map(product => {
+                if (product.id === product.id) {
+                return {
+                    ...product,
+                    count: product.count + countProduct
+                };
+                } else {
+                    return product;
+                }
+            });
+
+            dispatch(setCartHandle(setCart));
+            return;
+        }
+        dispatch(addCartHandle({
+            id: product.id,
+            image: product?.images[0].url,
+            name: product?.title,
+            price: product?.skus[0].price,
+            count: countProduct
+        }))
+    }
+
     return (
         <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full mx-auto">
 
@@ -41,14 +74,18 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
 
                 <div className="md:flex bg-white py-4">
                     <div className="relative md:w-4/12 px-3 mb-3">
-                        <div className="bg-gray-100 overflow-hidden border max-w-md:max-w-[400px]">
-                            <Image
-                                width={500}
-                                height={500}
-                                alt="Ảnh sản phẩm"
-                                src="https://down-vn.img.susercontent.com/file/3149ca83c85c10e195f9e913757ff097"
-                                className="w-full h-full object-contain"
-                            />
+                        <div className="bg-gray-200 border border-gray-100 overflow-hidden max-w-md:max-w-[400px]">
+                            {
+                                product?.images[0]?.url && (
+                                    <Image
+                                        width={500}
+                                        height={500}
+                                        alt="Ảnh sản phẩm"
+                                        src={product?.images[0]?.url}
+                                        className="w-full h-full object-contain"
+                                    />
+                                )
+                            }
                         </div>
                         {/* <ListImageDetail /> */}
                     </div>
@@ -61,30 +98,34 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
     
                         <div className="p-4 mb-4 bg-gray-100 flex items-end leading-none">
                             <div className="font-semibold text-[30px] text-rose-500 mr-3">
-                                {convertPrice(product?.price || 0)}
+                                {convertPrice(product?.skus[0]?.price || 0)}
                             </div>
-                            <div className="line-through mr-3">856.000 ₫</div>
-                            <div className="font-semibold text-rose-500">-30%</div>
+                            {/* <div className="line-through mr-3">856.000 ₫</div>
+                            <div className="font-semibold text-rose-500">-30%</div> */}
                         </div>
     
                         <div className="flex items-center leading-tight">
-                            <ListStar numb={4.5}/>
+                            <ListStar numb={product?.rating || 5}/>
                             <p className="px-2">(Xem 18 đánh giá)</p>
                             <p className="px-2 border-l">Đã bán 70</p>
                         </div>
     
-                        <div className="mb-4">
-                            <ul className="flex flex-wrap gap-2">
-                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">xanh</li>
-                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">đỏ</li>
-                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">tím</li>
-                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">vàng</li>
-                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">cam</li>
-                            </ul>
-                        </div>
+                        {
+                            product?.variants.length>0 && (
+                                <div className="mb-4">
+                                    <ul className="flex flex-wrap gap-2">
+                                        <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">xanh</li>
+                                        <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">đỏ</li>
+                                        <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">tím</li>
+                                        <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">vàng</li>
+                                        <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">cam</li>
+                                    </ul>
+                                </div>
+                            )
+                        }
 
                         <InputQuantity
-                            quantity={10}
+                            quantity={product?.skus[0]?.stock || 0}
                             value={countProduct}
                             setValue={setCountProduct}
                         />
@@ -93,10 +134,10 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                             {/* <button className="sm:p-4 p-3 border mr-2 bg-white hover:bg-slate-50">
                                 <IconHeart className="w-5 h-5"/>
                             </button> */}
-                            <button className="sm:py-3 py-2 border bg-gray-600 hover:bg-gray-700/80 text-white uppercase font-semibold w-2/3 mr-2">
+                            <button onClick={handleAddCartProduct} className="sm:py-3 py-2 border bg-gray-600 hover:bg-gray-700/80 text-white uppercase font-semibold w-1/2 mr-2">
                                 Thêm vào giỏ hàng
                             </button>
-                            <button className="sm:py-3 py-2 border bg-blue-600 hover:bg-blue-700/90 text-white uppercase font-semibold w-1/3">
+                            <button className="sm:py-3 py-2 border bg-blue-600 hover:bg-blue-700/90 text-white uppercase font-semibold w-1/2">
                                 Mua ngay
                             </button>
                         </div>

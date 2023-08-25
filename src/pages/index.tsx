@@ -4,7 +4,7 @@ import { GetStaticProps } from "next";
 import MainLayout from "@/components/layouts/MainLayout";
 import { PageSEO } from "@/components/share/SEO";
 import siteMetadata from "@/siteMetadata";
-import ListProduct from "@/components/pages/PageHome/ListProduct";
+import ListProduct from "@/components/PageComponent/PageHome/ListProduct";
 import productService from "@/serverless/product.service";
 import { ProductTypes } from "@/types";
 import { NextPageWithLayout } from "./_app";

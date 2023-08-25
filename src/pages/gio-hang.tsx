@@ -1,10 +1,32 @@
+import Link from "next/link";
 import Image from "next/image"
 
+import { useDispatch, useSelector } from "react-redux";
+import { CartSlideState, removeCartHandle } from "@/redux/cartSlice";
+
 import { NextPageWithLayout } from "./_app";
+import convertPrice from "@/utils/convertPrice";
+import ClientOnly from "@/components/share/ClientOnly";
 import MainLayout from "@/components/layouts/MainLayout";
-import Link from "next/link";
+
+
 
 const CartPage : NextPageWithLayout = () => {
+
+    const dispatch = useDispatch();
+    const { products } : { products: CartSlideState[] } = useSelector(
+        (state: any) => state.cart
+    );
+
+    const handleRemoveProductCart = (id: string) => {
+        if(products?.length <= 0 || !id) {
+            return;
+        }
+
+        const setCart = products.filter(product => product.id !== id);
+
+        dispatch(removeCartHandle(setCart));
+    }
 
     return (
         <>
@@ -14,30 +36,36 @@ const CartPage : NextPageWithLayout = () => {
 
                     <div className="lg:w-8/12 px-3 min-h-[100px]">
 
-                        {/* {
-                            [1,2,3,4,5].map(item => {
-                                return (
-                                    <div key={item} className="relative flex mb-3 pb-3 border-b">
-                                        <div>
-                                            <Image
-                                                width={100}
-                                                height={100}
-                                                alt="Ảnh sản phẩm"
-                                                src="https://image.folderstyle.com/data/folderstyle_data/images/product/00/00/05/76/74/b_0000057674.gif?w=243&f=webp"
-                                                className="w-full bg-gray-100 overflow-hidden object-cover"
-                                            />
-                                        </div>
-                                        <div className="ml-4">
-                                            <p className="font-semibold text-lg mb-5">Sữa bột Friso Gold số 4 hương vani 850g (2 - 6 tuổi)</p>
-                                            <p className="mb-3">Số lượng 12</p>
-                                            <p className="font-semibold">Giá 12.606.000 VND</p>
-                                        </div>
-                                    </div>
+                        <ClientOnly>
+                            {
+                                products?.length ? (
+                                    products.map(product => {
+                                        return (
+                                            <div key={product.id} className="relative flex mb-3 pb-3 border-b">
+                                                <div>
+                                                    <Image
+                                                        width={100}
+                                                        height={100}
+                                                        alt="Ảnh sản phẩm"
+                                                        src={product?.image}
+                                                        className="w-full bg-gray-100 overflow-hidden object-cover"
+                                                    />
+                                                </div>
+                                                <div className="ml-4 flex-1">
+                                                    <p className="font-semibold text-lg mb-5">{product?.name}</p>
+                                                    <p className="mb-3">Số lượng {product?.count}</p>
+                                                    <p className="font-semibold">Giá {convertPrice(product?.price * product?.count)} VND</p>
+                                                </div>
+                                                <button onClick={() => handleRemoveProductCart(product.id)} className="hover:bg-white/40 px-2">xóa</button>
+                                            </div>
+                                        )
+                                    })
+                                ) : (
+                                    <div>Bạn chưa thêm sản phẩm nào vào giỏ hang! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
                                 )
-                            })
-                        } */}
-                        <div>Bạn chưa thêm sản phẩm nào vào giỏ hang! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
-
+                            }
+                        </ClientOnly>
+                        
                     </div>
 
                     <div className="lg:w-4/12 px-3">

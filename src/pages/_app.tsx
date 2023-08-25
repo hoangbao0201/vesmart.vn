@@ -9,7 +9,9 @@ import { SessionProvider } from "next-auth/react";
 import "nprogress/nprogress.css";
 import NProgress from "nprogress";
 import { Router } from "next/router";
-import dynamic from "next/dynamic";
+import { Provider } from "react-redux";
+import { persistor, store } from "@/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -32,7 +34,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     return (
         <>
             <SessionProvider session={session}>
-                {getLayout(<Component {...pageProps} />)}
+                <Provider store={store}>
+                    <PersistGate loading={false} persistor={persistor}>
+                        {() => getLayout(<Component {...pageProps} />)}
+                    </PersistGate>
+                </Provider>
             </SessionProvider>
         </>
     )

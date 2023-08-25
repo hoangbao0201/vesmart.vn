@@ -55,7 +55,7 @@ const ListProduct = ({ products } : ListProductProps) => {
                                             </h3>
                                             <div className="text-lg flex items-center mb-2">
                                                 <span className="font-semibold text-rose-500 ">
-                                                    {convertPrice(product?.price || 0)}
+                                                    {convertPrice(product?.skus[0]?.price || 0)}
                                                     {/* <sub className="top-0 ml-1">₫</sub> */}
                                                 </span>
                                                 {/* <span className="bg-gray-200 px-1 ml-auto pl-2">-20%</span> */}

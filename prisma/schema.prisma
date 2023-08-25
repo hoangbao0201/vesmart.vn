@@ -11,8 +11,7 @@ datasource db {
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   fullName  String
   username  String   @unique
   email     String   @unique
@@ -21,91 +20,109 @@ model User {
   avatarUrl String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  blogs Blog[]
+  blogs     Blog[]
 }
 
 model Blog {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  slug        String
-  title       String
-  thumbnail   String
-  status      String?
-  description String?
-  content     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // ----
+  slug         String
+  title        String
+  thumbnail    String
+  status       String?
+  description  String?
+  content      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   authorId     String        @db.ObjectId
   author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   blogHashtags BlogHashtag[]
 }
 
 model BlogHashtag {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  // ----
-  blogId    String @map("_blogId") @db.ObjectId
-  hashtagId String @map("_hashtagId") @db.ObjectId
-
-  Blog    Blog    @relation(fields: [blogId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Hashtag Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  blogId    String  @map("_blogId") @db.ObjectId
+  hashtagId String  @map("_hashtagId") @db.ObjectId
+  Blog      Blog    @relation(fields: [blogId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Hashtag   Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Hashtag {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
-
-  // ----
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String        @unique
   blogHashtags BlogHashtag[]
 }
 
 model Product {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug        String
-  title       String
-  description String
-  brand       String
-  rating      Int?     @default(5)
-  images      Image[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  price Int?
-  stock Int?
-
-  // ----
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  slug          String
+  title         String
+  description   String
+  brand         String
+  rating        Int?           @default(5)
+  images        Image[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   productDetail ProductDetail?
+  variants      Variant[]
+  skus          SKU[]
 }
 
+// ----
 model ProductDetail {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  // ----
-  productId String  @unique @db.ObjectId
-  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
+  id                      String                   @id @default(auto()) @map("_id") @db.ObjectId
+  productId               String                   @unique @db.ObjectId
+  Product                 Product                  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productInformationItems ProductInformationItem[]
 }
 
 model ProductInformationItem {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  value String
-
-  // ----
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  value           String
   productDetailId String        @db.ObjectId
   ProductDetail   ProductDetail @relation(fields: [productDetailId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+// ----
+model Variant {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  productId   String       @db.ObjectId
+  product     Product      @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  subVariants SubVariant[]
+}
+
+model SubVariant {
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  variantId String          @db.ObjectId
+  variant   Variant         @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  skus      SKUSubVariant[]
+}
+
+model SKU {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  price       Float
+  sku         String
+  stock       Int
+  productId   String          @db.ObjectId
+  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  subVariants SKUSubVariant[]
+}
+
+model SKUSubVariant {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  skuId        String     @db.ObjectId
+  sku          SKU        @relation(fields: [skuId], references: [id])
+  subVariantId String     @db.ObjectId
+  subVariant   SubVariant @relation(fields: [subVariantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
 model Image {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
   url      String
   publicId String
-
-  // ----
-  ImageId String  @db.ObjectId
-  Product Product @relation(fields: [ImageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ImageId  String  @db.ObjectId
+  Product  Product @relation(fields: [ImageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

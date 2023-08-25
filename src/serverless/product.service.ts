@@ -3,63 +3,63 @@ import { BlogTypes } from "@/types";
 
 class ProductService {
 
-    async createBlog(userId: string, body: BlogTypes) : Promise<any> {
-        try {
-            const { slug, title, thumbnail, description, content } = body;
+    // async createBlog(userId: string, body: BlogTypes) : Promise<any> {
+    //     try {
+    //         const { slug, title, thumbnail, description, content } = body;
 
-            const blogHashtags = ["vesmart", "robothutbui", "suachuadanang"];
+    //         const blogHashtags = ["vesmart", "robothutbui", "suachuadanang"];
 
-            const newBlog = await prismaService.blog.create({
-                data: {
-                    slug: slug,
-                    title: title,
-                    thumbnail: thumbnail,
+    //         const newBlog = await prismaService.blog.create({
+    //             data: {
+    //                 slug: slug,
+    //                 title: title,
+    //                 thumbnail: thumbnail,
 
-                    author: {
-                        connect: {
-                            id: userId
-                        }
-                    },
-                    status: null,
-                    description: description || null,
+    //                 author: {
+    //                     connect: {
+    //                         id: userId
+    //                     }
+    //                 },
+    //                 status: null,
+    //                 description: description || null,
 
-                    content: content,
+    //                 content: content,
                     
-                    blogHashtags: {
-                        create: blogHashtags.map(tag => (
-                            {
-                                Hashtag: {
-                                    connectOrCreate: {
-                                        where: {
-                                            name: tag,
-                                        },
-                                        create: {
-                                            name: tag
-                                        }
-                                    }
-                                }
-                            }
-                        ))
-                    }
-                }
-            })
+    //                 blogHashtags: {
+    //                     create: blogHashtags.map(tag => (
+    //                         {
+    //                             Hashtag: {
+    //                                 connectOrCreate: {
+    //                                     where: {
+    //                                         name: tag,
+    //                                     },
+    //                                     create: {
+    //                                         name: tag
+    //                                     }
+    //                                 }
+    //                             }
+    //                         }
+    //                     ))
+    //                 }
+    //             }
+    //         })
 
-            // delete newBlog.content
+    //         // delete newBlog.content
 
-            return {
-                success: true,
-                message: "Create blogs successful",
-                // blog: newBlog
-            };
-        } catch (error) {
-            return {
-                success: false,
-                message: "error blogs successful",
-                error: error
-            };
-        }
+    //         return {
+    //             success: true,
+    //             message: "Create blogs successful",
+    //             // blog: newBlog
+    //         };
+    //     } catch (error) {
+    //         return {
+    //             success: false,
+    //             message: "error blogs successful",
+    //             error: error
+    //         };
+    //     }
     
-    }
+    // }
 
     async findAll(query: any) {
         try {
@@ -67,20 +67,27 @@ class ProductService {
             const { page = 0, limit = 10 } = query;
 
             const products = await prismaService.product.findMany({
-                select: {
-                    id: true,
-                    slug: true,
-                    title: true,
-                    brand: true,
+                // select: {
+                //     id: true,
+                //     slug: true,
+                //     title: true,
+                //     brand: true,
+                //     images: {
+                //         take: 1,
+                //     },
+                //     rating: true,
+                //     description: true,
+                //     createdAt: true,
+                //     updatedAt: true,
+                // },
+                include: {
                     images: {
-                        take: 1,
+                        select: {
+                            url: true
+                        },
+                        take: 1
                     },
-                    price: true,
-                    stock: true,
-                    rating: true,
-                    description: true,
-                    createdAt: true,
-                    updatedAt: true    
+                    skus: true
                 },
                 orderBy: {
                     createdAt: "desc"
@@ -110,6 +117,18 @@ class ProductService {
                     slug: slug
                 },
                 include: {
+                    variants: {
+                        select: {
+                            name: true,
+                            subVariants: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    },
+                    skus: true,
+                    images: true,
                     productDetail: {
                         include: {
                             productInformationItems: true
