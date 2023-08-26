@@ -12,6 +12,8 @@ interface ListProductProps {
 
 const ListProduct = ({ products } : ListProductProps) => {
 
+    // console.log(products)
+
     return (
         <div>
             <ul className="flex flex-wrap px-1">
@@ -32,7 +34,7 @@ const ListProduct = ({ products } : ListProductProps) => {
                     //     products[0],
                     //     products[0],
                     // ]
-                    products
+                    products && products
                     .map((product, index) => {
                         return (
                             <li key={product.id + index} className="group transition-all ease-linear px-[5px] mb-3 xl:basis-2/12 md:basis-3/12 sm:basis-4/12 basis-1/2">

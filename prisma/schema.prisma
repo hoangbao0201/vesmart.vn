@@ -126,3 +126,16 @@ model Image {
   ImageId  String  @db.ObjectId
   Product  Product @relation(fields: [ImageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
+
+model Order {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  phone       String
+  adress      String
+  code        String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  productId String
+}

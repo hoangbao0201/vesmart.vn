@@ -42,10 +42,10 @@ const CartPage : NextPageWithLayout = () => {
                                     products.map(product => {
                                         return (
                                             <div key={product.id} className="relative flex mb-3 pb-3 border-b">
-                                                <div>
+                                                <div className="w-1/5">
                                                     <Image
-                                                        width={100}
-                                                        height={100}
+                                                        width={200}
+                                                        height={200}
                                                         alt="Ảnh sản phẩm"
                                                         src={product?.image}
                                                         className="w-full bg-gray-100 overflow-hidden object-cover"
