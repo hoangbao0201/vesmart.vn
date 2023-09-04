@@ -10,6 +10,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Account {
+//   id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+//   providerType       String
+//   providerId         String
+//   providerAccountId  String
+//   refreshToken       String?
+//   accessToken        String?
+//   accessTokenExpires DateTime?
+//   createdAt          DateTime  @default(now())
+//   updatedAt          DateTime  @updatedAt
+//   userId             String
+//   user               User      @relation(fields: [userId], references: [id])
+
+//   @@unique([providerId, providerAccountId])
+// }
+
+// model Session {
+//   id           String   @id @default(auto()) @map("_id") @db.ObjectId
+//   expires      DateTime
+//   sessionToken String   @unique
+//   accessToken  String   @unique
+//   createdAt    DateTime @default(now())
+//   updatedAt    DateTime @updatedAt
+//   userId       String
+//   user         User     @relation(fields: [userId], references: [id])
+// }
+
+// model VerificationRequest {
+//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+//   identifier String
+//   token      String   @unique
+//   expires    DateTime
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+
+//   @@unique([identifier, token])
+// }
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   fullName  String
@@ -21,6 +59,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   blogs     Blog[]
+  // accounts  Account[]
+  // sessions  Session[]
 }
 
 model Blog {
@@ -66,6 +106,9 @@ model Product {
   productDetail ProductDetail?
   variants      Variant[]
   skus          SKU[]
+
+  orderId String? @db.ObjectId
+  Order   Order?  @relation(fields: [orderId], references: [id])
 }
 
 // ----
@@ -87,6 +130,7 @@ model ProductInformationItem {
 // ----
 model Variant {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  position    String?
   name        String
   productId   String       @db.ObjectId
   product     Product      @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -95,6 +139,7 @@ model Variant {
 
 model SubVariant {
   id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  position  String?
   name      String
   variantId String          @db.ObjectId
   variant   Variant         @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -137,5 +182,8 @@ model Order {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  productId String
+  genre String?
+  count Int?
+
+  products Product[]
 }

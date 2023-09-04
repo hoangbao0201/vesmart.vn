@@ -65,6 +65,7 @@ export interface ProductTypes {
 
 interface VariantTypes {
     id: string
+    position: string
     name: string
     productId: string
     product: string
@@ -73,6 +74,7 @@ interface VariantTypes {
   
 interface SubVariantTypes {
     id: string
+    position: string
     name: string
     variantId: string
     variant: string
@@ -99,8 +101,6 @@ interface SKUSubVariantTypes {
     subVariant: SubVariantTypes
 }
 
-
-
 interface ProductDetailTypes {
     id: string
     productInformationItems: ProductInformationItem[]
@@ -116,4 +116,17 @@ export interface ImageTypes {
     id: string
     url: string
     publicId: string
+}
+
+export interface OrderTypes {
+    id: string
+    name: string
+    phone: string
+    adress: string
+    code?: string
+    description?: string
+    createdAt: Date
+    updatedAt: Date
+  
+    products?: ProductTypes[]
 }

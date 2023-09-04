@@ -9,7 +9,7 @@ interface ListStarProps {
 
 export const ListStar = (props : ListStarProps) => {
     return (
-        <div className={`relative w-[120px] flex items-center my-3 mr-4`}>
+        <div className={`relative w-[120px] flex items-center`}>
             <IconStar className={`w-6 h-6 fill-gray-300`} />
             <IconStar className={`w-6 h-6 fill-gray-300`} />
             <IconStar className={`w-6 h-6 fill-gray-300`} />

@@ -65,15 +65,15 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                                     blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
                                                         return (
                                                             <li className="" key={hashTag.id}>
-                                                                <Link href={`/`} className={`px-2 py-[2px] border border-transparent rounded-sm dev-tag-blog-${index}`}>
-                                                                    #{hashTag.Hashtag.name}
+                                                                <Link href={`/`} className={`px-2 py-[2px] text-lg border border-transparent rounded-sm dev-tag-blog-${index}`}>
+                                                                    <span style={{ color: `var(--tag-color-${index})` }} className={`mr-[1px]`}>#</span>{hashTag.Hashtag.name}
                                                                 </Link>
                                                             </li>
                                                         )
                                                     })
                                                 }
                                             </ul>
-                                            <p className="prose mb-7">{blog?.description}</p>
+                                            <p className="prose prose-lg mb-7">{blog?.description}</p>
                                         </header>
                                         <MarkContent>
                                             {blog?.content}

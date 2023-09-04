@@ -1,11 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface VariantDetailProps {
+    name: string,
+    value: string
+}
+
 export interface CartSlideState {
     id: string
     image: string
     name: string
     price: number
     count: number
+    stock: number
+    variant: [] | VariantDetailProps[]
 }
 
 const initialState : {

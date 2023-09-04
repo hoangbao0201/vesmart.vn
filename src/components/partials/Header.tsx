@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Suspense } from 'react';
 
 import { useSession } from "next-auth/react";
+
 
 import UserDropdown from "./UserDropdown";
 import { useSignInModal } from "../share/SignInModal";
@@ -58,6 +60,9 @@ const Header = () => {
 
                     </div>
                 </div>
+                {/* <Suspense fallback={<OpenCart />}> */}
+                    
+                {/* </Suspense> */}
             </header>
         </>
     )

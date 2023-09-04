@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { ParsedUrlQuery } from "querystring";
 import { GetStaticPaths, GetStaticProps } from "next";
 
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CartSlideState, addCartHandle, setCartHandle } from "@/redux/cartSlice";
 import Gallery from "@/components/share/product/gallery";
 import ProductLoad from "@/components/share/skeleton/ProductLoad";
+import OptionVariant from "@/components/PageComponent/PageProduct/OptionVariant";
 
 
 
@@ -41,9 +42,16 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         ]
     });
     const [thumbsSwiper, setThumbsSwiper] = useState<number>(0);
+    const [errorBuy, setErrorBuy] = useState<string | null>(null); 
+    const [successBuy, setSuccessBuy] = useState<string | null>(null);
+    const [obVariant, setObVariant] = useState<any>({});
 
     const handleAddCartProduct = () => {
         if(countProduct===0){
+            setErrorBuy("Bạn chưa thêm số lượng đơn hàng!");
+            setTimeout(() => {
+                setErrorBuy(null);
+            }, 5000);
             return;
         }
         if(products.length > 0) {
@@ -62,9 +70,27 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                 });
 
                 dispatch(setCartHandle(setCart));
-
+                setSuccessBuy("Thêm thành công, mời kiểm tra giỏ hàng!")
+                setTimeout(() => {
+                    setSuccessBuy(null);
+                }, 5000);
                 return;
             }
+        }
+
+        let result : any = [];
+        if(Object.keys(obVariant).length > 0) {
+    
+            product.variants.forEach((itemVariant) => {
+                itemVariant.subVariants?.forEach((itemSubvariant) => {
+                    if(obVariant[itemVariant.position] === itemSubvariant.position) {
+                        result.push({
+                            name: itemVariant.name,
+                            value: itemSubvariant.name,
+                        })
+                    }
+                })
+            });
         }
 
         dispatch(addCartHandle({
@@ -72,10 +98,26 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
             image: product?.images[0].url,
             name: product?.title,
             price: product?.skus[0].price,
-            count: countProduct
+            count: countProduct,
+            stock: product.skus[0].stock,
+            variant: result
         }))
+        setSuccessBuy("Thêm thành công, mời kiểm tra giỏ hàng!");
+        setTimeout(() => {
+            setSuccessBuy(null);
+        }, 5000);
         return;
     }
+
+    const handleChangeVariant = (e: any) => {
+        if (e.target !== e.currentTarget) return;
+        const position = e.target.dataset.position;
+
+        setObVariant({
+            ...obVariant,
+            [position.split("-")[0]]: position
+        })
+    };
 
     return (
         <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full mx-auto">
@@ -109,31 +151,29 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                                     <div className="font-semibold text-rose-500">-30%</div> */}
                                 </div>
             
-                                <div className="flex items-center leading-tight">
-                                    <ListStar numb={product?.rating || 5}/>
-                                    <p className="px-2">(Xem 18 đánh giá)</p>
-                                    <p className="px-2 border-l">Đã bán 70</p>
+                                <div className="flex leading-tight mb-3 gap-3">
+                                    <div className=""><ListStar numb={product?.rating || 5}/></div>
+                                    <p className="">(Xem 18 đánh giá)</p>
+                                    <p className="border-l pl-3">Đã bán 70</p>
                                 </div>
             
-                                {
-                                    product?.variants.length>0 && (
-                                        <div className="mb-4">
-                                            <ul className="flex flex-wrap gap-2">
-                                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">xanh</li>
-                                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">đỏ</li>
-                                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">tím</li>
-                                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">vàng</li>
-                                                <li className="py-1 px-2 cursor-pointer min-w-[80px] text-center border hover:border-sky-500 hover:text-sky-500 rounded-sm">cam</li>
-                                            </ul>
-                                        </div>
-                                    )
-                                }
+                                <OptionVariant
+                                    obVariant={obVariant}
+                                    handleChangeVariant={handleChangeVariant}
+                                    product={product}
+                                />
 
                                 <InputQuantity
                                     quantity={product?.skus[0]?.stock || 0}
                                     value={countProduct}
                                     setValue={setCountProduct}
+                                    setErrorBuy={setErrorBuy}
                                 />
+
+                                <div className="h-7">
+                                    <span className="text-red-600">{errorBuy}</span>
+                                    <span className="text-blue-600">{successBuy}</span>
+                                </div>
                                 
                                 <div className="flex">
                                     {/* <button className="sm:p-4 p-3 border mr-2 bg-white hover:bg-slate-50">
@@ -222,3 +262,58 @@ export const getStaticPaths: GetStaticPaths = async () => {
 ProductDetail.getLayout = (page) => {
     return <MainLayout>{page}</MainLayout>;
 };
+
+
+
+// obj = {
+//     "1": "1-3",
+//     "2": "2-1"
+// }
+
+// arr = [
+//     {
+//         position: "1",
+//         name: "variant 1 HFK",
+//         subvariant: [
+//             {
+//                 position: "1-1",
+//                 value: "subvariant 1 KTJ",
+//             },
+//             {
+//                 position: "1-2",
+//                 value: "subvariant 2 FVS",
+//             },
+//             {
+//                 position: "1-3",
+//                 value: "subvariant 3 JSB",
+//             },
+//         ]
+//     },
+//     {
+//         position: "2",
+//         name: "variant 2 KFE",
+//         subvariant: [
+//             {
+//                 position: "2-1",
+//                 value: "subvariant 2-1 ABC",
+//             },
+//             {
+//                 position: "2-2",
+//                 value: "subvariant 2-2 NVB",
+//             },
+//         ]
+//     }
+// ]
+
+// từ 2 cái trên biến đổi thành
+
+// [
+//     {
+//         position: "1-3",
+//         value: "subvariant 3 JSB",
+//     },
+//     {
+//         position: "2-1",
+//         value: "subvariant 2-1 ABC",
+//     },
+// ]

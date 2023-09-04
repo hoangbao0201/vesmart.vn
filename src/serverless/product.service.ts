@@ -119,9 +119,13 @@ class ProductService {
                 include: {
                     variants: {
                         select: {
+                            id: true,
+                            position: true,
                             name: true,
                             subVariants: {
                                 select: {
+                                    id: true,
+                                    position: true,
                                     name: true
                                 }
                             }

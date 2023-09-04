@@ -4,12 +4,12 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import FacebookProvider from "next-auth/providers/facebook";
 
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prismaService from "@/lib/prismaService";
+// import { PrismaAdapter } from "@auth/prisma-adapter";
+// import prismaService from "@/lib/prismaService";
 
 
 export default NextAuth({
-    // adapter: PrismaAdapter(prismaService),
+    // adapter: PrismaAdapter(prisma),
     providers: [
         GithubProvider({
             clientId: process.env.NEXT_PUBLIC_GITHUB_ID as string,
@@ -25,6 +25,8 @@ export default NextAuth({
         }),
     ],
 
-    secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET as string,
+    secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET
+    
+    // adapter: PrismaAdapter(prismaService),
 });
 
