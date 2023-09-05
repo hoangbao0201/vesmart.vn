@@ -58,6 +58,7 @@ const Gallery = ({ images, thumbsSwiper, setThumbsSwiper }: GalleryProps) => {
                                     height={500}
                                     alt="Image Product"
                                     src={image.url}
+                                    className="border"
                                 />
                             </SwiperSlide>
                         )

@@ -13,6 +13,9 @@ import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -40,6 +43,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                     </PersistGate>
                 </Provider>
             </SessionProvider>
+
+            <ToastContainer />
         </>
     )
 }

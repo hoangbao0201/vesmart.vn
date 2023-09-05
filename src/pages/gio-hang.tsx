@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image"
 
 import { useDispatch, useSelector } from "react-redux";
-import { CartSlideState, removeCartHandle } from "@/redux/cartSlice";
+import { CartSlideState, removeCartHandle, setCartHandle } from "@/redux/cartSlice";
 
 import { NextPageWithLayout } from "./_app";
 import convertPrice from "@/utils/convertPrice";
@@ -10,6 +10,7 @@ import ClientOnly from "@/components/share/ClientOnly";
 import MainLayout from "@/components/layouts/MainLayout";
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
+import InputQuantity from "@/components/share/InputQuantity";
 
 
 
@@ -81,6 +82,25 @@ const CartPage : NextPageWithLayout = () => {
         }
     }
 
+    const handleSetCountOrder = (id: string, countO: number) => {
+        const setCart = products.map(productCart => {
+            if (productCart.id === id) {
+            return {
+                ...productCart,
+                count: countO
+            };
+            } else {
+                return productCart;
+            }
+        });
+
+        dispatch(setCartHandle(setCart));
+    }
+
+    // const onChangeCount = (cO: any) => {
+    //     console.log(cO);
+    // }
+
     return (
         <>
             <div className="lg:max-w-screen-xl max-w-screen-sm w-full mx-auto">
@@ -88,6 +108,52 @@ const CartPage : NextPageWithLayout = () => {
                 <div className="lg:flex -mx-3">
 
                     <ClientOnly>
+                        <div className="lg:w-6/12 sm:px-3 min-h-[100px]">
+    
+                            {
+                                products?.length ? (
+                                    products.map(product => {
+                                        return (
+                                            <div key={product.id} className="relative flex mb-3 py-3 px-3 border-b bg-white border shadow-sm">
+                                                <div className="w-2/12 mt-2">
+                                                    <Image
+                                                        width={120}
+                                                        height={120}
+                                                        alt="Ảnh sản phẩm"
+                                                        src={product?.image}
+                                                        className="w-full bg-gray-100 overflow-hidden object-cover"
+                                                    />
+                                                </div>
+                                                <div className="ml-4 flex-1">
+                                                    <p className="font-semibold text-lg mb-5">{product?.name}</p>
+                                                    <div className="mb-3">
+                                                        <InputQuantity
+                                                            quantity={product.stock}
+                                                            value={product.count}
+                                                            setValue={(countO) => handleSetCountOrder(product.id, countO as number)}
+                                                        />
+                                                        <span>Giá: {convertPrice(product?.price)}</span>
+                                                    </div>
+                                                    <p className="font-semibold flex">
+                                                        Tổng cộng:&emsp;<span className="font-normal">{convertPrice(product?.count * product?.price)}</span>
+                                                        <button
+                                                            onClick={() => handleRemoveProductCart(product.id)}
+                                                            className="hover:bg-gray-200 border rounded-sm px-6 py-1 ml-auto shadow-sm" 
+                                                        >
+                                                            xóa
+                                                        </button>
+                                                    </p>
+                                                </div>
+                                                
+                                            </div>
+                                        )
+                                    })
+                                ) : (
+                                    <div className="px-3">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
+                                )
+                            }
+                            
+                        </div>
                         <div className="lg:w-6/12 sm:px-3">
                             <div className="px-4 py-6 bg-white border">
                                 <div className="pt-5 pb-2 mt-3 border-t text-lg font-semibold text-orange-500 border-orange-500">TỔNG TIỀN</div>
@@ -97,8 +163,17 @@ const CartPage : NextPageWithLayout = () => {
                                         products.length > 0 ? products.map(product => {
                                             return (
                                                 <li className="flex border-b py-4" key={product.id}>
-                                                    <div className="mr-2 border-r flex-1">
-                                                        <p className="line-clamp-2 mb-3"><strong className="font-semibold">{product?.count}X</strong> {product.name}</p>
+                                                    <div className="w-2/12 mt-2">
+                                                        <Image
+                                                            width={120}
+                                                            height={120}
+                                                            alt="Ảnh sản phẩm"
+                                                            src={product?.image}
+                                                            className="w-full bg-gray-100 overflow-hidden object-cover"
+                                                        />
+                                                    </div>
+                                                    <div className="mr-2 ml-2 border-r flex-1">
+                                                        <p className="line-clamp-2 mb-3">{product.name}</p>
                                                         <div>
                                                             {
                                                                 product?.variant.length > 0 && product.variant.map((itemVariant, index) => {
@@ -130,7 +205,7 @@ const CartPage : NextPageWithLayout = () => {
                                     />
                                 </div>
     
-                                <div className="py-5 my-3 border-t font-semibold text-orange-500 border-orange-500">THÔNG TIN KHÁCH HÀNG</div>
+                                <div className="py-5 my-3 border-t text-lg font-semibold text-orange-500 border-orange-500">THÔNG TIN KHÁCH HÀNG</div>
                                 <input
                                     value={infoOreder.name}
                                     name="name"
@@ -176,37 +251,6 @@ const CartPage : NextPageWithLayout = () => {
                                     Liên hệ bộ phận hỗ trợ tại <Link target="_blank" href={`https://zalo.me/0971183153`} className="underline text-blue-500">Zalo</Link>
                                 </div>
                             </div>
-                        </div>
-                        <div className="lg:w-6/12 px-3 min-h-[100px]">
-    
-                            {
-                                products?.length ? (
-                                    products.map(product => {
-                                        return (
-                                            <div key={product.id} className="relative flex mb-3 pb-3 border-b">
-                                                <div className="w-1/5">
-                                                    <Image
-                                                        width={200}
-                                                        height={200}
-                                                        alt="Ảnh sản phẩm"
-                                                        src={product?.image}
-                                                        className="w-full bg-gray-100 overflow-hidden object-cover"
-                                                    />
-                                                </div>
-                                                <div className="ml-4 flex-1">
-                                                    <p className="font-semibold text-lg mb-5">{product?.name}</p>
-                                                    <p className="mb-3">Số lượng {product?.count}</p>
-                                                    <p className="font-semibold">Giá {convertPrice(product?.price * product?.count)}</p>
-                                                </div>
-                                                <button onClick={() => handleRemoveProductCart(product.id)} className="hover:bg-white/40 px-2">xóa</button>
-                                            </div>
-                                        )
-                                    })
-                                ) : (
-                                    <div>Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
-                                )
-                            }
-                            
                         </div>
                     </ClientOnly>
 

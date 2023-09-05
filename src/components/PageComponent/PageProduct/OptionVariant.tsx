@@ -13,6 +13,7 @@ const OptionVariant = ({
     obVariant,
     handleChangeVariant,
 }: OptionVariantProps) => {
+
     return (
         <>
             {product?.variants.length > 0 && (
@@ -38,7 +39,7 @@ const OptionVariant = ({
                                                             handleChangeVariant
                                                         }
                                                         className={`${
-                                                            obVariant[
+                                                            obVariant?.variants[
                                                                 variant.position
                                                             ] ===
                                                                 subVariant.position &&
@@ -47,7 +48,7 @@ const OptionVariant = ({
                                                     >
                                                         {subVariant?.name}
 
-                                                        {obVariant[
+                                                        {obVariant?.variants[
                                                             variant.position
                                                         ] ===
                                                             subVariant.position && (
