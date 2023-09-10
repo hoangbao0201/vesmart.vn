@@ -12,6 +12,7 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import InputQuantity from "@/components/share/InputQuantity";
 import { ShowToastify } from "@/components/Features/ShowToastify";
+import LoadingDots from "@/components/share/Loading/LoadingDots";
 
 
 
@@ -30,6 +31,7 @@ const CartPage : NextPageWithLayout = () => {
         description: ""
     })
     const [description, setDescription] = useState("");
+    const [orderLoading, setOrderLoading] = useState(false);
 
     const handleRemoveProductCart = (id: string) => {
         if(products?.length <= 0 || !id) {
@@ -46,6 +48,7 @@ const CartPage : NextPageWithLayout = () => {
     }
 
     const handleOrderProduct = async () => {
+        
         if(products?.length <= 0) {
             return;
         }
@@ -85,6 +88,8 @@ const CartPage : NextPageWithLayout = () => {
             return;
         }
 
+        setOrderLoading(true)
+
         // console.log({
         //     name: infoOreder.name,
         //     phone: infoOreder.phone,
@@ -117,8 +122,10 @@ const CartPage : NextPageWithLayout = () => {
     
                 dispatch(setCartHandle([]));
             }
+            setOrderLoading(false);
         } catch (error) {
-            console.log(error)
+            // console.log(error)
+            setOrderLoading(false);
         }
     }
 
@@ -284,10 +291,18 @@ const CartPage : NextPageWithLayout = () => {
                                     placeholder="Ghi chú"
                                 />
 
-                                <div className="text-red-600">Tính năng đặt hàng đang trong quá trình thử nghiệm!</div>
-                                <div className="text-red-600">Để mua hàng ngay có thể liên hệ trực tiếp qua <Link target="_blank" href={`https://zalo.me/0971183153`} className="underline text-blue-500">Zalo</Link></div>
+                                {/* <div className="text-red-600">Tính năng đặt hàng đang trong quá trình thử nghiệm!</div>
+                                <div className="text-red-600">Để mua hàng ngay có thể liên hệ trực tiếp qua <Link target="_blank" href={`https://zalo.me/0971183153`} className="underline text-blue-500">Zalo</Link></div> */}
 
-                                <button onClick={handleOrderProduct} className="font-semibold uppercase mt-5 py-3 w-full text-white bg-black/60">Đặt hàng</button>
+                                <button disabled={orderLoading} onClick={handleOrderProduct} className="font-semibold uppercase mt-5 py-3 w-full text-white bg-black">
+                                    {
+                                        orderLoading ? (
+                                            <LoadingDots color="#ffff"/>
+                                        ) : (
+                                            <>Đặt hàng</>
+                                        )
+                                    }
+                                </button>
                                 <div className="mt-3">
                                     Liên hệ bộ phận hỗ trợ tại <Link target="_blank" href={`https://zalo.me/0971183153`} className="underline text-blue-500">Zalo</Link>
                                 </div>
