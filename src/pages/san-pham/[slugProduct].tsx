@@ -19,7 +19,12 @@ import OptionVariant from "@/components/PageComponent/PageProduct/OptionVariant"
 import { ShowToastify } from "@/components/Features/ShowToastify";
 
 
-
+interface obVariantProps {
+    sku?: string
+    price?: number,
+    stock?: number,
+    variants: {"1": string, "2": string} | {}
+}
 
 export interface Params extends ParsedUrlQuery {
     slugProduct: string;
@@ -45,7 +50,7 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
     const [thumbsSwiper, setThumbsSwiper] = useState<number>(0);
     const [errorBuy, setErrorBuy] = useState<string | null>(null); 
     const [successBuy, setSuccessBuy] = useState<string | null>(null);
-    const [obVariant, setObVariant] = useState<any>({
+    const [obVariant, setObVariant] = useState<obVariantProps>({
         variants: {}
     });
     // const [productOrder, setProductOrder] = useState<{
@@ -133,6 +138,9 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         if(Object.keys(obVariant.variants).length > 0) {
             for (let obV in obVariant?.variants) {
                 result.push({
+                    // @ts-ignore
+                    sku: obVariant?.variants[obV] || "",
+                    // @ts-ignore
                     name: product.variants[Number(obVariant?.variants[obV].split("-")[0])-1].name,
                     // @ts-ignore
                     value: product.variants[Number(obVariant?.variants[obV].split("-")[0])-1].subVariants[Number(obVariant?.variants[obV].split("-")[1])-1].name
@@ -144,6 +152,7 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         if(product.variants.length > 0) {
             dispatch(addCartHandle({
                 id: product.id,
+                slug: product.slug,
                 image: product?.images[0].url,
                 name: product?.title,
                 price: obVariant?.price,
@@ -156,6 +165,7 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         else {
             dispatch(addCartHandle({
                 id: product.id,
+                slug: product.slug,
                 image: product?.images[0].url,
                 name: product?.title,
                 price: product?.skus[0].price,
@@ -291,7 +301,7 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                             product && product?.productDetail?.productInformationItems.map((itemInfo, index) => {
                                 return (
                                     <li key={itemInfo.id} className={`px-3 ${index%2===0 && "bg-gray-100"}`}>
-                                        <div className="basis-[35%]">{itemInfo?.name}</div>
+                                        <div className="basis-[50%]">{itemInfo?.name}</div>
                                         <p className="ml-4 flex-1">{itemInfo?.value}</p>
                                     </li>
                                 )

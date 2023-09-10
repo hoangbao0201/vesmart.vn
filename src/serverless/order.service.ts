@@ -1,46 +1,20 @@
 import prismaService from "@/lib/prismaService";
-import { BlogTypes } from "@/types";
+import { BlogTypes, OrderTypes } from "@/types";
 
 class OrderService {
 
-    async createBlog(userId: string, body: BlogTypes) : Promise<any> {
+    async createOrder(body: OrderTypes) : Promise<any> {
         try {
-            const { slug, title, thumbnail, description, content } = body;
+            const { name, phone, adress, code, description, productsOrder } = body;
 
-            const blogHashtags = ["vesmart", "robothutbui", "suachuadanang"];
-
-            const newBlog = await prismaService.blog.create({
+            const newBlog = await prismaService.order.create({
                 data: {
-                    slug: slug,
-                    title: title,
-                    thumbnail: thumbnail,
-
-                    author: {
-                        connect: {
-                            id: userId
-                        }
-                    },
-                    status: null,
-                    description: description || null,
-
-                    content: content,
-                    
-                    blogHashtags: {
-                        create: blogHashtags.map(tag => (
-                            {
-                                Hashtag: {
-                                    connectOrCreate: {
-                                        where: {
-                                            name: tag,
-                                        },
-                                        create: {
-                                            name: tag
-                                        }
-                                    }
-                                }
-                            }
-                        ))
-                    }
+                    name: name, 
+                    phone: phone, 
+                    adress: adress, 
+                    code: code, 
+                    description: description, 
+                    productsOrder: productsOrder
                 }
             })
 
@@ -49,7 +23,6 @@ class OrderService {
             return {
                 success: true,
                 message: "Create blogs successful",
-                // blog: newBlog
             };
         } catch (error) {
             return {
@@ -75,16 +48,7 @@ class OrderService {
                     description: true,
                     createdAt: true,
                     updatedAt: true,
-                    products: {
-                        select: {
-                            id: true,
-                            slug: true,
-                            title: true,
-                            images: {
-                                take: 1
-                            },
-                        }
-                    }
+                    productsOrder: true
                 },
                 orderBy: {
                     createdAt: "desc"

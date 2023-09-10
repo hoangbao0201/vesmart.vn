@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image"
+import Image from "next/image";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CartSlideState, removeCartHandle, setCartHandle } from "@/redux/cartSlice";
@@ -11,6 +11,7 @@ import MainLayout from "@/components/layouts/MainLayout";
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import InputQuantity from "@/components/share/InputQuantity";
+import { ShowToastify } from "@/components/Features/ShowToastify";
 
 
 
@@ -20,17 +21,13 @@ const CartPage : NextPageWithLayout = () => {
     const { products } : { products: CartSlideState[] } = useSelector(
         (state: any) => state.cart
     );
-    // const [name, setName] = useState("");
-    // const [adress, setAdress] = useState("");
-    // const [phone, setPhone] = useState("");
-    // const [code, setCode] = useState("");
-    // const [description, setDescription] = useState("");
     const [infoOreder, setInfoOreder] = useState({
         name: "",
         conscious: "",
         specificAdress: "",
         phone: "",
         code: "",
+        description: ""
     })
     const [description, setDescription] = useState("");
 
@@ -39,9 +36,7 @@ const CartPage : NextPageWithLayout = () => {
             return;
         }
 
-        const setCart = products.filter(product => product.id !== id);
-
-        dispatch(removeCartHandle(setCart));
+        dispatch(removeCartHandle(id));
     }
     const onChangeValueForm = (e : ChangeEvent<HTMLInputElement>) => {
         setInfoOreder({
@@ -54,6 +49,51 @@ const CartPage : NextPageWithLayout = () => {
         if(products?.length <= 0) {
             return;
         }
+        if(infoOreder.name.length < 5 || infoOreder.name.length > 30) {
+            ShowToastify({
+                data: "Tên không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+        if(infoOreder.phone.length < 5 || infoOreder.phone.length > 12) {
+            ShowToastify({
+                data: "Số điện thoại không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+        if((infoOreder.conscious.trim()).length < 5 || (infoOreder.conscious.trim()).length > 20) {
+            ShowToastify({
+                data: "Tỉnh không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+        if((infoOreder.specificAdress.trim()).length < 5 || (infoOreder.specificAdress.trim()).length > 40) {
+            ShowToastify({
+                data: "Địa chỉ không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+        if(infoOreder.code.length > 10) {
+            ShowToastify({
+                data: "Code không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+
+        // console.log({
+        //     name: infoOreder.name,
+        //     phone: infoOreder.phone,
+        //     adress: infoOreder.conscious.trim() + " - " + infoOreder.specificAdress.trim(),
+        //     code: infoOreder.code,
+        //     description: description,
+        //     productsOrder: JSON.stringify(products)
+        // })
+
         try {
             const response = await fetch('/api/order', {
                 method: 'POST',
@@ -61,28 +101,33 @@ const CartPage : NextPageWithLayout = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    // name: infoOreder.name,
-                    // count: 
-                    // adress: infoOreder.conscious.trim() + " - " + infoOreder.specificAdress.trim(),
-                    // phone: infoOreder.phone,
-                    // code: infoOreder.code,
-                    // description: description,
-                    // products: products.map(product => product.id)
+                    name: infoOreder.name,
+                    phone: infoOreder.phone,
+                    adress: infoOreder.conscious.trim() + " - " + infoOreder.specificAdress.trim(),
+                    code: infoOreder.code,
+                    description: description,
+                    productsOrder: JSON.stringify(products)
                 }),
             });
-
-            // console.log(response);
+            if(response.ok) {
+                ShowToastify({
+                    data: "Bạn đã đặt hàng thành công",
+                    type: "success"
+                });
     
-            // if (!response.ok) {
-            //     throw new Error('Network response was not ok');
-            // }
-    
-            // const data = await response.json();
+                dispatch(setCartHandle([]));
+            }
         } catch (error) {
+            console.log(error)
         }
     }
 
     const handleSetCountOrder = (id: string, countO: number) => {
+
+        if(countO === 0) {
+            return;
+        }
+
         const setCart = products.map(productCart => {
             if (productCart.id === id) {
             return {
@@ -96,10 +141,6 @@ const CartPage : NextPageWithLayout = () => {
 
         dispatch(setCartHandle(setCart));
     }
-
-    // const onChangeCount = (cO: any) => {
-    //     console.log(cO);
-    // }
 
     return (
         <>
@@ -149,7 +190,7 @@ const CartPage : NextPageWithLayout = () => {
                                         )
                                     })
                                 ) : (
-                                    <div className="px-3">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
+                                    <div className="px-3 sm:px-0">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
                                 )
                             }
                             
@@ -200,7 +241,7 @@ const CartPage : NextPageWithLayout = () => {
                                     </div>
                                     <div className="mb-3 mt-2 text-sm text-gray-500 text-right">(Chưa bao gồm phí vận chuyển)</div>
                                     <input
-                                        placeholder=" Mã giới thiệu (không bắt buộc)"
+                                        placeholder="Mã giới thiệu (không bắt buộc)"
                                         className="border border-gray-400 rounded-sm w-full focus:border-sky-600 outline-none py-2 px-3"
                                     />
                                 </div>
@@ -246,7 +287,7 @@ const CartPage : NextPageWithLayout = () => {
                                 <div className="text-red-600">Tính năng đặt hàng đang trong quá trình thử nghiệm!</div>
                                 <div className="text-red-600">Để mua hàng ngay có thể liên hệ trực tiếp qua <Link target="_blank" href={`https://zalo.me/0971183153`} className="underline text-blue-500">Zalo</Link></div>
 
-                                <button disabled={true} onClick={handleOrderProduct} className="font-semibold uppercase mt-5 py-3 w-full text-white bg-black/60">Đặt hàng</button>
+                                <button onClick={handleOrderProduct} className="font-semibold uppercase mt-5 py-3 w-full text-white bg-black/60">Đặt hàng</button>
                                 <div className="mt-3">
                                     Liên hệ bộ phận hỗ trợ tại <Link target="_blank" href={`https://zalo.me/0971183153`} className="underline text-blue-500">Zalo</Link>
                                 </div>

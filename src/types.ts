@@ -128,5 +128,5 @@ export interface OrderTypes {
     createdAt: Date
     updatedAt: Date
   
-    products?: ProductTypes[]
+    productsOrder: string
 }

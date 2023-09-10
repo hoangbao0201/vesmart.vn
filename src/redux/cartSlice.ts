@@ -32,7 +32,9 @@ export const counterSlice = createSlice({
             state.products = action.payload
         },
         removeCartHandle: (state, action) => {
-            state.products = action.payload
+            const id = action.payload;
+            const productsFilter = state.products.filter(product => product.id !== id);
+            state.products = productsFilter;
         },
     },
 });

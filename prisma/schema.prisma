@@ -106,9 +106,6 @@ model Product {
   productDetail ProductDetail?
   variants      Variant[]
   skus          SKU[]
-
-  orderId String? @db.ObjectId
-  Order   Order?  @relation(fields: [orderId], references: [id])
 }
 
 // ----
@@ -173,17 +170,15 @@ model Image {
 }
 
 model Order {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   phone       String
   adress      String
   code        String?
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 
-  genre String?
-  count Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  products Product[]
+  productsOrder String
 }

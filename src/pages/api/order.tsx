@@ -4,42 +4,29 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
-        const { name, phone, adress, code, description, products } = req.body;
+        const { name, phone, adress, code = "", description = "", productsOrder } = req.body;
 
-        // const order = await prismaService.order.create({
-        //     data: {
-        //         name: name,
-        //         adress: adress,
-        //         phone: phone,
-        //         code: code,
-        //         description: description,
-        //         products: {
-        //             connect: products.map((productId: string) => {
-        //                 return (
-        //                     { id: productId }
-        //                 )
-        //             })
-        //         }
-        //     }
-        // })
+        if(!name || !phone || !adress || !productsOrder) {
+            return res.status(400).json({
+                success: false,
+                message: "Data not found",
+                body: req.body
+            })
+        }
 
-        const order = await orderService.delete("64f09882099544502962a5cf");
+        // @ts-ignore
+        const order = await orderService.createOrder({
+            name: name,
+            phone: phone,
+            adress: adress,
+            code: code,
+            description: description,
+            productsOrder: productsOrder
+        });
 
         return res.status(200).json({
             success: true,
             order: order,
-            // data: {
-            //     name: name,
-            //     adress: adress,
-            //     phone: phone,
-            //     code: code,
-            //     description: description,
-            //     products: products.map((productId: string) => {
-            //             return (
-            //                 { id: productId }
-            //             )
-            //         })
-            // }
         })
     }
     if(req.method === "GET") {
