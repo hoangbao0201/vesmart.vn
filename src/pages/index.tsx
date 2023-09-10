@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { GetStaticProps } from "next";
 
 import MainLayout from "@/components/layouts/MainLayout";
@@ -8,6 +8,8 @@ import ListProduct from "@/components/PageComponent/PageHome/ListProduct";
 import productService from "@/serverless/product.service";
 import { ProductTypes } from "@/types";
 import { NextPageWithLayout } from "./_app";
+import { useDispatch, useSelector } from "react-redux";
+import { CartSlideState, setCartHandle } from "@/redux/cartSlice";
 
 
 interface HomePageProps {
@@ -17,6 +19,15 @@ interface HomePageProps {
 const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
 
     // console.log(products);
+    const dispatch = useDispatch();
+    // const { products } : { products: CartSlideState[] } = useSelector(
+    //     (state: any) => state.cart
+    // );
+
+
+    useEffect(() => {
+        dispatch(setCartHandle([]))
+    }, [])
 
     return (
         <>  

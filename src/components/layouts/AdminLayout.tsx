@@ -23,6 +23,11 @@ const dataContentSide = [
         title: "Sản phẩm",
         children: [
             {
+                value: "Tạo sản phẩm",
+                // icon: iconSteal,
+                linkItem: "/admin/product/create",
+            },
+            {
                 value: "Đơn hàng",
                 // icon: iconSteal,
                 linkItem: "/admin/order",
