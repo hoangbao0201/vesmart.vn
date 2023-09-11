@@ -13,11 +13,13 @@ import storage from "redux-persist/lib/storage";
 
 import cartReducer, { CartSlideState } from "./cartSlice";
 import orderReducer, { OrderSlideState } from "./orderSlice";
+import userReducer, { UserSlideState } from "./userSlice";
 
 
 export interface RootState {
     cart: CartSlideState,
-    order: OrderSlideState
+    order: OrderSlideState,
+    user: UserSlideState,
 }
 
 const persistConfig = {
@@ -27,7 +29,7 @@ const persistConfig = {
     // blacklist: ['comment', 'banners']
 };
 
-const rootReducer = combineReducers({ cart: cartReducer, order: orderReducer });
+const rootReducer = combineReducers({ cart: cartReducer, order: orderReducer, user: userReducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

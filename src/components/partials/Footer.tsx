@@ -1,7 +1,15 @@
 import Link from "next/link";
 
+import { useDispatch } from "react-redux";
+import { setCartHandle } from "@/redux/cartSlice";
+
 
 const Footer = () => {
+    const dispatch = useDispatch();
+
+    const hanleDeleteCatche = () => {
+        dispatch(setCartHandle([]))
+    }
 
     return (
         <footer className="bg-gray-900 border-t border-gray-200 text-white">
@@ -13,7 +21,10 @@ const Footer = () => {
                             VESMART
                         </Link>
                     </div>
-                    <p>Copyright © 2023 VESMART</p>
+                    <p className="mb-3">Copyright © 2023 VESMART</p>
+                    <p>
+                        <button onClick={hanleDeleteCatche} className="border px-2 py-1 rounded-sm text-sm">Xóa catche</button>
+                    </p>
                 </div>
                 <div className="px-3 md:w-8/12 mb-5">
                     <h4 className="text-xl font-semibold mb-4">Từ khóa</h4>

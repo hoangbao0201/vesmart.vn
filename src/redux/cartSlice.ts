@@ -7,6 +7,7 @@ interface VariantDetailProps {
 
 export interface CartSlideState {
     id: string
+    skuP: string
     image: string
     name: string
     price: number
@@ -32,8 +33,8 @@ export const counterSlice = createSlice({
             state.products = action.payload
         },
         removeCartHandle: (state, action) => {
-            const id = action.payload;
-            const productsFilter = state.products.filter(product => product.id !== id);
+            const idA = action.payload.split("|");
+            const productsFilter = state.products.filter(product => !(product.id === idA[0] && product.skuP === idA[1]));
             state.products = productsFilter;
         },
     },

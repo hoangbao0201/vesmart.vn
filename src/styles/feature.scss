@@ -1,4 +1,19 @@
 
+.input-info {
+    border-color: rgb(156 163 175 / var(--tw-border-opacity));
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    outline: none;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 4px;
+
+    &:focus {
+        border: 1px solid #2684FF;
+        box-shadow: 0 0 0 1px #2684FF;
+    }
+}
+
 // Markdown
 
 .prose {

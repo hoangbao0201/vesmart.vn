@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ChangeEvent, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CartSlideState, removeCartHandle, setCartHandle } from "@/redux/cartSlice";
@@ -8,20 +9,25 @@ import { NextPageWithLayout } from "./_app";
 import convertPrice from "@/utils/convertPrice";
 import ClientOnly from "@/components/share/ClientOnly";
 import MainLayout from "@/components/layouts/MainLayout";
-import axios from "axios";
-import { ChangeEvent, useState } from "react";
 import InputQuantity from "@/components/share/InputQuantity";
 import { ShowToastify } from "@/components/Features/ShowToastify";
 import LoadingDots from "@/components/share/Loading/LoadingDots";
+import OptionAdress from "@/components/PageComponent/PageCart/OptionAdress";
+import { AdressSlideState } from "@/redux/userSlice";
 
 
 
 const CartPage : NextPageWithLayout = () => {
 
+
     const dispatch = useDispatch();
     const { products } : { products: CartSlideState[] } = useSelector(
         (state: any) => state.cart
     );
+    const { adressUser } : { adressUser: AdressSlideState }  = useSelector(
+        (state: any) => state.user
+    );
+    
     const [infoOreder, setInfoOreder] = useState({
         name: "",
         conscious: "",
@@ -66,13 +72,29 @@ const CartPage : NextPageWithLayout = () => {
             });
             return;
         }
-        if((infoOreder.conscious.trim()).length < 5 || (infoOreder.conscious.trim()).length > 20) {
+        
+        if(!adressUser.city) {
             ShowToastify({
                 data: "Tỉnh không hợp lệ",
                 type: "error"
             });
             return;
         }
+        if(!adressUser.district) {
+            ShowToastify({
+                data: "Quận/Huyện/Thành phố không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+        if(!adressUser.ward) {
+            ShowToastify({
+                data: "Xã/Phường không hợp lệ",
+                type: "error"
+            });
+            return;
+        }
+
         if((infoOreder.specificAdress.trim()).length < 5 || (infoOreder.specificAdress.trim()).length > 40) {
             ShowToastify({
                 data: "Địa chỉ không hợp lệ",
@@ -108,7 +130,7 @@ const CartPage : NextPageWithLayout = () => {
                 body: JSON.stringify({
                     name: infoOreder.name,
                     phone: infoOreder.phone,
-                    adress: infoOreder.conscious.trim() + " - " + infoOreder.specificAdress.trim(),
+                    adress: adressUser.city.label + " - " + adressUser.district.label + " - " + adressUser.ward.label + " - " + infoOreder.specificAdress.trim(),
                     code: infoOreder.code,
                     description: description,
                     productsOrder: JSON.stringify(products)
@@ -130,17 +152,18 @@ const CartPage : NextPageWithLayout = () => {
     }
 
     const handleSetCountOrder = (id: string, countO: number) => {
-
         if(countO === 0) {
             return;
         }
 
+        const ipA = id.split("|");
+
         const setCart = products.map(productCart => {
-            if (productCart.id === id) {
-            return {
-                ...productCart,
-                count: countO
-            };
+            if (productCart.id === ipA[0] && productCart.skuP === ipA[1]) {
+                return {
+                    ...productCart,
+                    count: countO
+                };
             } else {
                 return productCart;
             }
@@ -160,9 +183,9 @@ const CartPage : NextPageWithLayout = () => {
     
                             {
                                 products?.length ? (
-                                    products.map(product => {
+                                    products.map((product, index) => {
                                         return (
-                                            <div key={product.id} className="relative flex mb-3 py-3 px-3 border-b bg-white border shadow-sm">
+                                            <div key={product.id + "-" + product.skuP + "-" + index} id={product.id + "-" + product.skuP + "-" + index} className="relative flex mb-3 py-3 px-3 border-b bg-white border shadow-sm">
                                                 <div className="w-2/12 mt-2">
                                                     <Image
                                                         width={120}
@@ -178,14 +201,14 @@ const CartPage : NextPageWithLayout = () => {
                                                         <InputQuantity
                                                             quantity={product.stock}
                                                             value={product.count}
-                                                            setValue={(countO) => handleSetCountOrder(product.id, countO as number)}
+                                                            setValue={(countO) => handleSetCountOrder(product.id + "|" + product.skuP, countO as number)}
                                                         />
                                                         <span>Giá: {convertPrice(product?.price)}</span>
                                                     </div>
                                                     <p className="font-semibold flex">
                                                         Tổng cộng:&emsp;<span className="font-normal">{convertPrice(product?.count * product?.price)}</span>
                                                         <button
-                                                            onClick={() => handleRemoveProductCart(product.id)}
+                                                            onClick={() => handleRemoveProductCart(product.id + "|" + product.skuP)}
                                                             className="hover:bg-gray-200 border rounded-sm px-6 py-1 ml-auto shadow-sm" 
                                                         >
                                                             xóa
@@ -208,9 +231,9 @@ const CartPage : NextPageWithLayout = () => {
     
                                 <ul className="mb-4">
                                     {
-                                        products.length > 0 ? products.map(product => {
+                                        products.length > 0 ? products.map((product, index) => {
                                             return (
-                                                <li className="flex border-b py-4" key={product.id}>
+                                                <li className="flex border-b py-4" key={product.id + "-" + product.skuP + "-" + index}>
                                                     <div className="w-2/12 mt-2">
                                                         <Image
                                                             width={120}
@@ -249,7 +272,7 @@ const CartPage : NextPageWithLayout = () => {
                                     <div className="mb-3 mt-2 text-sm text-gray-500 text-right">(Chưa bao gồm phí vận chuyển)</div>
                                     <input
                                         placeholder="Mã giới thiệu (không bắt buộc)"
-                                        className="border border-gray-400 rounded-sm w-full focus:border-sky-600 outline-none py-2 px-3"
+                                        className="input-info"
                                     />
                                 </div>
     
@@ -259,35 +282,31 @@ const CartPage : NextPageWithLayout = () => {
                                     name="name"
                                     onChange={onChangeValueForm}
                                     placeholder="Họ và tên"
-                                    className="border border-gray-400 rounded-sm w-full focus:border-sky-600 outline-none py-2 px-3 mb-4"
+                                    className="input-info"
                                 />
                                 <input
                                     value={infoOreder.phone}
                                     name="phone"
                                     onChange={onChangeValueForm}
                                     placeholder="Số điện thoại"
-                                    className="border border-gray-400 rounded-sm w-full focus:border-sky-600 outline-none py-2 px-3 mb-4"
+                                    className="input-info"
                                 />
-                                <input
-                                    value={infoOreder.conscious}
-                                    name="conscious"
-                                    onChange={onChangeValueForm}
-                                    placeholder="Tỉnh"
-                                    className="border border-gray-400 rounded-sm w-full focus:border-sky-600 outline-none py-2 px-3 mb-4"
-                                />
+
+                                <OptionAdress />
+                                
                                 <input
                                     value={infoOreder.specificAdress}
                                     name="specificAdress"
                                     onChange={onChangeValueForm}
                                     placeholder="Địa chỉ cụ thể"
-                                    className="border border-gray-400 rounded-sm w-full focus:border-sky-600 outline-none py-2 px-3 mb-4"
+                                    className="input-info"
                                 />
     
                                 <textarea
                                     value={description}
                                     name="description"
                                     onChange={(e) => setDescription(e.target.value)}
-                                    className="w-full min-h-[200px] border rounded-sm px-3 py-2 focus:border-sky-600 outline-none"
+                                    className="w-full min-h-[200px] border rounded-sm px-3 py-2 outline:border-sky-600 outline-none"
                                     placeholder="Ghi chú"
                                 />
 
