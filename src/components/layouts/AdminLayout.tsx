@@ -74,9 +74,9 @@ const AdminLayout = ({ children, tab }: AdminLayoutProps) => {
                                             <li key={index} className="">
                                                 <Link
                                                     href={item.linkItem}
-                                                    className={`flex items-center px-[15px] py-[10px] mx-[15px] hover:ml-[21px] transition-all duration-300 rounded-lg ${
-                                                        tab == item.linkItem &&
-                                                        "bg-indigo-500 text-white fill-white shadow-sm bg-opacity-90 shadow-indigo-600"
+                                                    className={`flex items-center px-[15px] py-[10px] mx-[15px] rounded-lg ${
+                                                        tab == item.linkItem ?
+                                                        "bg-indigo-500 text-white fill-white shadow-sm bg-opacity-90" : "hover:bg-gray-100"
                                                     }`}
                                                 >
                                                     {/* <i className="block w-5 mr-4 ">

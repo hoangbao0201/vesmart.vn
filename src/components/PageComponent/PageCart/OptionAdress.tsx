@@ -73,12 +73,6 @@ const OptionAdress = () => {
             if(name === "city") {
                 const selectedCityData = cities.find((city) => city.Id === selected.value);
                 if (selectedCityData) {
-                    // setSelectedOption({
-                    //     ...selectedOption,
-                    //     city: selected,
-                    //     district: null,
-                    //     ward: null
-                    // })
                     dispatch(setAdressHandle({
                         city: selected,
                         district: null,
@@ -91,11 +85,6 @@ const OptionAdress = () => {
             else if(name === "district") {
                 const selectedDistrictData = districts.find((district) => district.Id === selected.value);
                 if (selectedDistrictData) {
-                    // setSelectedOption({
-                    //     ...selectedOption,
-                    //     district: selected,
-                    //     ward: null
-                    // })
                     dispatch(setAdressHandle({
                         district: selected,
                         ward: null
@@ -104,10 +93,6 @@ const OptionAdress = () => {
                 }
             }
             else if(name === "ward") {
-                // setSelectedOption({
-                //     ...selectedOption,
-                //     ward: selected
-                // })
                 dispatch(setAdressHandle({
                     ward: selected
                 }))
@@ -116,12 +101,6 @@ const OptionAdress = () => {
         // ----
         else {
             if(name === "city") {
-                // setSelectedOption({
-                //     ...selectedOption,
-                //     city: null,
-                //     district: null,
-                //     ward: null
-                // })
                 dispatch(setAdressHandle({
                     city: null,
                     district: null,
@@ -129,21 +108,12 @@ const OptionAdress = () => {
                 }))
             }
             else if(name === "district") {
-                // setSelectedOption({
-                //     ...selectedOption,
-                //     district: null,
-                //     ward: null
-                // })
                 dispatch(setAdressHandle({
                     district: null,
                     ward: null
                 }))
             }
             else if(name === "ward") {
-                // setSelectedOption({
-                //     ...selectedOption,
-                //     ward: null
-                // })
                 dispatch(setAdressHandle({
                     ward: null
                 }))

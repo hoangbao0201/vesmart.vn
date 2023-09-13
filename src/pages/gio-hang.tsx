@@ -272,7 +272,7 @@ const CartPage : NextPageWithLayout = () => {
                                     <div className="mb-3 mt-2 text-sm text-gray-500 text-right">(Chưa bao gồm phí vận chuyển)</div>
                                     <input
                                         placeholder="Mã giới thiệu (không bắt buộc)"
-                                        className="input-info"
+                                        className="input-info mb-4"
                                     />
                                 </div>
     
@@ -282,14 +282,14 @@ const CartPage : NextPageWithLayout = () => {
                                     name="name"
                                     onChange={onChangeValueForm}
                                     placeholder="Họ và tên"
-                                    className="input-info"
+                                    className="input-info mb-4"
                                 />
                                 <input
                                     value={infoOreder.phone}
                                     name="phone"
                                     onChange={onChangeValueForm}
                                     placeholder="Số điện thoại"
-                                    className="input-info"
+                                    className="input-info mb-4"
                                 />
 
                                 <OptionAdress />
@@ -299,7 +299,7 @@ const CartPage : NextPageWithLayout = () => {
                                     name="specificAdress"
                                     onChange={onChangeValueForm}
                                     placeholder="Địa chỉ cụ thể"
-                                    className="input-info"
+                                    className="input-info mb-4"
                                 />
     
                                 <textarea
