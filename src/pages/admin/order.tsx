@@ -10,6 +10,7 @@ import convertPrice from "@/utils/convertPrice";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { OrderSlideState, removeOrderHandle, setOrderHandle } from "@/redux/orderSlice";
 import ClientOnly from "@/components/share/ClientOnly";
+import convertDate from "@/utils/convertDate";
 
 const OrderPage: NextPageWithLayout = () => {
 
@@ -26,8 +27,6 @@ const OrderPage: NextPageWithLayout = () => {
                     "Content-Type": "application/json",
                 },
             });
-
-            console.log(response)
 
             if (response.data.success) {
                 dispatch(setOrderHandle(response.data.orders));
@@ -89,6 +88,7 @@ const OrderPage: NextPageWithLayout = () => {
                                             <p className="line-clamp-2"><strong>Tên:</strong> {order?.name}</p>
                                             <p className="line-clamp-2"><strong>Sđt:</strong> {order?.phone}</p>
                                             <p className="line-clamp-2"><strong>Địa chỉ:</strong> {order?.adress}</p>
+                                            <p className="line-clamp-2"><strong>Thời gian:</strong> {convertDate(order?.createdAt)}</p>
                                         </td>
                                         <td>{order?.code || ""}</td>
                                         <td>
