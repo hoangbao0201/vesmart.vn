@@ -106,7 +106,7 @@ interface ProductDetailTypes {
     productInformationItems: ProductInformationItem[]
 }
 
-interface ProductInformationItem {
+export interface ProductInformationItem {
     id: string
     name: string
     value: string

@@ -1,65 +1,71 @@
 import prismaService from "@/lib/prismaService";
-import { BlogTypes } from "@/types";
+import { BlogTypes, ProductInformationItem, ProductTypes } from "@/types";
 
 class ProductService {
 
-    // async createBlog(userId: string, body: BlogTypes) : Promise<any> {
-    //     try {
-    //         const { slug, title, thumbnail, description, content } = body;
+    async createProduct(body: ProductTypes & { productInformationItems: ProductInformationItem[] }) : Promise<any> {
+        try {
+            const { slug, title, brand, description, images, variants, skus, productInformationItems } = body;
 
-    //         const blogHashtags = ["vesmart", "robothutbui", "suachuadanang"];
+            const newProduct = await prismaService.product.create({
+                data: {
+                    title: title,
+                    slug: slug,
+                    brand: brand,
+                    description: description,
+                    productDetail: {
+                        create: {
+                            productInformationItems: {
+                                create: productInformationItems
+                            }
+                        }
+                    },
+                    images: {
+                        create: images
+                    },
+                    variants: {
+                        create: variants.map(variant => {
+                            return ({
+                                name: variant.name,
+                                position: variant.position,
+                                subVariants: {
+                                    create: variant.subVariants?.map(subVariant => {
+                                        return ({
+                                            name: subVariant.name,
+                                            position: subVariant.position
+                                        })
+                                    })
+                                }
+                            })
+                        })
+                    },
+                    skus: {
+                        create: skus.map(skuPr => {
+                            return ({
+                                sku: skuPr.sku,
+                                stock: skuPr.stock,
+                                price: skuPr.price,
+                            })
+                        })
+                    },
 
-    //         const newBlog = await prismaService.blog.create({
-    //             data: {
-    //                 slug: slug,
-    //                 title: title,
-    //                 thumbnail: thumbnail,
+                }
+            });
 
-    //                 author: {
-    //                     connect: {
-    //                         id: userId
-    //                     }
-    //                 },
-    //                 status: null,
-    //                 description: description || null,
-
-    //                 content: content,
-                    
-    //                 blogHashtags: {
-    //                     create: blogHashtags.map(tag => (
-    //                         {
-    //                             Hashtag: {
-    //                                 connectOrCreate: {
-    //                                     where: {
-    //                                         name: tag,
-    //                                     },
-    //                                     create: {
-    //                                         name: tag
-    //                                     }
-    //                                 }
-    //                             }
-    //                         }
-    //                     ))
-    //                 }
-    //             }
-    //         })
-
-    //         // delete newBlog.content
-
-    //         return {
-    //             success: true,
-    //             message: "Create blogs successful",
-    //             // blog: newBlog
-    //         };
-    //     } catch (error) {
-    //         return {
-    //             success: false,
-    //             message: "error blogs successful",
-    //             error: error
-    //         };
-    //     }
+            return {
+                success: true,
+                message: 'Create product successful',
+                product: newProduct
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: "error product successful",
+                error: error
+            };
+        }
     
-    // }
+    }
 
     async findAll(query: any) {
         try {

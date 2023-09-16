@@ -50,7 +50,7 @@ const AdminLayout = ({ children, tab }: AdminLayoutProps) => {
                     <h2></h2>
                     <div></div>
                 </div>
-                <div className="bg-white min-h-[500px] p-5 rounded-xl border-gray-300 border">
+                <div className="min-h-[500px] p-3">
                     {children}
                 </div>
             </div>

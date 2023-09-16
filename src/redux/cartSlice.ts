@@ -34,7 +34,7 @@ export const counterSlice = createSlice({
         },
         removeCartHandle: (state, action) => {
             const idA = action.payload.split("|");
-            const productsFilter = state.products.filter(product => !(product.id === idA[0] && product.skuP === idA[1]));
+            const productsFilter = state.products.filter(product => !(idA[1] !== "" ? product.id === idA[0] && product.skuP == idA[1] : product.id === idA[0]));
             state.products = productsFilter;
         },
     },

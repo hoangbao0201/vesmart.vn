@@ -62,7 +62,7 @@ const OrderPage: NextPageWithLayout = () => {
     }
 
     return (
-        <div>
+        <div className="bg-white py-5 px-5 mb-4 rounded-xl border">
             <div className="flex mb-4">
                 <button onClick={() => eventGetOrder()} className="ml-auto border px-2 py-1 bg-gray-200">Tải lại đơn hàng</button>
             </div>

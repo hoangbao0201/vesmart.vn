@@ -159,7 +159,7 @@ const CartPage : NextPageWithLayout = () => {
         const ipA = id.split("|");
 
         const setCart = products.map(productCart => {
-            if (productCart.id === ipA[0] && productCart.skuP === ipA[1]) {
+            if (ipA[1] !== "" ? productCart.id === ipA[0] && productCart.skuP === ipA[1] : productCart.id === ipA[0]) {
                 return {
                     ...productCart,
                     count: countO
@@ -168,6 +168,9 @@ const CartPage : NextPageWithLayout = () => {
                 return productCart;
             }
         });
+
+        // console.log(ipA);
+        // console.log(setCart);
 
         dispatch(setCartHandle(setCart));
     }
@@ -201,14 +204,14 @@ const CartPage : NextPageWithLayout = () => {
                                                         <InputQuantity
                                                             quantity={product.stock}
                                                             value={product.count}
-                                                            setValue={(countO) => handleSetCountOrder(product.id + "|" + product.skuP, countO as number)}
+                                                            setValue={(countO) => handleSetCountOrder(`${product.id}|${product.skuP ? product.skuP : ""}`, countO as number)}
                                                         />
                                                         <span>Giá: {convertPrice(product?.price)}</span>
                                                     </div>
                                                     <p className="font-semibold flex">
                                                         Tổng cộng:&emsp;<span className="font-normal">{convertPrice(product?.count * product?.price)}</span>
                                                         <button
-                                                            onClick={() => handleRemoveProductCart(product.id + "|" + product.skuP)}
+                                                            onClick={() => handleRemoveProductCart(`${product.id}|${product.skuP ? product.skuP : ""}`)}
                                                             className="hover:bg-gray-200 border rounded-sm px-6 py-1 ml-auto shadow-sm" 
                                                         >
                                                             xóa
@@ -223,6 +226,9 @@ const CartPage : NextPageWithLayout = () => {
                                     <div className="px-3 sm:px-0">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
                                 )
                             }
+                            <div>
+                                {JSON.stringify(products)}
+                            </div>
                             
                         </div>
                         <div className="lg:w-6/12 sm:px-3">
