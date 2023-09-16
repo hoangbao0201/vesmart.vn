@@ -226,9 +226,6 @@ const CartPage : NextPageWithLayout = () => {
                                     <div className="px-3 sm:px-0">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
                                 )
                             }
-                            <div>
-                                {JSON.stringify(products)}
-                            </div>
                             
                         </div>
                         <div className="lg:w-6/12 sm:px-3">
