@@ -5,7 +5,12 @@ class BlogService {
 
     async createBlog(userId: string, body: BlogTypes) : Promise<any> {
         try {
-            const { slug, title, thumbnail, description, content } = body;
+            // const { title, slug, thumbnail = "", description = "", blogHashtags = ["VESMART"], content } = body;
+            const { title, slug, thumbnail, description, content } = body;
+
+            if(!slug || !title || !content) {
+                throw Error("Data not found");
+            }
 
             const blogHashtags = ["vesmart", "robothutbui", "suachuadanang"];
 
@@ -44,12 +49,15 @@ class BlogService {
                 }
             })
 
-            // delete newBlog.content
-
             return {
                 success: true,
                 message: "Create blogs successful",
-                // blog: newBlog
+                blog: newBlog
+                // blog: {
+                //     ...body,
+                //     userId,
+                //     blogHashtags
+                // }
             };
         } catch (error) {
             return {

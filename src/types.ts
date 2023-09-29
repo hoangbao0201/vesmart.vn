@@ -130,3 +130,10 @@ export interface OrderTypes {
   
     productsOrder: string
 }
+
+
+// SERVICE
+
+export interface BlogCreateTypes {
+    
+}

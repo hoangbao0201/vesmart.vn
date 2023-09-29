@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ReactNode } from "react";
 
 import { ParsedUrlQuery } from "querystring";
@@ -29,72 +30,89 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
 
     return (
         <>
-            <div className="lg:flex -mx-3">
-                <div className="lg:w-8/12 md:px-3 mb-5">
-                    <div className="bg-white md:px-14 px-4 py-10 md:rounded-lg border min-h-screen relative">
-                        {
-                            blog ? (
-                                <>
-                                    <Breadcrumb
-                                        path={[
-                                            {
-                                                title: blog?.title || "",
-                                                url: "/bai-viet/" + blog?.slug
-                                            }
-                                        ]}
-                                    />
-                                    <article>
-    
-                                        <BlogSEO
-                                            title={`${blog.title}`}
-                                            // blog.author.fullName || 
-                                            author={siteMetadata.author}
-                                            createdAt={blog.createdAt}
-                                            updatedAt={blog.updatedAt}
-                                            summary={blog.description}
-                                            url={blog.slug}
-                                            canonicalUrl={`${siteMetadata?.siteUrl}/bai-viet/${blog.slug}`}
-                                        />
-                            
-                                        <header>
-                                            <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">
-                                                {blog?.title}
-                                            </h1>
-                                            <ul className="my-6 flex flex-wrap">
+            <article>
+                <div className="lg:flex -mx-3">
+                    <div className="lg:w-8/12 md:px-3 mb-5 pt-5">
+                        <div className="bg-white md:px-14 px-4 py-10 md:rounded-lg border min-h-screen relative">
+                            {
+                                blog ? (
+                                    <>
+                                        <Breadcrumb
+                                            path={[
                                                 {
-                                                    blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
-                                                        return (
-                                                            <li className="" key={hashTag.id}>
-                                                                <Link href={`/`} className={`px-2 py-[2px] text-lg border border-transparent rounded-sm dev-tag-blog-${index}`}>
-                                                                    <span style={{ color: `var(--tag-color-${index})` }} className={`mr-[1px]`}>#</span>{hashTag.Hashtag.name}
-                                                                </Link>
-                                                            </li>
-                                                        )
-                                                    })
+                                                    title: blog?.title || "",
+                                                    url: "/bai-viet/" + blog?.slug
                                                 }
-                                            </ul>
-                                            <p className="prose prose-lg mb-7">{blog?.description}</p>
-                                        </header>
-                                        <MarkContent>
-                                            {blog?.content}
-                                        </MarkContent>
+                                            ]}
+                                        />
+                                        <article>
+        
+                                            <BlogSEO
+                                                title={`${blog.title}`}
+                                                // blog.author.fullName || 
+                                                author={siteMetadata.author}
+                                                createdAt={blog.createdAt}
+                                                updatedAt={blog.updatedAt}
+                                                summary={blog.description}
+                                                url={blog.slug}
+                                                canonicalUrl={`${siteMetadata?.siteUrl}/bai-viet/${blog.slug}`}
+                                            />
+                                
+                                            <header>
+                                                <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">
+                                                    {blog?.title}
+                                                </h1>
+                                                <ul className="my-6 flex flex-wrap">
+                                                    {
+                                                        blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
+                                                            return (
+                                                                <li className="" key={hashTag.id}>
+                                                                    <Link href={`/`} className={`px-2 py-[2px] text-lg border border-transparent rounded-sm dev-tag-blog-${index}`}>
+                                                                        <span style={{ color: `var(--tag-color-${index})` }} className={`mr-[1px]`}>#</span>{hashTag.Hashtag.name}
+                                                                    </Link>
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+                                                </ul>
+                                                <p className="prose prose-lg mb-7">{blog?.description}</p>
+                                            </header>
+                                            <MarkContent>
+                                                {blog?.content}
+                                            </MarkContent>
+        
+                                        </article>
+                                    </>
+                                ) : (
+                                    <BlogLoad />
+                                )
+                            }
+                        </div>
+                    </div>
+                    <div className="lg:w-4/12 md:px-3 mb-5 pt-5">
     
-                                    </article>
-                                </>
-                            ) : (
-                                <BlogLoad />
-                            )
-                        }
+                        <div className="rounded-md bg-blue-600 md:rounded-lg border sticky top-[80px]">
+    
+                            <div className="relative flex flex-col min-h-[200px] bg-white mt-8 px-4 py-4">
+                                <div className="flex items-end -mt-8 mb-5">
+                                    <Image
+                                        width={80}
+                                        height={80}
+                                        alt="image avatar"
+                                        src={'/static/images/avatar-vesmart.png'}
+                                        className="w-12 h-12 rounded-md border mr-3"
+                                    />
+                                    <p className="font-semibold text-lg">VESMART Đà Nẵng</p>
+                                </div>
+                                <p>Liên hệ ngay để được tư vấn và sửa chữa robot hút bụi nhanh chóng, hiệu quả</p>
+                                <Link target="_blank" href={'https://zalo.me/0971183153'} className="bg-blue-600 rounded-md w-full py-2 text-center text-white hover:bg-blue-700 transition-all block mt-auto">Liên hệ ngay</Link>
+                            </div>
+    
+                        </div>
+    
                     </div>
                 </div>
-                <div className="lg:w-4/12 md:px-3 mb-5">
-                    <div className="bg-white px-4 py-10 md:rounded-lg border">
-                        {/* <TocMarkContent>
-                            {blog?.content}
-                        </TocMarkContent> */}
-                    </div>
-                </div>
-            </div>
+            </article>
         </>
     )
 }

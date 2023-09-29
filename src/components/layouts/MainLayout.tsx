@@ -31,9 +31,10 @@ const MainLayout = ({ children, isHeader = true, isFooter = true, isContact = tr
         
         <div className="">
 
+            <div className="h-[60px]"></div>
             { isHeader && <Header /> }
 
-            <main className={`min-h-screen w-full overflow-hidden mt-[50px] py-6 ${className}`}>
+            <main className={`min-h-screen w-full ${className}`}>
                 <div className="max-w-screen-xl mx-auto px-3">{children}</div>
             </main>
 

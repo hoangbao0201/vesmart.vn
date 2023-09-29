@@ -32,6 +32,11 @@ const dataContentSide = [
                 // icon: iconSteal,
                 linkItem: "/admin/order",
             },
+            {
+                value: "Tạo Blog",
+                // icon: iconSteal,
+                linkItem: "/admin/blog/create",
+            },
         ],
     },
 ];
