@@ -22,7 +22,7 @@ const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
                 title="Trang chủ - VESMART"
                 description={siteMetadata.description}
             />
-            <div className="-mx-3">
+            <div className="-mx-3 py-4">
                 {/* <div className="md:w-4/12 px-3">
                     <div className="bg-white">dashboarch</div>
                 </div>

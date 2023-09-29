@@ -177,7 +177,7 @@ const CartPage : NextPageWithLayout = () => {
 
     return (
         <>
-            <div className="lg:max-w-screen-xl max-w-screen-sm w-full mx-auto">
+            <div className="lg:max-w-screen-xl max-w-screen-sm w-full mx-auto py-4">
                 <h1 className="font-semibold text-lg py-3 mb-3 border-b">Giỏ hàng của bạn</h1>
                 <div className="lg:flex -mx-3">
 
