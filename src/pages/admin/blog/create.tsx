@@ -21,7 +21,6 @@ const CreateBlogPage : NextPageWithLayout = () => {
         description: "",
         thumbnail: "",
         blogHashtags: "",
-        content: ""
     })
     const [contentBlog, setContentBlog] = useState<string>("");
 
@@ -35,12 +34,13 @@ const CreateBlogPage : NextPageWithLayout = () => {
     };
 
     const handleCreateBlog = async () => {
-        const { title, content, blogHashtags } = dataBasicBlog;
-        if(!title || !content || !blogHashtags) {
+        const { title, blogHashtags } = dataBasicBlog;
+        if(!title || !contentBlog || !blogHashtags) {
             ShowToastify({
                 data: "Chưa điền đủ thông tin",
                 type: "error"
             })
+            console.log(title + "-" + contentBlog + "-" + blogHashtags)
             return;
         }
 

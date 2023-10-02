@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // @ts-ignore
         const productRes = await blogService.createBlog(userId, {
-            title, slug, thumbnail: thumbnail.length === 0 ? thumbnail : null, description: description.length === 0 ? description : null, blogHashtags, content
+            title, slug, thumbnail: thumbnail.length === 0 ? thumbnail : null, description: description, blogHashtags, content
         })
 
         return res.status(200).json(productRes);
