@@ -1,5 +1,6 @@
 import prismaService from "@/lib/prismaService";
 import { BlogTypes, OrderTypes } from "@/types";
+import productService from "./product.service";
 
 class OrderService {
 
@@ -17,6 +18,19 @@ class OrderService {
                     productsOrder: productsOrder
                 }
             })
+
+            const prOrder = JSON.parse(productsOrder);
+            if(prOrder.length > 0) {
+
+                console.log("prOrder: ", prOrder);
+
+                for(let i=1; i<=prOrder.length; i++) {
+                    const updateStock = await productService.reduceStock(prOrder[0].skuId, prOrder[0].count);
+                    console.log("updateStock " + i + ": " + updateStock);
+                }
+            }
+
+            //console.log(prOrder[0]);
 
             // delete newBlog.content
 
@@ -71,43 +85,23 @@ class OrderService {
         }
     }
 
-    async findOne(slug: string) {
+    async findOne(id: string) {
         try {
-            const blog = await prismaService.blog.findFirst({
+            const order = await prismaService.order.findFirst({
                 where: {
-                    slug: slug
+                    id: id
                 },
-                include: {
-                    blogHashtags: {
-                        include: {
-                            Hashtag: {
-                                select: {
-                                    id: true,
-                                    name: true
-                                }
-                            }
-                        }
-                    },
-                    author: {
-                        select: {
-                            id: true,
-                            fullName: true,
-                            username: true,
-                            email: true
-                        }
-                    }
-                }
             })
 
             return {
                 success: true,
-                message: "Get blog successful",
-                blog: blog
+                message: "Get order successful",
+                order: order
             };
         } catch (error) {
             return {
                 success: false,
-                message: "error blogs successful",
+                message: "error order successful",
                 error: error
             };
         }
@@ -151,38 +145,6 @@ class OrderService {
                 message: "Delete order successful",
                 order: orderDel
             }
-        } catch (error) {
-            return {
-                success: false,
-                message: "error blogs successful",
-                error: error
-            };
-        }
-    }
-
-
-
-
-    // ----------- FULL BLOG SEO -----------------
-    async fullSeo() {
-        try {
-            const blogs = await prismaService.blog.findMany({
-                select: {
-                    id: true,
-                    slug: true,
-                    createdAt: true,
-                    updatedAt: true
-                },
-                orderBy: {
-                    createdAt: "desc"
-                }
-            });
-        
-            return {
-                success: true,
-                message: "Get blogs successful",
-                blogs: blogs
-            };
         } catch (error) {
             return {
                 success: false,

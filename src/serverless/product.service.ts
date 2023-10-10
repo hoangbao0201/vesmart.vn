@@ -186,7 +186,47 @@ class ProductService {
         }
     }
 
-
+    async reduceStock(id: string, count: number) {
+        try {
+            const currentSKU = await prismaService.sKU.findUnique({
+                where: {
+                    id: id
+                }
+            });
+    
+            if (!currentSKU) {
+                return {
+                    success: false,
+                    message: "SKU not found"
+                };
+            }
+    
+            // Tính toán stock mới
+            const newStock = currentSKU.stock - count;
+    
+            // Cập nhật stock mới vào cơ sở dữ liệu
+            const productUpdate = await prismaService.sKU.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    stock: newStock
+                }
+            });
+    
+            return {
+                success: true,
+                message: "Update product successful",
+                product: productUpdate
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: "error product successful",
+                error: error
+            };
+        }
+    }
 
 
 

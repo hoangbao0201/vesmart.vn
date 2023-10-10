@@ -1,5 +1,6 @@
 import prismaService from '@/lib/prismaService';
 import orderService from '@/serverless/order.service';
+import productService from '@/serverless/product.service';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handle = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,7 +10,19 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (method) {
         case 'DELETE':
             try {
+
+                const findOrder = await orderService.findOne(id as string);
+
                 const orderDelete = await orderService.delete(id as string);
+
+                if(findOrder.success && findOrder.order) {
+                    const orderList = JSON.parse(findOrder.order?.productsOrder);
+                    if(orderList) {
+                        for(let i = 0; i < orderList.length; i++) {
+                            await productService.reduceStock(orderList[i].skuId, orderList[i].count * -1);
+                        }
+                    }
+                }
 
                 res.status(200).json(orderDelete);
             } catch (err) {

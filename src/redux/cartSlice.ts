@@ -7,6 +7,7 @@ interface VariantDetailProps {
 
 export interface CartSlideState {
     id: string
+    skuId: string
     skuP: string
     image: string
     name: string

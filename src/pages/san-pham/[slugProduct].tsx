@@ -20,7 +20,8 @@ import { ShowToastify } from "@/components/Features/ShowToastify";
 
 
 interface obVariantProps {
-    sku?: string
+    skuId?: string
+    skuP?: string
     price?: number,
     stock?: number,
     variants: {"1": string, "2": string} | {}
@@ -53,48 +54,18 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
     const [obVariant, setObVariant] = useState<obVariantProps>({
         variants: {}
     });
-    // const [productOrder, setProductOrder] = useState<{
-    //     sku: string,
-    //     stock: number,
-    //     variants: { position: string, value: string }[] | []
-    // } | {}>({});
 
     useEffect(() => {
-        // setObVariant(
-        //     product?.variants.length === 0 ? {} : (
-        //         product?.variants.length === 1 ? ({
-        //             sku: "1-1",
-        //             price: product?.skus[0].price,
-        //             stock: product?.skus[0].stock,
-        //             variants: {
-        //                 "1": "1-1"
-        //             }
-        //         }) : ({
-        //             sku: "1-1_2-1",
-        //             price: product?.skus[0].price,
-        //             stock: product?.skus[0].stock,
-        //             variants: {
-        //                 "1": "1-1",
-        //                 "2": "2-1"
-        //             }
-        //         })
-        //     )
-        // )
-        // setProductOrder({
-        //     sku: product?.skus[0].sku,
-        //     stock: product?.skus[0].stock,
-        //     variants: product?.variants.length > 0 ? (
-        //         [
-        //             {
-        //                 position: "1-1",
-        //                 value: product?.variants[0].subVariants && product?.variants[0].subVariants.length > 0 ? (
-        //                     product?.variants[0].subVariants[0].name
-        //                 ) : ""
-        //             }
-        //         ]
-        //     ) : []
-        // })
-    }, [product])
+        if(product?.skus) {
+            setObVariant({
+                ...obVariant,
+                skuId: product.skus[0].id,
+                price: product.skus[0].price,
+                stock: product.skus[0].stock,
+                skuP: "",
+            })
+        }
+    }, [product?.skus])
 
     const handleAddCartProduct = () => {
         if(countProduct===0){
@@ -138,7 +109,8 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         if(product.variants.length > 0) {
             dispatch(addCartHandle({
                 id: product.id,
-                skuP: obVariant?.sku,
+                skuId: obVariant?.skuId,
+                skuP: obVariant?.skuP,
                 slug: product.slug,
                 image: product?.images[0].url,
                 name: product?.title,
@@ -152,7 +124,8 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         else {
             dispatch(addCartHandle({
                 id: product.id,
-                skuP: obVariant?.sku,
+                skuId: obVariant?.skuId,
+                skuP: obVariant?.skuP,
                 slug: product.slug,
                 image: product?.images[0].url,
                 name: product?.title,
@@ -181,7 +154,8 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         })
 
         setObVariant({
-            sku: position,
+            skuId: prod[0]?.id ?? product.skus[0].id,
+            skuP: position,
             price: prod[0].price,
             stock: prod[0].stock,
             variants: {
@@ -190,7 +164,6 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
         })
     };
 
-    // console.log(obVariant);
 
     return (
         <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full mx-auto">
@@ -348,94 +321,3 @@ export const getStaticPaths: GetStaticPaths = async () => {
 ProductDetail.getLayout = (page) => {
     return <MainLayout>{page}</MainLayout>;
 };
-
-
-
-// obj = {
-//     "1": "1-3",
-//     "2": "2-1"
-// }
-
-// arr = [
-//     title: "test title",
-//     slug: "2343-23-4-234-23",
-//     variant: [
-//         {
-//             position: "1",
-//             name: "variant 1 HFK",
-//             subvariant: [
-//                 {
-//                     position: "1-1",
-//                     value: "subvariant 1 KTJ",
-//                 },
-//                 {
-//                     position: "1-2",
-//                     value: "subvariant 2 FVS",
-//                 },
-//                 {
-//                     position: "1-3",
-//                     value: "subvariant 3 JSB",
-//                 },
-//             ]
-//         },
-//         {
-//             position: "2",
-//             name: "variant 2 KFE",
-//             subvariant: [
-//                 {
-//                     position: "2-1",
-//                     value: "subvariant 2-1 ABC",
-//                 },
-//                 {
-//                     position: "2-2",
-//                     value: "subvariant 2-2 NVB",
-//                 },
-//             ]
-//         }
-//     ],
-//     sku: [
-//         {
-//             sku: "1-1_2-1",
-//             stock: 2
-//         },
-//         {
-//             sku: "1-1_2-2",
-//             stock: 2
-//         },
-//         {
-//             sku: "1-2_2-1",
-//             stock: 2
-//         },
-//         {
-//             sku: "1-2_2-2",
-//             stock: 2
-//         },
-//         {
-//             sku: "1-3_2-1",
-//             stock: 2
-//         },
-//         {
-//             sku: "1-3_2-2",
-//             stock: 2
-//         },
-//     ]
-// ]
-
-// từ 2 cái trên biến đổi thành
-
-// {
-//     sku: "1-3_2-1",
-//     stock: 2,
-//     variants: [
-//         {
-//             position: "1-3",
-//             value: "subvariant 3 JSB",
-//         },
-//         {
-//             position: "2-1",
-//             value: "subvariant 2-1 ABC",
-//         },
-//     ]
-// }
-
-["1123", "mk1", "134w"]

@@ -72,7 +72,6 @@ const CartPage : NextPageWithLayout = () => {
             });
             return;
         }
-        
         if(!adressUser.city) {
             ShowToastify({
                 data: "Tỉnh không hợp lệ",
@@ -94,7 +93,6 @@ const CartPage : NextPageWithLayout = () => {
             });
             return;
         }
-
         if((infoOreder.specificAdress.trim()).length < 5 || (infoOreder.specificAdress.trim()).length > 40) {
             ShowToastify({
                 data: "Địa chỉ không hợp lệ",
@@ -111,15 +109,6 @@ const CartPage : NextPageWithLayout = () => {
         }
 
         setOrderLoading(true)
-
-        // console.log({
-        //     name: infoOreder.name,
-        //     phone: infoOreder.phone,
-        //     adress: infoOreder.conscious.trim() + " - " + infoOreder.specificAdress.trim(),
-        //     code: infoOreder.code,
-        //     description: description,
-        //     productsOrder: JSON.stringify(products)
-        // })
 
         try {
             const response = await fetch('/api/order', {
@@ -208,6 +197,7 @@ const CartPage : NextPageWithLayout = () => {
                                                         />
                                                         <span>Giá: {convertPrice(product?.price)}</span>
                                                     </div>
+                                                    <div>{product.skuId}</div>
                                                     <p className="font-semibold flex">
                                                         Tổng cộng:&emsp;<span className="font-normal">{convertPrice(product?.count * product?.price)}</span>
                                                         <button
