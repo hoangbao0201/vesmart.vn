@@ -30,10 +30,10 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
 
     return (
         <>
-            <article>
+            <div>
                 <div className="lg:flex -mx-3">
                     <div className="lg:w-8/12 md:px-3 mb-5 pt-5">
-                        <div className="bg-white md:px-14 px-4 py-10 md:rounded-lg border min-h-screen relative">
+                        <div className="bg-white md:px-14 px-4 py-10 md:rounded-md border min-h-screen relative">
                             {
                                 blog ? (
                                     <>
@@ -58,11 +58,11 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                                 canonicalUrl={`${siteMetadata?.siteUrl}/bai-viet/${blog.slug}`}
                                             />
                                 
-                                            <header>
-                                                <h1 title={blog?.title} className="font-extrabold text-4xl mb-4">
+                                            <header className="">
+                                                <h1 title={blog?.title} className="font-bold text-4xl mb-7 leading-tight uppercase">
                                                     {blog?.title}
                                                 </h1>
-                                                <ul className="my-6 flex flex-wrap">
+                                                <ul className="flex space-x-2 mb-4">
                                                     {
                                                         blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
                                                             return (
@@ -75,7 +75,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                                         })
                                                     }
                                                 </ul>
-                                                <p className="prose prose-lg mb-7">{blog?.description}</p>
+                                                <p className="mb-3 text-xl leading-relaxed">{blog?.description}</p>
                                             </header>
                                             <MarkContent>
                                                 {blog?.content}
@@ -112,7 +112,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
     
                     </div>
                 </div>
-            </article>
+            </div>
         </>
     )
 }

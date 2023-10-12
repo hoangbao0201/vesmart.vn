@@ -27,7 +27,7 @@ const MarkContent = ({ children } : MarkContentProps) => {
 
     return (
         <>
-            <div className="prose contents prose-lg">
+            <div className="prose contents prose-xl">
                 <ReactMarkdown components={config} remarkPlugins={[remarkGfm]}>
                     {children}
                 </ReactMarkdown>
