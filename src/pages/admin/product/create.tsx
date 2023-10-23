@@ -1,11 +1,14 @@
 import { ChangeEvent, useState } from "react";
 
+import { ShowToastify } from "@/components/Features/ShowToastify";
+
 import { NextPageWithLayout } from "@/pages/_app";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { convertTextToSlug } from "@/utils/convertTextToSlug";
 import { IconPlus } from "../../../../public/static/icons/IconSvg";
+import LoadingDots from "@/components/share/Loading/LoadingDots";
 import axios from "axios";
-import { ProductInformationItem } from "@/types";
+
 
 interface SubVariantProps {
     name: string
@@ -51,6 +54,7 @@ const ProductCreatePage : NextPageWithLayout = () => {
         name: "",
         value: ""
     }]);
+    const [isLoad, setIsLoad] = useState(false);
 
     const handleOnchangeValueVariant = (e: ChangeEvent<HTMLInputElement>, type: "variant" | "subVariant") => {
         let updatedData = { ...variantsProduct };
@@ -218,7 +222,17 @@ const ProductCreatePage : NextPageWithLayout = () => {
     }
 
     const handleCreateProduct = async () => {
+        const { title, slug, description, brand } = dataProduct;
+        if(!title || !slug || !description || !brand) {
+            ShowToastify({
+                data: "Chưa điền đủ thông tin",
+                type: "error"
+            })
+            return;
+        }
+
         try {
+            setIsLoad(true);
             const productRes = await axios.post("/api/product/create", {
                 ...dataProduct,
                 variants: variantsProduct.variants.length > 0 ? variantsProduct.variants.map((variantP) => {
@@ -236,10 +250,18 @@ const ProductCreatePage : NextPageWithLayout = () => {
                 }),
                 productInformationItems: productItemInfo.slice(0,-1)
             })
-
-            console.log(productRes?.data);
-        } catch (error) {
             
+            if(productRes.data.success) {
+                ShowToastify({
+                    data: "Tạo sản phẩm thành công",
+                    type: "success",
+                });
+            }
+
+            // console.log(productRes?.data);
+            setIsLoad(false);
+        } catch (error) {
+            setIsLoad(false);
         }
     }
 
@@ -561,7 +583,9 @@ const ProductCreatePage : NextPageWithLayout = () => {
 
             <div className="bg-white py-4 px-5 mb-4 rounded-xl border">
                 <div className="flex justify-end">
-                    <button onClick={handleCreateProduct} className="bg-blue-600 hover:bg-blue-700 transition-all border px-3 py-2 rounded-md text-white font-semibold">Đăng sản phẩm</button>
+                    <button disabled={isLoad} onClick={handleCreateProduct} className="disabled:opacity-90 bg-blue-600 enabled:hover:bg-blue-700 transition-all border px-3 py-2 rounded-md text-white font-semibold">
+                        Đăng sản phẩm {isLoad && <LoadingDots color="#ffff" />}
+                    </button>
                 </div>
             </div>
 
@@ -587,58 +611,3 @@ ProductCreatePage.getLayout = (page) => {
 };
 
 
-
-
-                                            // <Fragment key={variant.position}>
-                                            //     {
-                                            //         // @ts-ignore
-                                            //         variantsProduct.variants.length === 1 || variantsProduct.variants.length === 2 && variantsProduct.variants[1].subVariants[0].name === "" ? (
-                                            //             variant.subVariants.slice(0,-1).map((subVariant) => {
-                                            //                 return (
-                                            //                     <tr key={subVariant.position} className="border-b">
-                                            //                         <td className="px-4 py-3">
-                                            //                             <p>{subVariant.name}</p>
-                                            //                         </td>
-                                            //                         <td className="px-4 py-3">
-                                            //                             <div>
-                                            //                                 <input className="input-info"/>
-                                            //                             </div>
-                                            //                         </td>
-                                            //                         <td className="px-4 py-3">
-                                            //                             <div>
-                                            //                                 <input className="input-info"/>
-                                            //                             </div>
-                                            //                         </td>
-                                            //                     </tr>
-                                            //                 )
-                                            //             })
-                                            //         ) : (
-                                            //             variantsProduct.variants[1].subVariants.slice(0,-1).map((subVariant, index) => {
-                                            //                 return (
-                                            //                     <tr key={subVariant.position} className="border-b">
-                                            //                         {
-                                            //                             index === 0 &&(
-                                            //                                 <td rowSpan={variantsProduct.variants[1].subVariants.length-1} className="px-4 py-3 border-r text-center">
-                                            //                                     <p>{variant.name}</p> 
-                                            //                                 </td>
-                                            //                             )
-                                            //                         }
-                                            //                         <td rowSpan={1} className="px-4 py-3 border-r text-center">
-                                            //                             <p>{subVariant.name}</p>
-                                            //                         </td>
-                                            //                         <td className="px-4 py-3 border-r">
-                                            //                             <div>
-                                            //                                 <input className="input-info"/>
-                                            //                             </div>
-                                            //                         </td>
-                                            //                         <td className="px-4 py-3 border-r">
-                                            //                             <div>
-                                            //                                 <input className="input-info"/>
-                                            //                             </div>
-                                            //                         </td>
-                                            //                     </tr>
-                                            //                 )
-                                            //             })
-                                            //         )
-                                            //     }
-                                            // </Fragment>

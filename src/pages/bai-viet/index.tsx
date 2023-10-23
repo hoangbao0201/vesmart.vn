@@ -12,7 +12,7 @@ interface BlogIndexProps {
 const BlogIndex : NextPageWithLayout<BlogIndexProps> = ({ blogs }) => {
 
     return (
-        <div>
+        <div className="py-4">
             <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-4">
                 {
                     blogs.length > 0 && blogs.map((blog) => {
@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
             blogs: JSON.parse(JSON.stringify(blogRes.blogs)),
         },
-        revalidate: 60 * 5,
+        revalidate: 60*60,
     };
 };
 

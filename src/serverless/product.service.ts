@@ -234,7 +234,7 @@ class ProductService {
     // // ----------- FULL BLOG SEO -----------------
     async fullSeo() {
         try {
-            const blogs = await prismaService.blog.findMany({
+            const products = await prismaService.product.findMany({
                 select: {
                     id: true,
                     slug: true,
@@ -248,8 +248,8 @@ class ProductService {
         
             return {
                 success: true,
-                message: "Get blogs successful",
-                blogs: blogs
+                message: "Get products successful",
+                products: products
             };
         } catch (error) {
             return {

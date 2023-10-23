@@ -17,6 +17,8 @@ import Gallery from "@/components/share/product/gallery";
 import ProductLoad from "@/components/share/skeleton/ProductLoad";
 import OptionVariant from "@/components/PageComponent/PageProduct/OptionVariant";
 import { ShowToastify } from "@/components/Features/ShowToastify";
+import { BlogSEO, ProductSEO } from "@/components/share/SEO";
+import siteMetadata from "@/siteMetadata";
 
 
 interface obVariantProps {
@@ -54,6 +56,8 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
     const [obVariant, setObVariant] = useState<obVariantProps>({
         variants: {}
     });
+
+    // console.log(obVariant?.price)
 
     useEffect(() => {
         if(product?.skus) {
@@ -172,82 +176,94 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
 
                 {
                     product ? (
-                        <div className="md:flex bg-white py-4">
-                            <div className="relative md:w-4/12 px-3 mb-3">
-                                <div className="overflow-hidden max-w-md:max-w-[400px]">
-                                    <Gallery
-                                        images={product.images}
-                                        thumbsSwiper={thumbsSwiper}
-                                        setThumbsSwiper={setThumbsSwiper}
-                                    />
-                                </div>
-                            </div>
-                            <div className="relative md:w-8/12 px-3 mb-3">
-                                <div className="mb-4">
-                                    <h1 className="font-semibold text-2xl">
-                                        {product?.title}
-                                    </h1>
-                                </div>
-            
-                                <div className="p-4 mb-4 bg-gray-100 flex items-end leading-none">
-                                    <div className="font-semibold text-[30px] text-rose-500 mr-3">
-                                        {convertPrice(product?.skus[0]?.price || 0)}
+                        <>
+                            <ProductSEO
+                                author=""
+                                title={`${product.title}`}
+                                createdAt={product.createdAt}
+                                updatedAt={product.updatedAt}
+                                summary={product.description}
+                                url={product.slug}
+                                canonicalUrl={`${siteMetadata?.siteUrl}/san-pham/${product.slug}`}
+                            />
+                            <div className="md:flex bg-white py-4">
+                                <div className="relative md:w-4/12 px-3 mb-3">
+                                    <div className="overflow-hidden max-w-md:max-w-[400px]">
+                                        <Gallery
+                                            images={product.images}
+                                            thumbsSwiper={thumbsSwiper}
+                                            setThumbsSwiper={setThumbsSwiper}
+                                        />
                                     </div>
-                                    {/* <div className="line-through mr-3">856.000 ₫</div>
-                                    <div className="font-semibold text-rose-500">-30%</div> */}
                                 </div>
-            
-                                <div className="flex leading-tight mb-3 gap-3">
-                                    <div className=""><ListStar numb={product?.rating || 5}/></div>
-                                    <p className="">(Xem 18 đánh giá)</p>
-                                    <p className="border-l pl-3">Đã bán 70</p>
+                                <div className="relative md:w-8/12 px-3 mb-3">
+                                    <div className="mb-4">
+                                        <h1 className="font-semibold text-2xl">
+                                            {product?.title}
+                                        </h1>
+                                    </div>
+                
+                                    <div className="p-4 mb-4 bg-gray-100 flex items-end leading-none">
+                                        <div className="font-semibold text-[30px] text-rose-500 mr-3">
+                                            {/* {convertPrice(product?.skus[0]?.price || 0)} */}
+                                            {convertPrice(obVariant?.price || 0)}
+                                        </div>
+                                        {/* <div className="line-through mr-3">856.000 ₫</div>
+                                        <div className="font-semibold text-rose-500">-30%</div> */}
+                                    </div>
+                
+                                    <div className="flex leading-tight mb-3 gap-3">
+                                        <div className=""><ListStar numb={product?.rating || 5}/></div>
+                                        <p className="">(Xem 18 đánh giá)</p>
+                                        <p className="border-l pl-3">Đã bán 70</p>
+                                    </div>
+                
+                                    <OptionVariant
+                                        obVariant={obVariant}
+                                        handleChangeVariant={handleChangeVariant}
+                                        product={product}
+                                    />
+    
+                                    <InputQuantity
+                                        quantity={
+                                            // product?.variants.length === 0 ? product.skus[0].stock : (
+                                            //     Object.keys(obVariant).length === 0 ? 0 : (
+                                            //         product.skus.forEach((prd) => {
+                                            //             if(prd.sku === obVariant[0].position) {
+                                            //                 return prd.stock;
+                                            //             }
+                                            //         })
+                                            //     )
+                                            // )
+                                            product?.variants.length === 0 ? product.skus[0].stock : (
+                                                obVariant?.stock ? obVariant?.stock : 0
+                                            )
+                                        }
+                                        value={countProduct}
+                                        setValue={setCountProduct}
+                                        setErrorBuy={setErrorBuy}
+                                    />
+    
+                                    <div className="h-7">
+                                        <span className="text-red-600">{errorBuy}</span>
+                                        <span className="text-blue-600">{successBuy}</span>
+                                    </div>
+                                    
+                                    <div className="flex">
+                                        {/* <button className="sm:p-4 p-3 border mr-2 bg-white hover:bg-slate-50">
+                                            <IconHeart className="w-5 h-5"/>
+                                        </button> */}
+                                        <button onClick={handleAddCartProduct} className="sm:py-3 py-2 border bg-gray-600 hover:bg-gray-700/80 text-white uppercase font-semibold w-1/2 mr-2">
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                        <button className="sm:py-3 py-2 border bg-blue-600 hover:bg-blue-700/90 text-white uppercase font-semibold w-1/2">
+                                            Mua ngay
+                                        </button>
+                                    </div>
                                 </div>
-            
-                                <OptionVariant
-                                    obVariant={obVariant}
-                                    handleChangeVariant={handleChangeVariant}
-                                    product={product}
-                                />
-
-                                <InputQuantity
-                                    quantity={
-                                        // product?.variants.length === 0 ? product.skus[0].stock : (
-                                        //     Object.keys(obVariant).length === 0 ? 0 : (
-                                        //         product.skus.forEach((prd) => {
-                                        //             if(prd.sku === obVariant[0].position) {
-                                        //                 return prd.stock;
-                                        //             }
-                                        //         })
-                                        //     )
-                                        // )
-                                        product?.variants.length === 0 ? product.skus[0].stock : (
-                                            obVariant?.stock ? obVariant?.stock : 0
-                                        )
-                                    }
-                                    value={countProduct}
-                                    setValue={setCountProduct}
-                                    setErrorBuy={setErrorBuy}
-                                />
-
-                                <div className="h-7">
-                                    <span className="text-red-600">{errorBuy}</span>
-                                    <span className="text-blue-600">{successBuy}</span>
-                                </div>
-                                
-                                <div className="flex">
-                                    {/* <button className="sm:p-4 p-3 border mr-2 bg-white hover:bg-slate-50">
-                                        <IconHeart className="w-5 h-5"/>
-                                    </button> */}
-                                    <button onClick={handleAddCartProduct} className="sm:py-3 py-2 border bg-gray-600 hover:bg-gray-700/80 text-white uppercase font-semibold w-1/2 mr-2">
-                                        Thêm vào giỏ hàng
-                                    </button>
-                                    <button className="sm:py-3 py-2 border bg-blue-600 hover:bg-blue-700/90 text-white uppercase font-semibold w-1/2">
-                                        Mua ngay
-                                    </button>
-                                </div>
+    
                             </div>
-
-                        </div>
+                        </>
                     ) : (
                         <ProductLoad />
                     )

@@ -40,6 +40,10 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                         <Breadcrumb
                                             path={[
                                                 {
+                                                    title: "bài viết",
+                                                    url: "/bai-viet/"
+                                                },
+                                                {
                                                     title: blog?.title || "",
                                                     url: "/bai-viet/" + blog?.slug
                                                 }
@@ -123,7 +127,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const { slugBlog } = context.params as Params;
 
     const blogRes = await blogService.findOne(slugBlog);
-
+    
     if (!blogRes?.success) {
         return {
             props: {

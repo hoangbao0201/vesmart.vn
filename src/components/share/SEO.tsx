@@ -294,49 +294,7 @@ export const BlogSEO = ({
         },
         description: summary,
     };
-    // const structureDataRating = {
-    //     "@context": "https://schema.org/",
-    //     "@type": "Review",
-    //     itemReviewed: {
-    //         "@type": "BlogPosting",
-    //         image: "https://www.example.com/blog-post-image.jpg",
-    //         name: title,
-    //         headline: title,
-    //         datePublished: publishedAt,
-    //         dateModified: modifiedAt,
-    //         author: {
-    //             "@type": "Person",
-    //             name: "Vesmart",
-    //         },
-    //         publisher: {
-    //             "@type": "Organization",
-    //             name: "BlogSiteName",
-    //             logo: {
-    //                 "@type": "ImageObject",
-    //                 url: canonicalUrl,
-    //             },
-    //         },
-    //         mainEntityOfPage: {
-    //             "@type": "WebPage",
-    //             "@id": canonicalUrl,
-    //         },
-    //     },
-    //     reviewRating: {
-    //         "@type": "Rating",
-    //         ratingValue: "4",
-    //         bestRating: "5",
-    //     },
-    //     name: title,
-    //     reviewBody: summary,
-    //     author: {
-    //         "@type": "Person",
-    //         name: "Vesmart",
-    //     },
-    //     publisher: {
-    //         "@type": "Organization",
-    //         name: "Vesmart",
-    //     },
-    // };
+    
     const twImageUrl = featuredImages[0].url;
 
     return (
@@ -369,49 +327,99 @@ export const BlogSEO = ({
                         __html: JSON.stringify(structuredData, null, 2),
                     }}
                 />
-                {/* <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(structureDataRating, null, 2),
-                    }}
-                /> */}
+                
             </Head>
         </>
     );
 };
 
-// const ldJsonWeb3 = {
-//     "@context": "https://schema.org/",
-//     "@type": "Person",
-//     name: "Vesmart",
-//     //   "url": "https://toplist.vn//tac-gia/thịnh-nguyễn-sỹ-79223/",
-//     //   "image": "https://toplist.vn/images/avatars/79223.jpg",
-//     jobTitle: "Copywriter",
-//     worksFor: {
-//         "@type": "Organization",
-//         name: "Công Ty cổ Phần Vesmart",
-//     },
-// };
-// const ldJsonWeb4 = {
-//     "@context": "https://schema.org",
-//     "@type": "ItemList",
-//     itemListElement: [
-//         "Danke Clean Đà Nẵng",
-//         "Smart Tech Đà Nẵng",
-//         "TSmart Home Đà Nẵng",
-//     ],
-//     itemListOrder: "https://schema.org/ItemListOrderDescending",
-//     name: "Top 3 Địa chỉ sửa chữa các loại robot hút bụi uy tín nhất Đà Nẵng ",
-//     numberOfItems: "3",
-// };
-// const ldJsonWeb5 = {
-//     "@context": "https://schema.org/",
-//     "@type": "CreativeWorkSeries",
-//     name: "Top 3 Địa chỉ sửa chữa các loại robot hút bụi uy tín nhất Đà Nẵng ",
-//     aggregateRating: {
-//         "@type": "AggregateRating",
-//         ratingValue: "4.9",
-//         bestRating: "5",
-//         ratingCount: "10",
-//     },
-// };
+export const ProductSEO = ({
+    title,
+    summary,
+    createdAt,
+    updatedAt,
+    images = [],
+    canonicalUrl,
+    isHiddenFromSearch,
+}: BlogSeoProps) => {
+    const publishedAt = new Date(createdAt).toISOString();
+    const modifiedAt = new Date(updatedAt || createdAt).toISOString();
+    const imagesArr =
+        images.length === 0
+            ? [siteMetadata.socialBanner]
+            : typeof images === "string"
+            ? [images]
+            : images;
+
+    const featuredImages = imagesArr.map((img) => {
+        return {
+            "@type": "ImageObject",
+            url: `${siteMetadata.siteUrl}${img}`,
+        };
+    });
+
+    let authorList = {
+        "@type": "Person",
+        name: "Vesmart",
+    };
+
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": canonicalUrl,
+        },
+        headline: title,
+        image: featuredImages,
+        datePublished: publishedAt,
+        dateModified: modifiedAt,
+        author: authorList,
+        publisher: {
+            "@type": "Organization",
+            name: siteMetadata.author,
+            logo: {
+                "@type": "ImageObject",
+                url: `${siteMetadata.siteUrl}${siteMetadata.siteLogo}`,
+            },
+        },
+        description: summary,
+    };
+    
+    const twImageUrl = featuredImages[0].url;
+
+    return (
+        <>
+            <CommonSEO
+                title={title}
+                description={summary}
+                ogType="article"
+                ogImage={featuredImages}
+                twImage={twImageUrl}
+                canonicalUrl={canonicalUrl}
+                isHiddenFromSearch={isHiddenFromSearch}
+            />
+            <Head>
+                {createdAt && (
+                    <meta
+                        property="article:published_time"
+                        content={publishedAt}
+                    />
+                )}
+                {updatedAt && (
+                    <meta
+                        property="article:modified_time"
+                        content={modifiedAt}
+                    />
+                )}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(structuredData, null, 2),
+                    }}
+                />
+                
+            </Head>
+        </>
+    );
+};

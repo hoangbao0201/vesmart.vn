@@ -1,13 +1,14 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { GetStaticProps } from "next";
 
-import MainLayout from "@/components/layouts/MainLayout";
-import { PageSEO } from "@/components/share/SEO";
-import siteMetadata from "@/siteMetadata";
-import ListProduct from "@/components/PageComponent/PageHome/ListProduct";
-import productService from "@/serverless/product.service";
 import { ProductTypes } from "@/types";
 import { NextPageWithLayout } from "./_app";
+import siteMetadata from "@/siteMetadata";
+import { PageSEO } from "@/components/share/SEO";
+import SlideHome from "@/components/share/SlideHome";
+import MainLayout from "@/components/layouts/MainLayout";
+import productService from "@/serverless/product.service";
+import ListProduct from "@/components/PageComponent/PageHome/ListProduct";
 
 
 interface HomePageProps {
@@ -22,6 +23,7 @@ const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
                 title="Trang chủ - VESMART"
                 description={siteMetadata.description}
             />
+            <SlideHome />
             <div className="-mx-3 py-4">
                 {/* <div className="md:w-4/12 px-3">
                     <div className="bg-white">dashboarch</div>
@@ -58,10 +60,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
             products: JSON.parse(JSON.stringify(productsRes.products)),
         },
-        revalidate: 60 * 5,
+        revalidate: 60*60,
     };
 };
 
 HomePage.getLayout = (page: ReactNode) => {
-    return <MainLayout>{page}</MainLayout>;
+    return <MainLayout isNavbar={true}>{page}</MainLayout>;
 };

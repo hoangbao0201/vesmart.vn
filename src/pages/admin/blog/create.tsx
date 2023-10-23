@@ -6,12 +6,11 @@ import ReactMarkdown from "react-markdown";
 import Editor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 
-
-
 import { NextPageWithLayout } from "@/pages/_app";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { convertTextToSlug } from "@/utils/convertTextToSlug";
 import { ShowToastify } from "@/components/Features/ShowToastify";
+import LoadingDots from "@/components/share/Loading/LoadingDots";
 
 const CreateBlogPage : NextPageWithLayout = () => {
 
@@ -23,6 +22,8 @@ const CreateBlogPage : NextPageWithLayout = () => {
         blogHashtags: "",
     })
     const [contentBlog, setContentBlog] = useState<string>("");
+    const [isLoad, setIsLoad] = useState(false);
+
 
     const onChangeContentBlog = (
         e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -43,6 +44,7 @@ const CreateBlogPage : NextPageWithLayout = () => {
             console.log(title + "-" + contentBlog + "-" + blogHashtags)
             return;
         }
+        setIsLoad(true);
 
         try {
             const blogRes = await axios.post("/api/blog/create", {
@@ -53,9 +55,15 @@ const CreateBlogPage : NextPageWithLayout = () => {
                 blogHashtags: dataBasicBlog.blogHashtags.split("||"),
             })
 
-            console.log(blogRes?.data);
+            if(blogRes.data.success) {
+                setIsLoad(false);
+                ShowToastify({
+                    data: "Tạo bài viết thành công",
+                    type: "success",
+                });
+            }
         } catch (error) {
-            
+            setIsLoad(false);
         }
     }
 
@@ -131,7 +139,9 @@ const CreateBlogPage : NextPageWithLayout = () => {
 
             <div className="bg-white py-4 px-5 mb-4 rounded-xl border">
                 <div className="flex justify-end">
-                    <button onClick={handleCreateBlog} className="bg-blue-600 hover:bg-blue-700 transition-all border px-3 py-2 rounded-md text-white font-semibold">Tạo blog</button>
+                    <button disabled={isLoad} onClick={handleCreateBlog} className="disabled:opacity-90 bg-blue-600 enabled:hover:bg-blue-700 transition-all border px-3 py-2 rounded-md text-white font-semibold">
+                        Tạo blog {isLoad && <LoadingDots color="#ffff" />}
+                    </button>
                 </div>
             </div>
         </div>
