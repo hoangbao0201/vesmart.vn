@@ -55,6 +55,7 @@ const ProductCreatePage : NextPageWithLayout = () => {
         value: ""
     }]);
     const [isLoad, setIsLoad] = useState(false);
+    const [productListItemInfo, setProductListItemInfo] = useState("");
 
     const handleOnchangeValueVariant = (e: ChangeEvent<HTMLInputElement>, type: "variant" | "subVariant") => {
         let updatedData = { ...variantsProduct };
@@ -297,6 +298,30 @@ const ProductCreatePage : NextPageWithLayout = () => {
         ])
     }
 
+    const handleAddFastDataItems = () => {
+        let updateData = [...productItemInfo];
+        let arrListItem : string[] = [];
+        arrListItem = productListItemInfo.trim().split("\n");
+
+        if(arrListItem.length >= 2) {
+            for(let i = 0; i < arrListItem.length; i = i + 2) {
+
+                updateData.splice(updateData.length - 1, 0, { name: arrListItem[i], value: arrListItem[i+1] });
+
+                updateData[productItemInfo.length + i];
+
+            }
+        };
+
+        setProductItemInfo([
+            ...updateData
+        ]);
+
+        setProductListItemInfo("");
+    }
+
+    console.log(productItemInfo)
+
     return (
         <div>
 
@@ -361,7 +386,7 @@ const ProductCreatePage : NextPageWithLayout = () => {
 
             <div className="bg-white py-5 px-5 mb-4 rounded-xl border">
                 <h2 className="text-lg font-semibold mb-2">Đặc tính sản phẩm</h2>
-                <div>
+                <div className="mb-4">
                     <table className="border border-gray-400 w-full">
                         <thead>
                             <tr className="border-b border-gray-400 bg-indigo-100">
@@ -374,7 +399,7 @@ const ProductCreatePage : NextPageWithLayout = () => {
                             {
                                 productItemInfo.length > 0 && productItemInfo.map((itemInfo, index) => {
                                     return (
-                                        <tr key={`${itemInfo.name}-${itemInfo.value}-${index}`} className="border-b border-gray-400">
+                                        <tr key={index} className="border-b border-gray-400">
                                             <td className="px-4 py-3">
                                                 <div>
                                                     <input
@@ -411,6 +436,22 @@ const ProductCreatePage : NextPageWithLayout = () => {
                             }
                         </tbody>
                     </table>
+                </div>
+
+                <div>
+                    <label className="mb-2 block">Thêm nhanh</label>
+                    <textarea
+                        value={productListItemInfo}
+                        onChange={(e) => setProductListItemInfo(e.target.value)}
+                        placeholder="Nhấn vào"
+                        className={`border px-4 py-3 outline-none rounded-md w-full resize-none ${productListItemInfo.trim().length > 0 ? "" : "bg-slate-100"}`}
+                    />
+                    <button
+                        onClick={handleAddFastDataItems}
+                        className="border rounded-md bg-blue-600 focus:bg-blue-700 text-white px-3 py-2"
+                    >
+                        Thêm vào
+                    </button>
                 </div>
             </div>
 
