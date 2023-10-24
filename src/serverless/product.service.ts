@@ -70,7 +70,7 @@ class ProductService {
     async findAll(query: any) {
         try {
 
-            const { page = 0, limit = 10 } = query;
+            const { page = 0, limit = 20 } = query;
 
             const products = await prismaService.product.findMany({
                 // select: {

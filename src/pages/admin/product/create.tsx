@@ -546,7 +546,7 @@ const ProductCreatePage : NextPageWithLayout = () => {
                                                                 value={variantsProduct.skus[Number(variant.position.split("-")[1]-1)].price}
                                                                 onChange={(e) => handleOnchangeSkuProduct(e, "price", variant.position)}
                                                                 className="input-info"
-                                                            />
+                                                                />
                                                             <span>{variant.position}</span>
                                                         </div>
                                                     </td>
@@ -569,7 +569,7 @@ const ProductCreatePage : NextPageWithLayout = () => {
                                                             {
                                                                 index === 0 && (
                                                                     <td rowSpan={variantsProduct.variants[1].subVariants.length-1} className="px-4 py-3 border-r border-gray-400 text-center">
-                                                                        <p>{variant.name}</p> 
+                                                                        <p>{variant.name}</p>
                                                                     </td>
                                                                 )
                                                             }
