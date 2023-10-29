@@ -59,6 +59,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                                 updatedAt={blog.updatedAt}
                                                 summary={blog.description}
                                                 url={blog.slug}
+                                                images={[blog.thumbnail]}
                                                 canonicalUrl={`${siteMetadata?.siteUrl}/bai-viet/${blog.slug}`}
                                             />
                                 

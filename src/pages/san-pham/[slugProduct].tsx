@@ -184,6 +184,7 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
                                 updatedAt={product.updatedAt}
                                 summary={product.description}
                                 url={product.slug}
+                                images={product.images}
                                 canonicalUrl={`${siteMetadata?.siteUrl}/san-pham/${product.slug}`}
                             />
                             <div className="md:flex bg-white py-4">

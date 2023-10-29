@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import { useRouter } from "next/router";
 import siteMetadata from "@/siteMetadata";
+import { ImageTypes } from "@/types";
 
 interface CommonSEOProps {
     title: string;
@@ -92,19 +93,22 @@ const CommonSEO = ({
     return (
         <Head>
             <title>{title}</title>
+            <meta name="keywords" content={title}></meta>
             <meta name="description" content={description} />
             <link rel="manifest" href="/manifest.json" />
             <link rel="icon" href="/favicon.ico"></link>
+            <link
+                rel="canonical"
+                href={
+                    canonicalUrl
+                        ? canonicalUrl
+                        : `${siteMetadata.siteUrl}${router.asPath}`
+                }
+            />
             <meta charSet="utf-8" />
+            <meta name="copyright" content={siteMetadata.author}></meta>
             <meta name="application-name" content="vesmart"></meta>
             <meta property="og:site_name" content={siteMetadata.title} />
-            {Array.isArray(ogImage) ? (
-                ogImage.map(({ url }) => (
-                    <meta property="og:image" content={url} key={url} />
-                ))
-            ) : (
-                <meta property="og:image" content={ogImage} key={ogImage} />
-            )}
             <meta
                 name="robots"
                 content={
@@ -116,7 +120,6 @@ const CommonSEO = ({
                 content={`${siteMetadata.siteUrl}${router.asPath}`}
             />
             <meta property="og:type" content={ogType} />
-
             <meta property="og:description" content={description} />
             <meta property="og:title" content={title} />
             {Array.isArray(ogImage) ? (
@@ -131,15 +134,7 @@ const CommonSEO = ({
             <meta name="twitter:title" content={title} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={twImage} />
-            <link
-                rel="canonical"
-                href={
-                    canonicalUrl
-                        ? canonicalUrl
-                        : `${siteMetadata.siteUrl}${router.asPath}`
-                }
-            />
-
+            <meta name="RATING" content="GENERAL"></meta>
             <meta name="mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="application-name" content="Vesmart" />
@@ -333,6 +328,21 @@ export const BlogSEO = ({
     );
 };
 
+
+interface ProductSeoProps {
+    title: string;
+    author: string;
+    url: string;
+    images?: ImageTypes[];
+
+    summary: string;
+    canonicalUrl?: string;
+    isHiddenFromSearch?: boolean;
+
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export const ProductSEO = ({
     title,
     summary,
@@ -341,20 +351,16 @@ export const ProductSEO = ({
     images = [],
     canonicalUrl,
     isHiddenFromSearch,
-}: BlogSeoProps) => {
+}: ProductSeoProps) => {
     const publishedAt = new Date(createdAt).toISOString();
     const modifiedAt = new Date(updatedAt || createdAt).toISOString();
     const imagesArr =
-        images.length === 0
-            ? [siteMetadata.socialBanner]
-            : typeof images === "string"
-            ? [images]
-            : images;
+        images.length === 0 ? [{ url:  `${siteMetadata.siteUrl}/${siteMetadata.socialBanner}` }] : ( images );
 
-    const featuredImages = imagesArr.map((img) => {
+    const featuredImages = imagesArr.map((img) => { 
         return {
             "@type": "ImageObject",
-            url: `${siteMetadata.siteUrl}${img}`,
+            url: `${img.url}`,
         };
     });
 
@@ -365,7 +371,7 @@ export const ProductSEO = ({
 
     const structuredData = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "Product",
         mainEntityOfPage: {
             "@type": "WebPage",
             "@id": canonicalUrl,
@@ -393,7 +399,7 @@ export const ProductSEO = ({
             <CommonSEO
                 title={title}
                 description={summary}
-                ogType="article"
+                ogType="website"
                 ogImage={featuredImages}
                 twImage={twImageUrl}
                 canonicalUrl={canonicalUrl}
@@ -423,3 +429,22 @@ export const ProductSEO = ({
         </>
     );
 };
+
+
+// [
+//     {
+//         id: "a1",
+//         url: "b1",
+//         publicId: "c1",
+//     },
+//     {
+//         id: "a1",
+//         url: "b1",
+//         publicId: "c1",
+//     },
+//     {
+//         id: "a1",
+//         url: "b1",
+//         publicId: "c1",
+//     },
+// ]
