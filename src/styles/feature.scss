@@ -19,6 +19,12 @@
 
 .prose {
     color: #222 !important;
+
+    blockquote {
+        color: #666;
+        padding-right: 10px;
+        background-color: #eee;
+    }
     
 
     & :where(ul > li):not(:where([class~="not-prose"] *))::marker {

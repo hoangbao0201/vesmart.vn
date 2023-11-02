@@ -16,6 +16,10 @@
   }
 }
 
+html {
+  color: rgb(var(--foreground-rgb));
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: #f8f8f8;
