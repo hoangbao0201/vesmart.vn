@@ -93,7 +93,7 @@ class BlogService {
                     // updatedAt: true
                 },
                 orderBy: {
-                    createdAt: "desc"
+                    updatedAt: "desc"
                 },
                 take: Number(limit) || 10,
                 skip: Number(page) ? (page-1)*limit : 0

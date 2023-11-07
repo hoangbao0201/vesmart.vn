@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     const blogRes = await blogService.findAll({
         page: 1,
-        limit: 10,
+        limit: 20,
     });
 
     if (!blogRes?.success) {

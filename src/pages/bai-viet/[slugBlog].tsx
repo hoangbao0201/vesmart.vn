@@ -67,7 +67,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                                 <h1 title={blog?.title} className="font-bold text-4xl mb-7 leading-tight uppercase">
                                                     {blog?.title}
                                                 </h1>
-                                                <ul className="flex space-x-2 mb-4">
+                                                <ul className="flex flex-wrap mb-4">
                                                     {
                                                         blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
                                                             return (
