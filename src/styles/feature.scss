@@ -18,7 +18,8 @@
 // Markdown
 
 .prose {
-    color: #222 !important;
+    font-size: 1.2rem;
+    color: #222;
 
     blockquote {
         color: #666;
@@ -29,7 +30,12 @@
 
     & :where(ul > li):not(:where([class~="not-prose"] *))::marker {
         color: #222;
+        padding-left: 0;
     }
+    & :where(h1,h2,h3):not(:where([class~=not-prose] *)) {
+        letter-spacing: -.025em;
+    }
+
 }
 
 // Hashtag

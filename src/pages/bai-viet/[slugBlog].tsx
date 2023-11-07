@@ -64,10 +64,10 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                             />
                                 
                                             <header className="">
-                                                <h1 title={blog?.title} className="font-bold text-4xl mb-7 leading-tight uppercase">
+                                                <h1 title={blog?.title} className="font-bold md:text-4xl text-3xl mb-7 leading-tight uppercase">
                                                     {blog?.title}
                                                 </h1>
-                                                <ul className="flex flex-wrap mb-4">
+                                                <ul className="flex flex-wrap mb-4 -mx-2">
                                                     {
                                                         blog?.blogHashtags && blog?.blogHashtags.map((hashTag, index) => {
                                                             return (
@@ -80,7 +80,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                                         })
                                                     }
                                                 </ul>
-                                                <p className="mb-3 text-xl leading-relaxed">{blog?.description}</p>
+                                                <p className="mb-3 prose">{blog?.description}</p>
                                             </header>
                                             <MarkContent>
                                                 {blog?.content}

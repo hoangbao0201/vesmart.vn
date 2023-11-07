@@ -15,7 +15,7 @@ const config = {
       );
     },
     a: ({ node, href, onClick, children, ...props}: any) => {
-        return <Link href={href} {...props}>{children}</Link>
+        return <Link className="text-blue-600" href={href} {...props}>{children}</Link>
     }
 };
 
@@ -27,7 +27,7 @@ const MarkContent = ({ children } : MarkContentProps) => {
 
     return (
         <>
-            <div className="prose contents prose-xl">
+            <div className="prose contents">
                 <ReactMarkdown components={config} remarkPlugins={[remarkGfm]}>
                     {children}
                 </ReactMarkdown>
