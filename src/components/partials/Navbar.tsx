@@ -25,7 +25,7 @@ const Navbar = () => {
                     </Link>
                 </p>
 
-                <div className="ml-auto">
+                <div className="ml-auto hidden md:block">
                     <strong>Liên hệ:</strong> {" "}
                     <span className="">
                         0971183153
