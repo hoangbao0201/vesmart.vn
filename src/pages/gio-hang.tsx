@@ -19,7 +19,6 @@ import { AdressSlideState } from "@/redux/userSlice";
 
 const CartPage : NextPageWithLayout = () => {
 
-
     const dispatch = useDispatch();
     const { products } : { products: CartSlideState[] } = useSelector(
         (state: any) => state.cart

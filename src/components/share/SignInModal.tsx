@@ -17,7 +17,7 @@ const SignInModal = ({ isShow, setIsShow }: SignInModalProps) => {
 
     return (
         <Modal isShow={isShow} setIsShow={setIsShow}>
-            <div className="w-full overflow-hidden">
+            <div className="w-full overflow-hidden text-black">
                 <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center md:px-16">
                     <Link href={`/`}>
                         <p className="text-xl leading-normal font-bold select-none">VESMART</p>

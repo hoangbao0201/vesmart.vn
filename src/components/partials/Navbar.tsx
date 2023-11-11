@@ -1,40 +1,118 @@
 import Link from "next/link";
-import { IconNewSpaper, IconPackageSearch } from "../../../public/static/icons/IconSvg";
+import { useState } from "react";
 
-const Navbar = () => {
-    return (
-        <div className="top-[60px] absolute bg-white w-full left-0 right-0">
-            <div className="flex items-center max-w-7xl mx-auto px-3 py-2">
-                
-                <p>
-                    <Link
-                        href={"/"}
-                        className="hover:underline bg-white px-3 py-1 flex items-center border rounded-sm"
-                    >
-                        <IconPackageSearch className="w-4 h-4 mr-1"/>
-                        Sản phẩm
-                    </Link>
-                </p>
-                <p className="ml-2">
-                    <Link
-                        href={"/bai-viet"}
-                        className="hover:underline bg-white px-3 py-1 flex items-center border rounded-sm"
-                    >
-                        <IconNewSpaper className="w-4 h-4 mr-1 fill-black"/>
-                        Bài viết
-                    </Link>
-                </p>
+import styled from "styled-components";
+import { useMediaQuery } from "usehooks-ts";
+import { useSession } from "next-auth/react";
 
-                <div className="ml-auto hidden md:block">
-                    <strong>Liên hệ:</strong> {" "}
-                    <span className="">
-                        0971183153
-                    </span>
-                </div>
+import ModalMenu from "./ModalMenu";
+import UserDropdown from "./UserDropdown";
+import { IconBars } from "../../../public/static/icons/IconSvg";
+import { CartSlideState } from "@/redux/cartSlice";
+import { useSignInModal } from "../share/SignInModal";
+import ButtonDarkMode from "./ButtonDarkMode";
 
-            </div>
-        </div>
-    )
+
+const TagCartStyle = styled.div`
+    padding: 6px;
+    strong {
+        border-radius: 0;
+        font-weight: bold;
+        border: 2px solid #ffff;
+        color: #ffff;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        width: 30px;
+        height: 26px;
+
+        &:after {
+            -webkit-transition: height .1s ease-out;
+            -o-transition: height .1s ease-out;
+            transition: height .1s ease-out;
+            bottom: 100%;
+            margin-bottom: 0;
+            margin-left: -7px;
+            height: 8px;
+            width: 14px;
+            left: 50%;
+            content: ' ';
+            position: absolute;
+            pointer-events: none;
+            border: 2px solid #ffff;
+            border-top-left-radius: 99px;
+            border-top-right-radius: 99px;
+            border-bottom: 0;
+        }
+    }
+
+    &:hover strong {
+        color: #000;
+        background-color: white;
+        &::after {
+            height: 10px;
+        }
+    }
+`
+interface NavbarProps {
+    products: CartSlideState[]
 }
+const Navbar = ({products} : NavbarProps) => {
+    const { data: session, status } = useSession();
+    const [isModalMenu, setIsModalMenu] = useState(false);
+
+    const { SignInModal, setIsShowModal } = useSignInModal();
+
+    const matchesMobile = useMediaQuery("(max-width: 768px)");
+
+    return (
+        <>
+            <SignInModal />
+            {/* <ButtonDarkMode /> */}
+            <div className="relative ml-auto mr-3">
+                <Link href={`/gio-hang`}>
+                    <TagCartStyle>
+                        <strong>{products?.length}</strong>
+                    </TagCartStyle>
+                </Link>
+            </div>                
+            {!matchesMobile ? (
+                <>
+                    {
+                        session ? (
+                            <UserDropdown session={session}/>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={() => setIsShowModal(true)}
+                                    className="px-2 py-1 rounded-sm border border-white text-white transition-all hover:bg-white/95 hover:text-black"
+                                >
+                                    Đăng nhập
+                                </button>   
+                            </>
+                        )
+                    }
+                </>
+            ) : (
+                <>
+                    <button
+                        className="hover:bg-white/20 rounded-full p-1"
+                        onClick={() => setIsModalMenu(true)}
+                    >
+                        <i className="block p-1">
+                            <IconBars className="w-7 h-7 fill-white block" />
+                        </i>
+                    </button>
+                    <ModalMenu
+                        isShow={isModalMenu}
+                        setIsShowModal={setIsShowModal}
+                        setIsShow={setIsModalMenu}
+                    />
+                </>
+            )}
+        </>
+    );
+};
 
 export default Navbar;

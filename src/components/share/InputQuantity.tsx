@@ -41,7 +41,7 @@ const InputQuantity = ({ value = 0, setValue, quantity, setErrorBuy } : InputQua
                     onFocus={() => {
                         setErrorBuy && setErrorBuy(null)
                     }}
-                    className="h-10 leading-[10px] outline-none border-t border-b text-center w-20 focus:border-black"
+                    className="h-10 leading-[10px] outline-none border-t border-b text-center w-20 focus:border-black bg-white"
                     onChange={(e) => eventOnchangeValue(e.target.value)}
                 />
                 <button

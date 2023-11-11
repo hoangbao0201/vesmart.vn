@@ -11,7 +11,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 const SlideHome = () => {
 
     return (
-        <div className='bg-white px-4 py-4 mt-3'>
+        <div className='bg-white px-4 py-4 mt-3 z-0 relative'>
             <Swiper
                 loop={true}
                 speed={600}

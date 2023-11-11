@@ -44,7 +44,7 @@ const dataContentSide = [
 const AdminLayout = ({ children, tab }: AdminLayoutProps) => {
 
     return (
-        <div className="overflow-hidden w-full h-full relative">
+        <div className="overflow-hidden w-full h-full relative text-black">
             <div className="z-50 bg-white fixed ml-[260px] top-0 w-full border-b border-gray-300 h-14">
                 <h1>
                     <Link href="/" className="px-4 leading-[56px] font-semibold text-lg">VESMART</Link>

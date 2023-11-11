@@ -13,7 +13,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
 
     return (
         <div>
-            <Menu as="div" className="relative inline-block text-left">
+            <Menu as="div" className="relative inline-block text-left text-black">
                 <Menu.Button>
                     <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">
                         <Image
@@ -36,7 +36,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="px-1 py-1">
                             {
                                 email === "hoangbao020103@gmail.com" && (
@@ -57,6 +57,48 @@ const UserDropdown = ({ session }: { session: Session }) => {
                                     </Menu.Item>
                                 )
                             }
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <Link
+                                        href={`/`}
+                                        className={`${
+                                            active
+                                                ? "bg-gray-100"
+                                                : "text-gray-900"
+                                        } group flex w-full items-center rounded-sm px-2 py-2 text-sm`}
+                                    >
+                                        Trang chủ
+                                    </Link>
+                                )}
+                            </Menu.Item>
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <Link
+                                        href={`/bai-viet`}
+                                        className={`${
+                                            active
+                                                ? "bg-gray-100"
+                                                : "text-gray-900"
+                                        } group flex w-full items-center rounded-sm px-2 py-2 text-sm`}
+                                    >
+                                        Bài viết
+                                    </Link>
+                                )}
+                            </Menu.Item>
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <Link
+                                        href={`/`}
+                                        className={`${
+                                            active
+                                                ? "bg-gray-100"
+                                                : "text-gray-900"
+                                        } group flex w-full items-center rounded-sm px-2 py-2 text-sm`}
+                                    >
+                                        Giới thiệu
+                                    </Link>
+                                )}
+                            </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
                                     <button

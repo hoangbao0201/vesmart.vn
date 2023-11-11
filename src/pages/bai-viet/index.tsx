@@ -25,7 +25,7 @@ const BlogIndex : NextPageWithLayout<BlogIndexProps> = ({ blogs }) => {
                             {
                                 blogs.map((blog) => {
                                     return (
-                                        <div key={blog.id} className="bg-white py-3 rounded-md shadow-sm min-h-[180px]">
+                                        <div key={blog.id} className="bg-white text-black py-3 rounded-md shadow-sm min-h-[180px]">
                                             <div className="px-3 flex flex-col h-full">
                                                 <p>{convertDate(blog.createdAt)}</p>
                                                 <h2 className="mb-3 font-medium text-lg line-clamp-2">{blog.title}</h2>

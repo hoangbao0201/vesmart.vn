@@ -170,7 +170,7 @@ const ProductDetail : NextPageWithLayout<ProductDetailProps> = ({ product }) => 
 
 
     return (
-        <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full mx-auto">
+        <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full mx-auto text-black">
 
             <div className="-mx-3">
 

@@ -31,7 +31,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
     return (
         <>
             <div>
-                <div className="lg:flex -mx-3">
+                <div className="lg:flex -mx-3 text-black">
                     <div className="lg:w-8/12 md:px-3 mb-5 pt-5">
                         <div className="bg-white md:px-14 px-4 py-10 md:rounded-md border min-h-screen relative">
                             {

@@ -18,10 +18,6 @@ interface GalleryProps {
 
 const Gallery = ({ images, thumbsSwiper, setThumbsSwiper }: GalleryProps) => {
 
-    // const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-
-    // console.log(images[thumbsSwiper])
-
     return (
         <>
             <div className="relative w-full bg-red-500 pt-[100%] overflow-hidden mb-4">
@@ -43,7 +39,7 @@ const Gallery = ({ images, thumbsSwiper, setThumbsSwiper }: GalleryProps) => {
                 spaceBetween={10}
                 navigation={true}
                 modules={[FreeMode, Navigation, Thumbs]}
-                className="mySwiper select-none"
+                className="mySwiper select-none block"
             >
                 {
                     images?.length > 0 && images.map((image, index) => {
