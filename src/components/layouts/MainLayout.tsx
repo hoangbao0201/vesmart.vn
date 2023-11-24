@@ -30,14 +30,14 @@ const MainLayout = ({ children, isHeader = true, isFooter = true, isContact = tr
 
     return (
         
-        <div className="text-black">
+        <>
 
             {/* { isNavbar && <div className="h-[60px]"></div> } */}
             { isHeader && <Header /> }
 
-            <main className={`min-h-screen w-full ${className}`}>
+            <div className={`min-h-screen w-full ${className}`}>
                 <div className="max-w-screen-xl mx-auto px-3">{children}</div>
-            </main>
+            </div>
 
             { isFooter && <Footer /> }
 
@@ -45,7 +45,7 @@ const MainLayout = ({ children, isHeader = true, isFooter = true, isContact = tr
             <ScrollOnTop />
             <ButtonContact />
 
-        </div>
+        </>
 
     )
 }

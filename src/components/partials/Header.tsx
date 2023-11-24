@@ -8,6 +8,7 @@ import {
     IconPhone,
 } from "../../../public/static/icons/IconSvg";
 import { useMediaQuery } from "usehooks-ts";
+import ClientOnly from "../share/ClientOnly";
 // import MainNav from "./MainNav";
 
 const Navbar = dynamic(() => import("@/components/partials/Navbar"), {
@@ -59,13 +60,15 @@ const Header = () => {
                 </div>
             </header>
             
-            {
-                !matchesMobile && (
-                    <nav className="bg-white w-full left-0 right-0 md:block hidden">
-                        <MainNav />
-                    </nav>
-                )
-            }
+            <ClientOnly>
+                {
+                    !matchesMobile && (
+                        <nav className="bg-white w-full left-0 right-0 md:block hidden">
+                            <MainNav />
+                        </nav>
+                    )
+                }
+            </ClientOnly>
         </>
     );
 };

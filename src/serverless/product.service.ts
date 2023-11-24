@@ -228,7 +228,63 @@ class ProductService {
         }
     }
 
+    async searchProduct(text: string) {
+        try {
+            const products = await prismaService.product.findMany({
+                where: {
+                    title: {
+                        contains: text
+                    }
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    slug: true,
+                    images: {
+                        select: {
+                            url: true
+                        },
+                        take: 1
+                    }
+                }
+                // include: {
+                //     variants: {
+                //         select: {
+                //             id: true,
+                //             position: true,
+                //             name: true,
+                //             subVariants: {
+                //                 select: {
+                //                     id: true,
+                //                     position: true,
+                //                     name: true
+                //                 }
+                //             }
+                //         }
+                //     },
+                //     skus: true,
+                //     images: true,
+                //     productDetail: {
+                //         include: {
+                //             productInformationItems: true
+                //         }
+                //     }
+                // }
+            })
 
+            return {
+                success: true,
+                message: "Get product successful",
+                products: products
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: "error product successful",
+                error: error
+            };
+        }
+    }
 
 
     // // ----------- FULL BLOG SEO -----------------

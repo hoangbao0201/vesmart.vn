@@ -45,7 +45,7 @@ const MainNav = () => {
                     {({ open }) => (
                         <>
                             <Popover.Button
-                                className={`${open ? "text-black bg-gray-200" : "text-black"} group inline-flex items-center border rounded-sm px-3 py-1 hover:underline`}
+                                className={`${open ? "text-black bg-gray-200" : "text-black"} group inline-flex items-center border outline-none rounded-sm px-3 py-1 hover:underline`}
                             >
                                 <span>Danh mục sản phẩm</span>
                                 <ChevronDownIcon
@@ -97,7 +97,7 @@ const MainNav = () => {
                         </>
                     )}
                 </Popover>
-                <p>
+                <div>
                     <Link
                         href={"/"}
                         className="hover:underline bg-white px-3 py-1 flex items-center border rounded-sm"
@@ -105,8 +105,8 @@ const MainNav = () => {
                         <IconPackageSearch className="w-4 h-4 mr-1" />
                         Sản phẩm
                     </Link>
-                </p>
-                <p className="">
+                </div>
+                <div className="">
                     <Link
                         href={"/bai-viet"}
                         className="hover:underline bg-white px-3 py-1 flex items-center border rounded-sm"
@@ -114,7 +114,7 @@ const MainNav = () => {
                         <IconNewSpaper className="w-4 h-4 mr-1 fill-black" />
                         Bài viết
                     </Link>
-                </p>
+                </div>
 
                 {/* <div className="ml-auto hidden md:block">
                     <strong>Liên hệ:</strong>{" "}

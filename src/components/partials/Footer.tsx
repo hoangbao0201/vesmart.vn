@@ -21,10 +21,10 @@ const Footer = () => {
                             VESMART
                         </Link>
                     </div>
-                    <p className="mb-3">Copyright © 2023 VESMART</p>
-                    <p>
+                    <div className="mb-3">Copyright © 2023 VESMART</div>
+                    <div>
                         <button onClick={hanleDeleteCatche} className="border px-2 py-1 rounded-sm text-sm">Xóa catche</button>
-                    </p>
+                    </div>
                 </div>
                 <div className="px-3 md:w-8/12 mb-5">
                     <h4 className="text-xl font-semibold mb-4">Từ khóa</h4>

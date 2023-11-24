@@ -9,6 +9,8 @@ import SlideHome from "@/components/share/SlideHome";
 import MainLayout from "@/components/layouts/MainLayout";
 import productService from "@/serverless/product.service";
 import ListProduct from "@/components/PageComponent/PageHome/ListProduct";
+import ListTopic from "@/components/PageComponent/PageHome/ListTopic";
+import NavSearch from "@/components/PageComponent/PageHome/NavSearch";
 
 
 interface HomePageProps {
@@ -23,16 +25,16 @@ const HomePage : NextPageWithLayout<HomePageProps> = ({ products }) => {
                 title="Trang chủ - VESMART"
                 description={siteMetadata.description}
             />
-            <SlideHome />
-            <div className="-mx-3 py-4">
-                {/* <div className="md:w-4/12 px-3">
-                    <div className="bg-white">dashboarch</div>
-                </div>
-                <div className="md:w-8/12 px-3"> */}
+            <NavSearch />
+            <ListTopic />
+            {/* <SlideHome /> */}
+            <div className="py-4">
+                <div className="text-blue-600 shadow-sm bg-white font-semibold text-center text-xl mb-3 px-3 py-4 border-b-4 border-blue-600">Sản phẩm gần đây</div>
+                <div className="-mx-3">
                     <ListProduct
                         products={products}
                     />
-                {/* </div> */}
+                </div>
             </div>
         </>
     );
