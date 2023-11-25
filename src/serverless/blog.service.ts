@@ -1,18 +1,26 @@
 import prismaService from "@/lib/prismaService";
-import { BlogTypes } from "@/types";
+
+export interface CreateBlogProps {
+    title: string
+    slug: string
+    thumbnail: string
+    description: string
+    blogHashtags: string[]
+    content: string
+}
 
 class BlogService {
 
-    async createBlog(userId: string, body: BlogTypes) : Promise<any> {
+    async createBlog(userId: string, body: CreateBlogProps) : Promise<any> {
         try {
             // const { title, slug, thumbnail = "", description = "", blogHashtags = ["VESMART"], content } = body;
-            const { title, slug, thumbnail, description, content } = body;
+            const { title, slug, thumbnail, blogHashtags = [], description, content } = body;
 
             if(!slug || !title || !content) {
                 throw Error("Data not found");
             }
 
-            const blogHashtags = ["vesmart", "robothutbui", "suachuadanang"];
+            blogHashtags.push("vesmart", "robothutbui", "suachuadanang");
 
             const newBlog = await prismaService.blog.create({
                 data: {
@@ -31,20 +39,44 @@ class BlogService {
                     content: content,
                     
                     blogHashtags: {
-                        create: blogHashtags.map(tag => (
+                        create: [
                             {
                                 Hashtag: {
                                     connectOrCreate: {
                                         where: {
-                                            name: tag,
+                                            name: blogHashtags[0],
                                         },
                                         create: {
-                                            name: tag
+                                            name: blogHashtags[0]
                                         }
                                     }
                                 }
-                            }
-                        ))
+                            },
+                            {
+                                Hashtag: {
+                                    connectOrCreate: {
+                                        where: {
+                                            name: blogHashtags[1],
+                                        },
+                                        create: {
+                                            name: blogHashtags[1]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                Hashtag: {
+                                    connectOrCreate: {
+                                        where: {
+                                            name: blogHashtags[2],
+                                        },
+                                        create: {
+                                            name: blogHashtags[2]
+                                        }
+                                    }
+                                }
+                            },
+                        ]
                     }
                 }
             })
