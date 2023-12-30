@@ -44,7 +44,7 @@ interface ButtonContactProps {
 const ButtonContact = ({ children }: ButtonContactProps) => {
     return (
         <>
-            <div className="fixed left-3 bottom-3">
+            <div className="fixed left-3 bottom-3 flex flex-col items-center">
 
                 <ButtonContactStyles>
                     <span>
@@ -61,6 +61,7 @@ const ButtonContact = ({ children }: ButtonContactProps) => {
                         </Link>
                     </div>
                 </ButtonContactStyles>
+                <span className="text-white font-semibold bg-blue-500 px-2 rounded-md">Liên hệ</span>
             </div>
         </>
     );

@@ -77,50 +77,39 @@ const ListTopic = () => {
                         <li>Sửa chữa máy sưởi</li>
                         <li>Sửa chữa lò vi sóng</li>
                     </ul> */}
-                    <table className="w-full text-red-600">
+                    {/* <span className="dot">
+                        <span className="ping"></span>
+                    </span> */}
+                    <table className="w-full">
                         <thead>
-                            <tr>
-                                <th>
-                                <span className="dot">
-                                    <span className="ping"></span>
-                                </span>
+                            <tr className="text-left font-semibold text-lg">
+                                <th className="">
+                                    Phụ kiện robot
                                 </th>
                                 <th className="text-left">
-                                    <span className="">Tư vấn sửa chữa <span className="text-blue-600">và báo giá</span></span>
+                                    <span className="">Tư vấn sửa chữa và báo giá <span className="dot"><span className="ping"></span></span>
+                                    </span>
                                 </th>
-                                {/* <th>Liên hệ</th> */}
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td rowSpan={4}></td>
+                                <td>Encovacs</td>
                                 <td>
                                     Sửa chữa robot hút bụi
                                 </td>
-                                {/* <td rowSpan={4}>
-                                    
-                                    <Link href={`/`} className="relative flex justify-end">
-                                        <span className="dot absolute -top-1 right-0">
-                                            <span className="ping"></span>
-                                        </span>
-                                        <Image
-                                            width={100}
-                                            height={100}
-                                            alt={`ảnh zalo`}
-                                            src={`/static/images/topics/zalo.jpg`}
-                                            className="w-full max-w-[80px] block object-contain cursor-pointer"
-                                        />
-                                    </Link>
-                                </td> */}
                             </tr>
                             <tr>
+                                <td>Dream</td>
                                 <td>Sửa chữa máy lọc không khí</td>
                             </tr>
                             <tr>
-                                <td><span className="text-blue-600">Sửa chữa máy sưởi</span></td>
+                                <td>Roborock</td>
+                                <td><span className="">Sửa chữa máy sưởi</span></td>
                             </tr>
                             <tr>
-                                <td><span className="text-blue-600">Sửa chữa lò vi sóng</span></td>
+                                <td>IRobot</td>
+                                <td><span className="">Sửa chữa lò vi sóng</span></td>
                             </tr>
                         </tbody>
                     </table>
