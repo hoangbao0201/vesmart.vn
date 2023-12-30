@@ -52,7 +52,7 @@ const Header = () => {
                 <div className="flex items-center max-w-screen-xl mx-auto px-3 h-[60px]">
                     <Link title="vesmart" href={`/`}>
                         <p className="text-white leading-[60px] font-bold text-2xl select-none">
-                            VESMART
+                            VESMART.VN
                         </p>
                     </Link>
 

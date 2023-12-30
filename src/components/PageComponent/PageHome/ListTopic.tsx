@@ -94,13 +94,13 @@ const ListTopic = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Encovacs</td>
+                                <td>Ecovacs</td>
                                 <td>
                                     Sửa chữa robot hút bụi
                                 </td>
                             </tr>
                             <tr>
-                                <td>Dream</td>
+                                <td>Dreame</td>
                                 <td>Sửa chữa máy lọc không khí</td>
                             </tr>
                             <tr>
