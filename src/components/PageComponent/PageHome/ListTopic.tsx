@@ -81,18 +81,18 @@ const ListTopic = () => {
                         <span className="ping"></span>
                     </span> */}
                     <table className="w-full">
-                        <thead>
-                            <tr className="text-left font-semibold text-lg">
+                        <thead className="">
+                            <tr className="text-center font-semibold text-lg">
                                 <th className="">
                                     Phụ kiện robot
                                 </th>
-                                <th className="text-left">
+                                <th className="text-center">
                                     <span className="">Tư vấn sửa chữa và báo giá <span className="dot"><span className="ping"></span></span>
                                     </span>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="text-center">
                             <tr>
                                 <td>Ecovacs</td>
                                 <td>

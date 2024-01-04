@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     const productsRes = await productService.findAll({
         page: 1,
-        limit: 18,
+        limit: 24,
     });
 
     if (!productsRes?.success) {
