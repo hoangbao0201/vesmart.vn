@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import SwiperButton from '../Features/SwiperButton';
+import SwiperButton from './SwiperButton';
 import { Autoplay, Pagination } from 'swiper/modules';
 
 
