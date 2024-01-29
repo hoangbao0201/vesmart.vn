@@ -281,14 +281,14 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                                 <IconLocationDot size={16} className="mr-2 flex-shrink-0 fill-red-600"/>
                                                 634/24 Trưng Nữ Vương, phường Hòa Thuận Tây, Đà Nẵng, Việt Nam
                                             </div>
-                                            <div className="flex items-center mb-1">
+                                            {/* <div className="flex items-center mb-1">
                                                 <IconLocationDot size={16} className="mr-2 flex-shrink-0 fill-red-600"/>
                                                 105 Nguyễn Hoàng – Hải Châu – Đà Nẵng
                                             </div>
                                             <div className="flex items-center mb-1">
                                                 <IconLocationDot size={16} className="mr-2 flex-shrink-0 fill-red-600"/>
                                                 135 Nguyễn Hoàng – Hải Châu – Đà Nẵng
-                                            </div>
+                                            </div> */}
                                         </div>
         
                                         <div>
