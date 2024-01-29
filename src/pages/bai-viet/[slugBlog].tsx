@@ -30,19 +30,22 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
 
     return (
         <>
-            <Breadcrumb
-                path={[
-                    {
-                        title: "bài viết",
-                        url: "/bai-viet/"
-                    },
-                    {
-                        title: blog?.title || "",
-                        url: "/bai-viet/" + blog?.slug
-                    }
-                ]}
-            />
-            <div className="md:-mx-3">
+            
+            <div className="-mx-3">
+                <div className="md:px-3">
+                    <Breadcrumb
+                        path={[
+                            {
+                                title: "bài viết",
+                                url: "/bai-viet/"
+                            },
+                            {
+                                title: blog?.title || "",
+                                url: "/bai-viet/" + blog?.slug
+                            }
+                        ]}
+                    />
+                </div>
                 <div className="lg:flex text-black">
                     <div className="lg:w-8/12 md:px-3 mb-5">
                         <div className="bg-white md:px-14 px-4 py-10 md:rounded-md shadow-sm border min-h-screen relative">
