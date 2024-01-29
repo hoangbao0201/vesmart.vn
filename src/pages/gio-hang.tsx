@@ -164,13 +164,13 @@ const CartPage : NextPageWithLayout = () => {
     }
 
     return (
-        <>
-            <div className="lg:max-w-screen-xl max-w-screen-sm w-full mx-auto py-4">
-                <h1 className="font-semibold text-lg py-3 mb-3 border-b">Giỏ hàng của bạn</h1>
-                <div className="lg:flex -mx-3">
+        <> 
+            <div className="-mx-3">
+                <h1 className="font-semibold text-lg px-3 py-3 mb-3 border-b">Giỏ hàng của bạn</h1>
 
-                    <ClientOnly>
-                        <div className="lg:w-6/12 sm:px-3 min-h-[100px]">
+                <ClientOnly>
+                    <div className="lg:flex">
+                        <div className="lg:w-6/12 px-3 min-h-[100px]">
     
                             {
                                 products?.length ? (
@@ -212,12 +212,13 @@ const CartPage : NextPageWithLayout = () => {
                                         )
                                     })
                                 ) : (
-                                    <div className="px-3 sm:px-0">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
+                                    <div className="">Bạn chưa thêm sản phẩm nào vào giỏ hàng! <Link href={`/`} className="text-sky-600 underline whitespace-nowrap">Mua ngay</Link></div>
                                 )
                             }
                             
                         </div>
-                        <div className="lg:w-6/12 sm:px-3">
+
+                        <div className="lg:w-6/12 md:px-3">
                             <div className="px-4 py-6 bg-white border">
                                 <div className="pt-5 pb-2 mt-3 border-t text-lg font-semibold text-orange-500 border-orange-500">TỔNG TIỀN</div>
     
@@ -319,9 +320,9 @@ const CartPage : NextPageWithLayout = () => {
                                 </div>
                             </div>
                         </div>
-                    </ClientOnly>
+                    </div>
+                </ClientOnly>
 
-                </div>
             </div>
         </>
     )

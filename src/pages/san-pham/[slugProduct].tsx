@@ -1,12 +1,11 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 
-import { ParsedUrlQuery } from "querystring";
 import { NextSeo } from 'next-seo';
+import { ParsedUrlQuery } from "querystring";
 
 import { ProductTypes } from "@/types";
 import siteMetadata from "@/siteMetadata";
 import { NextPageWithLayout } from "../_app";
-import Breadcrumb from "@/components/share/Breadcrumb";
 import MainLayout from "@/components/layouts/MainLayout";
 import productService from "@/serverless/product.service";
 import ProductDetailPageTemplate from "@/components/modules/product";
@@ -37,19 +36,6 @@ const ProductDetail: NextPageWithLayout<ProductDetailProps> = ({ product }) => {
                 description={`${product?.description}`}
                 
                 canonical={`${siteMetadata?.siteUrl}/san-pham/${product?.slug}`}
-            />
-
-            <Breadcrumb
-                path={[
-                    {
-                        title: "Sản phẩm",
-                        url: "/"
-                    },
-                    {
-                        title: product?.title || "",
-                        url: "/bai-viet/" + product?.slug
-                    }
-                ]}
             />
 
             <ProductDetailPageTemplate product={product}/>

@@ -47,7 +47,7 @@ const MainLayout = ({
             {isSubHeader && <SubHeader path={router.pathname} />}
 
             <main className="min-h-screen">
-                <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full md:px-3 mx-auto text-black">
+                <div className="lg:max-w-screen-xl sm:max-w-screen-md max-w-screen-sm w-full px-3 mx-auto text-black">
                     {children}
                 </div>
             </main>
