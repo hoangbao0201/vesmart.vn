@@ -52,7 +52,7 @@ const InputQuantity = ({ value = 0, setValue, quantity, setErrorBuy } : InputQua
                     <IconPlus className="w-3 h-3"/>
                 </button>
     
-                <p className="">{quantity} sản phẩm có sẵn</p>
+                {/* <p className="">{quantity} sản phẩm có sẵn</p> */}
             </div>
         </div>
     )

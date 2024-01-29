@@ -3,9 +3,9 @@ import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react"
 
 import { signIn } from "next-auth/react";
 
-import Modal from "../share/Modal";
-import LoadingDots from "./Loading/LoadingDots";
-import { IconGoogle } from "../../../public/static/icons/IconSvg";
+import Modal from "../../share/Modal";
+import LoadingDots from "../../share/Loading/LoadingDots";
+import { IconGoogle } from "../../../../public/static/icons/IconSvg";
 
 interface SignInModalProps {
     isShow: boolean;
@@ -19,10 +19,12 @@ const SignInModal = ({ isShow, setIsShow }: SignInModalProps) => {
         <Modal isShow={isShow} setIsShow={setIsShow}>
             <div className="w-full overflow-hidden text-black">
                 <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center md:px-16">
-                    <Link href={`/`}>
-                        <p className="text-xl leading-normal font-bold select-none">VESMART</p>
+                    <Link href={`/`} title="VESMART">
+                        <p className="text-white font-semibold uppercase bg-sky-950 rounded-sm px-2 py-1">
+                            VESMART
+                        </p>
                     </Link>
-                    <h3 className="font-display text-2xl font-bold">Đăng nhập</h3>
+                    <h3 className="font-display text-xl font-semibold">Đăng nhập</h3>
                 </div>
 
                 <div className="flex flex-col space-y-4 py-8">

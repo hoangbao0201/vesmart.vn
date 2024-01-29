@@ -15,7 +15,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 
-import { IconLogout } from "../../../public/static/icons/IconSvg";
+import { IconLogout } from "../../../../public/static/icons/IconSvg";
 
 
 const solutions = [
@@ -72,7 +72,7 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
 
     return (
         <>
-            <div className="top-[60px] flex z-50" >
+            <div className="top-[60px] flex" >
                 <Transition show={isShow} as={Fragment}>
                     <Dialog onClose={() => setIsShow(false)} >
                         <Transition.Child
@@ -84,7 +84,7 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <div className="fixed inset-0 bg-black/30" />
+                            <div className="fixed inset-0 bg-black/30 z-[50]" />
                         </Transition.Child>
                         <Transition.Child
                             as={Fragment}
@@ -95,13 +95,15 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
                             leaveFrom="translate-x-0 opacity-100 scale-100"
                             leaveTo="-translate-x-1/2 opacity-0 scale-100"
                         >
-                            <Dialog.Panel className="bg-white fixed inset-0 w-3/4">
+                            <Dialog.Panel className="bg-white fixed inset-0 w-3/4 z-[50]">
                                 <Dialog.Title>
                                     <div className="relative h-screen">
                                         <div className="text-black">
-                                            <p className="px-6 py-4 font-semibold text-lg border-b mb-3">
-                                                VESMART
-                                            </p>
+                                            <div className="mx-5 my-4">
+                                                <span className="text-white font-semibold uppercase bg-sky-950 rounded-sm px-2 py-1">
+                                                    VESMART
+                                                </span>
+                                            </div>
                                             <div className="">
                                                 <div className="border-b pb-4 px-2">
                                                     {
@@ -160,15 +162,10 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
                                                         })
                                                     }
                                                 </div>
-                                                {/* <Link href={"/gioi-thieu"}>
-                                                    <p className="px-4 py-2 rounded-md hover:bg-gray-100">
-                                                        Giới thiệu
-                                                    </p>
-                                                </Link> */}
                                             </div>
                                         </div>
     
-                                        <div className="py-1 px-1 border-t absolute bottom-0 left-0 right-0">
+                                        <div className="py-1 px-1 border-t absolute bottom-10 left-0 right-0">
                                             {email && (
                                                 <div onClick={() => signOut()} className="px-3 py-3 flex items-center cursor-pointer text-black hover:bg-gray-200">
                                                     <span className="flex flex-shrink-0 h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">

@@ -6,11 +6,9 @@ import { useMediaQuery } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 
 import ModalMenu from "./ModalMenu";
-import UserDropdown from "./UserDropdown";
-import { IconBars } from "../../../public/static/icons/IconSvg";
-import { CartSlideState } from "@/redux/cartSlice";
-import { useSignInModal } from "../share/SignInModal";
-import ButtonDarkMode from "./ButtonDarkMode";
+import UserDropdown from "../UserDropdown";
+import { useSignInModal } from "./SignInModal";
+import { IconBars } from "../../../../public/static/icons/IconSvg";
 
 
 const TagCartStyle = styled.div`
@@ -18,8 +16,8 @@ const TagCartStyle = styled.div`
     strong {
         border-radius: 0;
         font-weight: bold;
-        border: 2px solid #ffff;
-        color: #ffff;
+        border: 2px solid #172554;
+        color: #172554;
         position: relative;
         display: inline-block;
         vertical-align: middle;
@@ -40,7 +38,7 @@ const TagCartStyle = styled.div`
             content: ' ';
             position: absolute;
             pointer-events: none;
-            border: 2px solid #ffff;
+            border: 2px solid #172554;
             border-top-left-radius: 99px;
             border-top-right-radius: 99px;
             border-bottom: 0;
@@ -48,20 +46,19 @@ const TagCartStyle = styled.div`
     }
 
     &:hover strong {
-        color: #000;
-        background-color: white;
+        color: white;
+        background-color: #172554;
         &::after {
             height: 10px;
         }
     }
 `
 interface NavbarProps {
-    products: CartSlideState[]
 }
-const Navbar = ({products} : NavbarProps) => {
+const Navbar = ({} : NavbarProps) => {
     const { data: session, status } = useSession();
     const [isModalMenu, setIsModalMenu] = useState(false);
-
+    
     const { SignInModal, setIsShowModal } = useSignInModal();
 
     const matchesMobile = useMediaQuery("(max-width: 768px)");
@@ -69,14 +66,7 @@ const Navbar = ({products} : NavbarProps) => {
     return (
         <>
             <SignInModal />
-            {/* <ButtonDarkMode /> */}
-            <div className="relative ml-auto mr-3">
-                <Link href={`/gio-hang`}>
-                    <TagCartStyle>
-                        <strong>{products?.length}</strong>
-                    </TagCartStyle>
-                </Link>
-            </div>                
+                        
             {!matchesMobile ? (
                 <>
                     {
@@ -86,10 +76,10 @@ const Navbar = ({products} : NavbarProps) => {
                             <>
                                 <button
                                     onClick={() => setIsShowModal(true)}
-                                    className="px-2 py-1 rounded-sm border border-white text-white transition-all hover:bg-white/95 hover:text-black"
+                                    className="px-2 py-1 text-blue-950 border border-blue-950 rounded-sm hover:bg-gray-50"
                                 >
                                     Đăng nhập
-                                </button>   
+                                </button>
                             </>
                         )
                     }
@@ -101,7 +91,7 @@ const Navbar = ({products} : NavbarProps) => {
                         onClick={() => setIsModalMenu(true)}
                     >
                         <i className="block p-1">
-                            <IconBars className="w-7 h-7 fill-white block" />
+                            <IconBars className="w-7 h-7 fill-blue-500 block" />
                         </i>
                     </button>
                     <ModalMenu

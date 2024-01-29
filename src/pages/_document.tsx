@@ -21,7 +21,7 @@ export default function Document() {
                 ></script>
 
             </Head>
-            <body>
+            <body className="text-gray-800">
                 <Main />
                 <NextScript />
             </body>

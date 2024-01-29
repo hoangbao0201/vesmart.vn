@@ -30,27 +30,26 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
 
     return (
         <>
+            <Breadcrumb
+                path={[
+                    {
+                        title: "bài viết",
+                        url: "/bai-viet/"
+                    },
+                    {
+                        title: blog?.title || "",
+                        url: "/bai-viet/" + blog?.slug
+                    }
+                ]}
+            />
             <div>
                 <div className="lg:flex -mx-3 text-black">
-                    <div className="lg:w-8/12 md:px-3 mb-5 pt-5">
-                        <div className="bg-white md:px-14 px-4 py-10 md:rounded-md border min-h-screen relative">
+                    <div className="lg:w-8/12 md:px-3 mb-5">
+                        <div className="bg-white md:px-14 px-4 py-10 md:rounded-md shadow-sm border min-h-screen relative">
                             {
                                 blog ? (
                                     <>
-                                        <Breadcrumb
-                                            path={[
-                                                {
-                                                    title: "bài viết",
-                                                    url: "/bai-viet/"
-                                                },
-                                                {
-                                                    title: blog?.title || "",
-                                                    url: "/bai-viet/" + blog?.slug
-                                                }
-                                            ]}
-                                        />
                                         <article>
-        
                                             <BlogSEO
                                                 title={`${blog.title}`}
                                                 // blog.author.fullName || 
@@ -85,7 +84,6 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                                             <MarkContent>
                                                 {blog?.content}
                                             </MarkContent>
-        
                                         </article>
                                     </>
                                 ) : (
@@ -94,9 +92,9 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                             }
                         </div>
                     </div>
-                    <div className="lg:w-4/12 md:px-3 mb-5 pt-5">
+                    <div className="lg:w-4/12 md:px-3 mb-5 min-h-full top-0 bottom-0">
     
-                        <div className="rounded-md bg-blue-600 md:rounded-lg border sticky top-[80px]">
+                        <div className="rounded-md bg-blue-600 md:rounded-lg border sticky top-[60px] overflow-hidden">
     
                             <div className="relative flex flex-col min-h-[200px] bg-white mt-8 px-4 py-4">
                                 <div className="flex items-end -mt-8 mb-5">

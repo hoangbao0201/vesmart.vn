@@ -115,11 +115,6 @@ const MainNav = () => {
                         Bài viết
                     </Link>
                 </div>
-
-                {/* <div className="ml-auto hidden md:block">
-                    <strong>Liên hệ:</strong>{" "}
-                    <span className="">0971183153</span>
-                </div> */}
             </div>
         </>
     );

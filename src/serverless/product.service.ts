@@ -118,9 +118,11 @@ class ProductService {
 
     async findOne(slug: string) {
         try {
-            const product = await prismaService.product.findFirst({
+            const cvProductId = slug.substring(slug.lastIndexOf('-') + 1);
+
+            const product = await prismaService.product.findUnique({
                 where: {
-                    slug: slug
+                    id: cvProductId
                 },
                 include: {
                     variants: {

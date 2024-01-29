@@ -102,7 +102,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
-                                        onClick={() => signOut()}
+                                        onClick={() => signOut({ redirect: false })}
                                         className={`${
                                             active
                                                 ? "bg-gray-100"

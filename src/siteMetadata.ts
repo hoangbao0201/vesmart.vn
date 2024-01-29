@@ -7,7 +7,7 @@ const siteMetadata = {
     latitude: "16.06253629796978",
     longitude: "108.21405804198795",
     phone: "0971183153",
-    address: "103 Nguyễn Hoàng – Hải Châu – Đà Nẵng hoặc 135 Nguyễn Hoàng – Hải Châu – Đà Nẵng",
+    address: "105 Nguyễn Hoàng – Hải Châu – Đà Nẵng hoặc 135 Nguyễn Hoàng – Hải Châu – Đà Nẵng",
     description:
         "Chuyên trang điện tử hàng đầu Việt Nam, cung cấp các sản phẩm điện tử chất lượng, thông tin cập nhật nhanh chóng về ngành công nghiệp, dịch vụ tư vấn và hỗ trợ chuyên sâu. Nơi chia sẻ và đăng tải bài viết, đánh giá về các sản phẩm mới nhất trên thị trường.",
     language: "vi-VN",

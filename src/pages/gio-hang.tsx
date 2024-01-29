@@ -196,7 +196,7 @@ const CartPage : NextPageWithLayout = () => {
                                                         />
                                                         <span>Giá: {convertPrice(product?.price)}</span>
                                                     </div>
-                                                    <div>{product.skuId}</div>
+
                                                     <p className="font-semibold flex">
                                                         Tổng cộng:&emsp;<span className="font-normal">{convertPrice(product?.count * product?.price)}</span>
                                                         <button
