@@ -10,7 +10,7 @@ import convertPrice from "@/utils/convertPrice";
 import ClientOnly from "@/components/share/ClientOnly";
 import MainLayout from "@/components/layouts/MainLayout";
 import InputQuantity from "@/components/share/InputQuantity";
-import { ShowToastify } from "@/components/Features/ShowToastify";
+import { ShowToastify } from "@/components/share/ShowToastify";
 import LoadingDots from "@/components/share/Loading/LoadingDots";
 import OptionAdress from "@/components/PageComponent/PageCart/OptionAdress";
 import { AdressSlideState } from "@/redux/userSlice";

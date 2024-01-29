@@ -9,7 +9,7 @@ import "react-markdown-editor-lite/lib/index.css";
 import { NextPageWithLayout } from "@/pages/_app";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { convertTextToSlug } from "@/utils/convertTextToSlug";
-import { ShowToastify } from "@/components/Features/ShowToastify";
+import { ShowToastify } from "@/components/share/ShowToastify";
 import LoadingDots from "@/components/share/Loading/LoadingDots";
 
 const CreateBlogPage : NextPageWithLayout = () => {

@@ -52,8 +52,8 @@ function generateSiteMap(blogs?: BlogSiteProps[], products?: ProductSideProps[])
                 return (
                     `
                         <url>
-                            <loc>${siteMetadata.siteUrl}/san-pham/${product.slug}</loc>
-                            <lastmod>${product.updatedAt}</lastmod>
+                            <loc>${siteMetadata?.siteUrl}/san-pham/${product?.slug}-${product?.id}</loc>
+                            <lastmod>${product?.updatedAt}</lastmod>
                             <changefreq>daily</changefreq>
                             <priority>0.5</priority>
                         </url>

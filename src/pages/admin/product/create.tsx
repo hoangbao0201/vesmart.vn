@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 
-import { ShowToastify } from "@/components/Features/ShowToastify";
+import { ShowToastify } from "@/components/share/ShowToastify";
 
 import { NextPageWithLayout } from "@/pages/_app";
 import AdminLayout from "@/components/layouts/AdminLayout";

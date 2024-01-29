@@ -7,10 +7,11 @@ const Footer = () => {
             <div className="w-full max-w-screen-xl mx-auto py-5 md:flex">
                 <div className="lg:w-4/12 md:w-6/12 px-3 mb-4">
                     <p className="font-semibold text-lg mb-4">VESMART</p>
-                    <div className="max-w-full">
+                    <div className="max-w-full mb-4">
                         <iframe
                             src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsuachuarobothutbuidanang&tabs=timeline&width=340&height=230&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=7580406775327227"
-                            width="340"
+                            // width="340"
+                            width="100%"
                             height="200"
                             style={{ border: "none", overflow: "hidden" }}
                             scrolling="no"
@@ -26,7 +27,10 @@ const Footer = () => {
                         <p className="mb-4 font-semibold">Thông tin liên hệ</p>
                         <ul>
                             <li className="mb-2">
-                                <Link href={`https://www.facebook.com/suachuarobothutbuidanang`} target="_blank">
+                                <Link
+                                    href={`https://www.facebook.com/suachuarobothutbuidanang`}
+                                    target="_blank"
+                                >
                                     <div className="flex items-center hover:underline">
                                         <Image
                                             width={50}
@@ -42,7 +46,10 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li className="mb-2">
-                                <Link href={`https://zalo.me/0971183153`} target="_blank">
+                                <Link
+                                    href={`https://zalo.me/0971183153`}
+                                    target="_blank"
+                                >
                                     <div className="flex items-center hover:underline">
                                         <Image
                                             width={50}
@@ -58,7 +65,10 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li className="mb-2">
-                                <Link href={`mailto:vesmart98@gmail.com`} target="_blank">
+                                <Link
+                                    href={`mailto:vesmart98@gmail.com`}
+                                    target="_blank"
+                                >
                                     <div className="flex items-center hover:underline">
                                         <Image
                                             width={50}
