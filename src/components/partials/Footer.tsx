@@ -33,6 +33,7 @@ const Footer = () => {
                                 >
                                     <div className="flex items-center hover:underline">
                                         <Image
+                                            unoptimized
                                             width={50}
                                             height={50}
                                             alt="image"
@@ -52,6 +53,7 @@ const Footer = () => {
                                 >
                                     <div className="flex items-center hover:underline">
                                         <Image
+                                            unoptimized
                                             width={50}
                                             height={50}
                                             alt="image"
@@ -71,6 +73,7 @@ const Footer = () => {
                                 >
                                     <div className="flex items-center hover:underline">
                                         <Image
+                                            unoptimized
                                             width={50}
                                             height={50}
                                             alt="image"

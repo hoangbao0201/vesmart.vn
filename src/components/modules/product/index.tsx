@@ -295,6 +295,7 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                             <h4 className="mb-3 font-medium">LIÊN HỆ MUA HÀNG</h4>
                                             <div className="flex items-center mb-2">
                                                 <Image
+                                                    unoptimized
                                                     width={30}
                                                     height={30}
                                                     alt={`Icon Zalo`}
@@ -309,6 +310,7 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                             </div>
                                             <div className="flex items-center mb-2">
                                                 <Image
+                                                    unoptimized
                                                     width={30}
                                                     height={30}
                                                     alt={`Icon Zalo`}
@@ -322,6 +324,7 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                             </div>
                                             <div className="flex items-center mb-2">
                                                 <Image
+                                                    unoptimized
                                                     width={30}
                                                     height={30}
                                                     alt={`Icon Zalo`}

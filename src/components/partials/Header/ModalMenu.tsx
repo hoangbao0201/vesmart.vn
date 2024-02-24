@@ -107,7 +107,7 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
                                             <div className="">
                                                 <div className="border-b pb-4 px-2">
                                                     {
-                                                        email=="hoangbao020103@gmail.com" && (
+                                                        (email=="hoangbao020103@gmail.com" || email=="vesmart98@gmail.com") && (
                                                             <Link href={"/admin"}>
                                                                 <p className="px-4 py-2 rounded-md hover:bg-gray-100">
                                                                     Admin
@@ -148,6 +148,7 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
                                                                     <p className="px-4 py-2 flex items-center rounded-md hover:bg-gray-100">
                                                                         <i className="mr-2">
                                                                             <Image
+                                                                                unoptimized
                                                                                 alt="ảnh"
                                                                                 width={20}
                                                                                 height={20}
@@ -170,6 +171,7 @@ const ModalMenu = ({ isShow, setIsShowModal, setIsShow }: ModalMenuProps) => {
                                                 <div onClick={() => signOut()} className="px-3 py-3 flex items-center cursor-pointer text-black hover:bg-gray-200">
                                                     <span className="flex flex-shrink-0 h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">
                                                         <Image
+                                                            unoptimized
                                                             alt={email}
                                                             src={
                                                                 image ||

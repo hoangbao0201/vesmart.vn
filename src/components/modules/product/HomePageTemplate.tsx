@@ -278,6 +278,7 @@ const HomePageTemplate = ({ product }: HomePageTemplateProps) => {
                                     <h4 className="mb-3 font-medium">LIÊN HỆ MUA HÀNG</h4>
                                     <div className="flex items-center mb-2">
                                         <Image
+                                            unoptimized
                                             width={30}
                                             height={30}
                                             alt={`Icon Zalo`}
@@ -292,6 +293,7 @@ const HomePageTemplate = ({ product }: HomePageTemplateProps) => {
                                     </div>
                                     <div className="flex items-center mb-2">
                                         <Image
+                                            unoptimized
                                             width={30}
                                             height={30}
                                             alt={`Icon Zalo`}
@@ -305,6 +307,7 @@ const HomePageTemplate = ({ product }: HomePageTemplateProps) => {
                                     </div>
                                     <div className="flex items-center mb-2">
                                         <Image
+                                            unoptimized
                                             width={30}
                                             height={30}
                                             alt={`Icon Zalo`}

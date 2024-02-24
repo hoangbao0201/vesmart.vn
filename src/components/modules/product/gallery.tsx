@@ -51,6 +51,7 @@ const Gallery = ({ images, thumbsSwiper, setThumbsSwiper }: GalleryProps) => {
                                     key={image.publicId}
                                 >
                                     <Image
+                                        unoptimized
                                         width={500}
                                         height={500}
                                         alt="Image Product"
@@ -72,6 +73,7 @@ const Gallery = ({ images, thumbsSwiper, setThumbsSwiper }: GalleryProps) => {
                                 onClick={() => thumbRef.current?.swiper.slideTo(index)}
                             >
                                 <Image
+                                    unoptimized
                                     width={500}
                                     height={500}
                                     alt="Image Product"

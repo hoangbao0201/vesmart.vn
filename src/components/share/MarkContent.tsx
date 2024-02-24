@@ -9,7 +9,7 @@ const config = {
     img: ({ node, ...props }: any) => {
       return (
         <div className="rounded-md text-center">
-            <Image src={props.src} alt={props.alt} width={500} height={500} className="mx-auto mb-1"/>
+            <Image unoptimized src={props.src} alt={props.alt} width={500} height={500} className="mx-auto mb-1"/>
             <div>{props.alt}</div>
         </div>
       );

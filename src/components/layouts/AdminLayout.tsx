@@ -1,17 +1,8 @@
 import Link from "next/link";
-import { ReactNode } from "react";
-// import {
-//     iconAddDraft,
-//     iconAddNewNovel,
-//     iconAllDraft,
-//     iconChart,
-//     iconDocuments,
-//     iconMyNovel,
-//     iconNotifyError,
-//     iconSteal,
-// } from "../../../public/icons";
-// import PerfectScrollbar from "react-perfect-scrollbar";
-// import 'react-perfect-scrollbar/dist/css/styles.css';
+import { ReactNode, useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { IconBars } from "../../../public/static/icons/IconSvg";
 
 interface AdminLayoutProps {
     children?: ReactNode;
@@ -42,15 +33,37 @@ const dataContentSide = [
 ];
 
 const AdminLayout = ({ children, tab }: AdminLayoutProps) => {
+    const router = useRouter();
+    const { data: session, status } = useSession();
+    const { name, email, image } = session?.user || {};
+
+    const [isModalMenu, setIsModalMenu] = useState(false);
+    
+    useEffect(() => {
+        if(status !== "loading" && email !== "hoangbao020103@gmail.com" && email !== "vesmart98@gmail.com") {
+            router?.push("/");
+        }
+    }, [router, status])
+
 
     return (
         <div className="overflow-hidden w-full h-full relative text-black">
-            <div className="z-50 bg-white fixed ml-[260px] top-0 w-full border-b border-gray-300 h-14">
-                <h1>
-                    <Link href="/" className="px-4 leading-[56px] font-semibold text-lg">VESMART</Link>
-                </h1>
+            <div className={`z-50 bg-white fixed top-0 w-full border-b border-gray-300 transition-all ${isModalMenu ? "ml-[260px]" : "ml-[0px]"}`}>
+                <div className="h-14 flex items-center">
+                    <button
+                        className="hover:bg-white/20 rounded-full p-1"
+                        onClick={() => setIsModalMenu(state => !state)}
+                    >
+                        <i className="block p-1">
+                            <IconBars className="w-7 h-7 fill-blue-500 block" />
+                        </i>
+                    </button>
+                    <h1>
+                        <Link href="/" className="px-4 leading-[56px] font-semibold text-lg">VESMART</Link>
+                    </h1>
+                </div>
             </div>
-            <div className="relative block ml-[260px] mt-12 p-5 overflow-y-auto scrollbar-thumb-gray-500 scrollbar-track-gray-300">
+            <div className={`relative block mt-12 md:p-5 py-5 px-0 overflow-y-auto scrollbar-thumb-gray-500 scrollbar-track-gray-300 transition-all ${isModalMenu ? "ml-[260px]" : "ml-0"}`}>
                 <div>
                     <h2></h2>
                     <div></div>
@@ -60,7 +73,7 @@ const AdminLayout = ({ children, tab }: AdminLayoutProps) => {
                 </div>
             </div>
 
-            <div className="fixed bg-white h-full top-0 left-0 flex w-[260px] flex-col border-r border-gray-300">
+            <div className={`fixed bg-white h-full top-0 flex w-[260px] flex-col border-r border-gray-300 transition-all ${isModalMenu ? "left-0" : "-left-[260px]"}`}>
                 <h1 className="py-1 mt-3 ml-[30px] font-semibold text-2xl">
                     <Link href="/">
                         VESMART

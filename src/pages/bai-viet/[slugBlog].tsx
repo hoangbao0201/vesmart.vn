@@ -102,6 +102,7 @@ const BlogDetailPage : NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                             <div className="relative flex flex-col min-h-[200px] bg-white mt-8 px-4 py-4">
                                 <div className="flex items-end -mt-8 mb-5">
                                     <Image
+                                        unoptimized
                                         width={80}
                                         height={80}
                                         alt="image avatar"

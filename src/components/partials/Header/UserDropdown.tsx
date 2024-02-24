@@ -17,6 +17,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
                 <Menu.Button>
                     <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">
                         <Image
+                            unoptimized
                             alt={email}
                             src={
                                 image ||
@@ -39,7 +40,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
                     <Menu.Items className="absolute z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="px-1 py-1">
                             {
-                                email === "hoangbao020103@gmail.com" && (
+                                (email === "hoangbao020103@gmail.com" || email === "vesmart98@gmail.com") && (
                                     <Menu.Item>
                                         {({ active }) => (
                                             <Link

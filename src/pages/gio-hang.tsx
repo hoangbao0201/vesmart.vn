@@ -179,6 +179,7 @@ const CartPage : NextPageWithLayout = () => {
                                             <div key={product.id + "-" + product.skuP + "-" + index} id={product.id + "-" + product.skuP + "-" + index} className="relative flex mb-3 py-3 px-3 border-b bg-white border shadow-sm">
                                                 <div className="w-2/12 mt-2">
                                                     <Image
+                                                        unoptimized
                                                         width={120}
                                                         height={120}
                                                         alt="Ảnh sản phẩm"
@@ -229,6 +230,7 @@ const CartPage : NextPageWithLayout = () => {
                                                 <li className="flex border-b py-4" key={product.id + "-" + product.skuP + "-" + index}>
                                                     <div className="w-2/12 mt-2">
                                                         <Image
+                                                            unoptimized
                                                             width={120}
                                                             height={120}
                                                             alt="Ảnh sản phẩm"

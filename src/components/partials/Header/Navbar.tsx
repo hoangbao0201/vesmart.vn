@@ -6,7 +6,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { useSession } from "next-auth/react";
 
 import ModalMenu from "./ModalMenu";
-import UserDropdown from "../UserDropdown";
+import UserDropdown from "./UserDropdown";
 import { useSignInModal } from "./SignInModal";
 import { IconBars } from "../../../../public/static/icons/IconSvg";
 

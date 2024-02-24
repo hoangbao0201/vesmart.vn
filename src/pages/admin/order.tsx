@@ -61,13 +61,13 @@ const OrderPage: NextPageWithLayout = () => {
     }
 
     return (
-        <div className="bg-white py-5 px-5 mb-4 rounded-xl border">
+        <div className="bg-white py-5 px-5 mb-4 rounded-xl border overflow-x-auto min-h-[400px]">
             <div className="flex mb-4">
                 <button onClick={() => eventGetOrder()} className="ml-auto border px-2 py-1 bg-gray-200">Tải lại đơn hàng</button>
             </div>
             <table className="w-full overflow-hidden text-left">
                 <thead>
-                    <tr className="uppercase bg-gray-200 rounded-l-lg rounded-r-lg overflow-hidden border border-red-200 text-gray-500 font-normal [&>th]:px-3 [&>th]:py-2">
+                    <tr className="whitespace-nowrap uppercase bg-gray-200 rounded-l-lg rounded-r-lg overflow-hidden border border-red-200 text-gray-500 font-normal [&>th]:px-3 [&>th]:py-2">
                         <th className="">stt</th>
                         <th className="w-3/12">Thông tin</th>
                         <th className="">Code</th>
@@ -149,6 +149,7 @@ const ProductOrderComponent = ({ productsOrder }: { productsOrder: productOrderC
                         <div key={prdOrder + "-" + index} className="flex mb-2">
                             <div className="w-2/12 mt-1 flex-shrink-0">
                                 <Image
+                                    unoptimized
                                     width={120}
                                     height={120}
                                     alt="Ảnh sản phẩm"

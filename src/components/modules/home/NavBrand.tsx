@@ -50,6 +50,7 @@ const NavBrand = () => {
                                         className="border rounded-sm h-10 flex items-center"
                                     >
                                         <Image
+                                            unoptimized
                                             width={100}
                                             height={100}
                                             alt={`ảnh ${asse.title}`}
