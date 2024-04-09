@@ -4,6 +4,7 @@ import SideLeftHome from "./SideLeftHome";
 import { PageSEO } from "@/components/share/SEO";
 import NavBrand from "@/components/modules/home/NavBrand";
 import ListProduct from "@/components/modules/home/ListProduct";
+import BannerMain from "./BannerMain";
 
 interface PageHome {
     products: ProductTypes[]
@@ -18,8 +19,11 @@ const PageHome = ({ products }: PageHome) => {
             />
 
             <div className="-mx-3">
-                <div className="px-3">
+                <div className="px-3 mb-3">
                     <NavBrand />
+                </div>
+                <div className="px-3 mb-4">
+                    <BannerMain />
                 </div>
     
                 <div className="flex">

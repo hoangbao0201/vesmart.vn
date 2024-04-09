@@ -37,7 +37,7 @@ const Footer = () => {
                                             width={50}
                                             height={50}
                                             alt="image"
-                                            src={`/images/icons/facebook.png`}
+                                            src={`/static/images/icons/facebook.png`}
                                             className="w-5 h-5 block"
                                         />
                                         <span className="ml-2 line-clamp-1">
@@ -57,7 +57,7 @@ const Footer = () => {
                                             width={50}
                                             height={50}
                                             alt="image"
-                                            src={`/images/icons/zalo.png`}
+                                            src={`/static/images/icons/zalo.png`}
                                             className="w-5 h-5 block"
                                         />
                                         <span className="ml-2 line-clamp-1">
@@ -77,7 +77,7 @@ const Footer = () => {
                                             width={50}
                                             height={50}
                                             alt="image"
-                                            src={`/images/icons/gmail.png`}
+                                            src={`/static/images/icons/gmail.png`}
                                             className="w-5 h-5 block"
                                         />
                                         <span className="ml-2 line-clamp-1">
