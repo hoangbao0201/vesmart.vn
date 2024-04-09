@@ -73,7 +73,7 @@ const MainNav = () => {
                                                 >
                                                     <div className="flex-shrink-0">
                                                         <Image
-                                                            unoptimized
+                                                            // unoptimized
                                                             alt="ảnh"
                                                             width={48}
                                                             height={48}

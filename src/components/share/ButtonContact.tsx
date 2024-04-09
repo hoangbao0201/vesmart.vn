@@ -52,7 +52,7 @@ const ButtonContact = ({ children }: ButtonContactProps) => {
                     <div className="flex items-center justify-center bg-blue-500 top-[18px] left-[18px] w-11 h-11 rounded-full overflow-hidden absolute leading-10">
                         <Link href={`https://zalo.me/${siteMetadata?.phone || "0971183153"}`} target="_blank">
                             <Image
-                                unoptimized
+                                // unoptimized
                                 width={30}
                                 height={30}
                                 alt="Image zalo"

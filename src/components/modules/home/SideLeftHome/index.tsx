@@ -60,7 +60,7 @@ const SideLeftHome = () => {
                                                         {
                                                             itemChild?.icon && (
                                                                 <Image
-                                                                    unoptimized
+                                                                    // unoptimized
                                                                     width={30}
                                                                     height={30}
                                                                     alt={`Icon ${itemChild?.title}`}

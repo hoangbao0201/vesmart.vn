@@ -149,7 +149,7 @@ const ProductOrderComponent = ({ productsOrder }: { productsOrder: productOrderC
                         <div key={prdOrder + "-" + index} className="flex mb-2">
                             <div className="w-2/12 mt-1 flex-shrink-0">
                                 <Image
-                                    unoptimized
+                                    // unoptimized
                                     width={120}
                                     height={120}
                                     alt="Ảnh sản phẩm"

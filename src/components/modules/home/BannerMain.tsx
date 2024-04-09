@@ -11,7 +11,7 @@ const BannerMain = () => {
         <div className="flex xl:flex-row flex-col items-center gap-2 bg-white p-3 rounded-lg">
             <div className="xl:h-[410px] xl:w-8/12">
                 <Image
-                    unoptimized
+                    // unoptimized
                     width={500}
                     height={500}
                     src={`/static/images/banners/banner-1.png`}
@@ -73,7 +73,7 @@ const BannerMain = () => {
                     </div>
 
                     <Image
-                        unoptimized
+                        // unoptimized
                         width={200}
                         height={200}
                         src={`/static/images/banners/banner-2.png`}

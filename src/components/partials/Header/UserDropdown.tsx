@@ -17,7 +17,7 @@ const UserDropdown = ({ session }: { session: Session }) => {
                 <Menu.Button>
                     <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-gray-300 transition-all duration-75 focus:outline-none active:scale-105 sm:h-9 sm:w-9">
                         <Image
-                            unoptimized
+                            // unoptimized
                             alt={email}
                             src={
                                 image ||

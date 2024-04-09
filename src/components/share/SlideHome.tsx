@@ -43,7 +43,7 @@ const SlideHome = () => {
 
                 <SwiperSlide>
                     <Image
-                        unoptimized
+                        // unoptimized
                         width={800}
                         height={500}
                         alt='slide-1'
@@ -53,7 +53,7 @@ const SlideHome = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                     <Image
-                        unoptimized
+                        // unoptimized
                         width={800}
                         height={500}
                         alt='slide-1'
@@ -63,7 +63,7 @@ const SlideHome = () => {
                 </SwiperSlide>
                 <SwiperSlide>
                     <Image
-                        unoptimized
+                        // unoptimized
                         width={800}
                         height={500}
                         alt='slide-1'

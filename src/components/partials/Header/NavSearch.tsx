@@ -122,7 +122,7 @@ const NavSearch = () => {
                                                         <Link href={`/san-pham/${product.slug}`}>
                                                             <div className="flex py-2">
                                                                 <Image
-                                                                    unoptimized
+                                                                    // unoptimized
                                                                     width={80}
                                                                     height={80}
                                                                     alt={`ảnh ${product.title}`}

@@ -27,7 +27,7 @@ const ListProduct = ({ title, products } : ListProductProps) => {
                                     <article className="transition-all ease-linear bg-white rounded-b-sm overflow-hidden border-[1px] group-hover:border-red-500">
                                         <div style={{ paddingTop: "100%" }} className="relative w-full bg-red-500">
                                             <Image
-                                                unoptimized
+                                                // unoptimized
                                                 width={200}
                                                 height={200}
                                                 alt="Ảnh sản phẩm"
