@@ -136,3 +136,13 @@ input {
         }
     }
 }
+
+
+// SWIPPER
+.swiper-pagination-bullet {
+    opacity: 1 !important;
+    background: white !important;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background-color: #60a5fa !important;
+}
