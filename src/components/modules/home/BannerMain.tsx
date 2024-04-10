@@ -37,26 +37,76 @@ const BannerMain = () => {
                             styleButton="absolute top-1/2 -translate-y-1/2 z-40 px-3 py-3 bg-white rounded-full border right-0"
                             styleIcon="h-4 w-4"   
                         /> */}
-                        <SwiperSlide className="lg:w-full xl:h-[410px] xl:object-cover">
+                        <SwiperSlide>
                             <Image
                                 // unoptimized
                                 width={1200}
                                 height={700}
                                 src={`/static/images/banners/banner-1.png`}
                                 alt="Ảnh banner sửa chữa robot hút bụi vesmart"
-                                className="w-full"
+                                // className="w-full"
                                 // className="w-full xl:h-[410px] xl:object-cover"
+                                className="lg:w-full xl:h-[410px] xl:object-cover"
                             />
                         </SwiperSlide>
-                        <SwiperSlide className="lg:w-full xl:h-[410px] xl:object-cover">
+                        <SwiperSlide>
                             <Image
                                 // unoptimized
                                 width={1200}
                                 height={700}
                                 src={`/static/images/banners/banner-2.png`}
                                 alt="Ảnh banner sửa chữa robot hút bụi vesmart"
-                                className="w-full"
+                                // className="w-full"
                                 // className="w-full xl:h-[410px] object-cover"
+                                className="lg:w-full xl:h-[410px] xl:object-cover"
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Image
+                                // unoptimized
+                                width={1200}
+                                height={700}
+                                src={`/static/images/banners/banner-3.jpeg`}
+                                alt="Ảnh banner sửa chữa robot hút bụi vesmart"
+                                // className="w-full"
+                                // className="w-full xl:h-[410px] object-cover"
+                                className="lg:w-full xl:h-[410px] xl:object-cover"
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Image
+                                // unoptimized
+                                width={1200}
+                                height={700}
+                                src={`/static/images/banners/banner-4.jpeg`}
+                                alt="Ảnh banner sửa chữa robot hút bụi vesmart"
+                                // className="w-full"
+                                // className="w-full xl:h-[410px] object-cover"
+                                className="lg:w-full xl:h-[410px] xl:object-cover"
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Image
+                                // unoptimized
+                                width={1200}
+                                height={700}
+                                src={`/static/images/banners/banner-5.jpeg`}
+                                alt="Ảnh banner sửa chữa robot hút bụi vesmart"
+                                // className="w-full"
+                                // className="w-full xl:h-[410px] object-cover"
+                                className="lg:w-full xl:h-[410px] xl:object-cover"
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <Image
+                                // unoptimized
+                                width={1200}
+                                height={700}
+                                src={`/static/images/banners/banner-6.jpeg`}
+                                alt="Ảnh banner sửa chữa robot hút bụi vesmart"
+                                // className="w-full"
+                                // className="w-full xl:h-[410px] object-cover"
+                                className="lg:w-full xl:h-[410px] xl:object-cover"
                             />
                         </SwiperSlide>
                     </Swiper>
