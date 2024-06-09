@@ -17,6 +17,8 @@ import { ThemeProvider } from "next-themes";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import { GoogleAnalytics } from '@next/third-parties/google'
+
 //Binding events.
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -48,6 +50,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
                 <ToastContainer />
             </ThemeProvider>
+            <GoogleAnalytics gaId="G-XH5WY2HDXE" />
         </>
     )
 }
