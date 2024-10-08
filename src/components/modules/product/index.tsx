@@ -292,12 +292,12 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                                     height={30}
                                                     alt={`Icon Zalo`}
                                                     className="w-5 h-5 mr-2 flex-shrink-0"
-                                                    src={`/images/icons/zalo.png`}
+                                                    src={`/static/images/icons/zalo.png`}
                                                 />
                                                 Zalo:&nbsp;
                                                 
                                                 <Link className="text-blue-600 hover:underline" href={`https://zalo.me/0971183153`} target="_blank">
-                                                    0972.84.11.66
+                                                    0971.183.153
                                                 </Link>
                                             </div>
                                             <div className="flex items-center mb-2">
@@ -307,7 +307,7 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                                     height={30}
                                                     alt={`Icon Zalo`}
                                                     className="w-5 h-5 mr-2 flex-shrink-0"
-                                                    src={`/images/icons/facebook.png`}
+                                                    src={`/static/images/icons/facebook.png`}
                                                 />
                                                 Facebook:&nbsp;
                                                 <Link className="text-blue-600 hover:underline line-clamp-1" href={`https://www.facebook.com/suachuarobothutbuidanang`} target="_blank">
@@ -321,7 +321,7 @@ const ProductDetailPageTemplate = ({ product }: ProductDetailPageTemplateProps) 
                                                     height={30}
                                                     alt={`Icon Zalo`}
                                                     className="w-5 h-5 mr-2 flex-shrink-0"
-                                                    src={`/images/icons/gmail.png`}
+                                                    src={`/static/images/icons/gmail.png`}
                                                 />
                                                 Email:&nbsp;
                                                 <Link className="text-blue-600 hover:underline" href={`mailto:vesmart98@gmail.com`} target="_blank">
