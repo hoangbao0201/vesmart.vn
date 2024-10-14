@@ -73,9 +73,7 @@ const ButtonContact = ({ children }: ButtonContactProps) => {
                         <span></span>
                         <div className="flex items-center justify-center bg-blue-600 w-11 h-11 rounded-full overflow-hidden absolute leading-10">
                             <Link
-                                href={`https://zalo.me/${
-                                    siteMetadata?.phone || "0971183153"
-                                }`}
+                                href={`https://www.facebook.com/suachuarobothutbuidanang`}
                                 target="_blank"
                             >
                                 <svg
@@ -94,7 +92,7 @@ const ButtonContact = ({ children }: ButtonContactProps) => {
                         <span></span>
                         <div className="flex items-center justify-center bg-green-500 w-11 h-11 rounded-full overflow-hidden absolute leading-10">
                             <Link
-                                href={`https://zalo.me/${
+                                href={`tel:${
                                     siteMetadata?.phone || "0971183153"
                                 }`}
                                 target="_blank"
