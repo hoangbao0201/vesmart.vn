@@ -14,7 +14,11 @@ const nextConfig = {
         ],
     },
     compiler: {
-        styledComponents: true,
+        // Dùng SWC thay cho babel-plugin-styled-components (để next/font hoạt động)
+        styledComponents: {
+            displayName: true,
+            ssr: true,
+        },
     },
     // webpack: function (config) {
     //     config.module.rules.push({

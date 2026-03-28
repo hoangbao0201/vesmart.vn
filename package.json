@@ -56,7 +56,6 @@
   "devDependencies": {
     "@types/nprogress": "^0.2.0",
     "@types/react-slick": "^0.23.13",
-    "babel-plugin-styled-components": "^2.1.4",
     "prisma": "^5.1.1"
   }
 }

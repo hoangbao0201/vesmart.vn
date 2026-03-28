@@ -4,6 +4,9 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 
 import "nprogress/nprogress.css";
@@ -38,7 +41,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     const getLayout = Component.getLayout ?? ((page) => page);
 
     return (
-        <>
+        <div className={inter.className}>
             <ThemeProvider attribute="class">
                 <SessionProvider session={session}>
                     <Provider store={store}>
@@ -51,6 +54,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                 <ToastContainer />
             </ThemeProvider>
             <GoogleAnalytics gaId="G-XH5WY2HDXE" />
-        </>
-    )
+        </div>
+    );
 }
