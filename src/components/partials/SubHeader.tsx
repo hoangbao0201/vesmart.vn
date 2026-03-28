@@ -22,7 +22,7 @@ const SubHeader = ({ path }: SubHeaderProps) => {
                     </li>
                     <li className="font-medium">
                         <Link href={`/bai-viet`}>
-                            <span className={`${(path === "/bai-viet/[slugBlog]" || path === "/bai-viet")  && "border-b-2"}`}>Blog</span>
+                            <span className={`${(path === "/bai-viet/[slugBlog]" || path === "/bai-viet")  && "border-b-2"}`}>Bài viết</span>
                         </Link>
                     </li>
                     <li className="font-medium">

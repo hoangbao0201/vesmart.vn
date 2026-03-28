@@ -1,23 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-
-import { NextSeo } from 'next-seo';
+import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 
 import { ProductTypes } from "@/types";
-import siteMetadata from "@/siteMetadata";
 import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/components/layouts/MainLayout";
 import productService from "@/serverless/product.service";
 import ProductDetailPageTemplate from "@/components/modules/product";
-
-
-interface obVariantProps {
-    skuId?: string;
-    skuP?: string;
-    price?: number;
-    stock?: number;
-    variants: { "1": string; "2": string } | {};
-}
+import { ProductSEO } from "@/components/share/SEO";
 
 export interface Params extends ParsedUrlQuery {
     slugProduct: string;
@@ -28,18 +18,28 @@ interface ProductDetailProps {
 }
 
 const ProductDetail: NextPageWithLayout<ProductDetailProps> = ({ product }) => {
-    
+    const router = useRouter();
+    if (router.isFallback || !product?.id) {
+        return (
+            <div className="p-8 text-center text-gray-600">Đang tải sản phẩm…</div>
+        );
+    }
+
+    const path = `/san-pham/${product.slug}-${product.id}`;
+
     return (
         <>
-            <NextSeo
-                title={`${product?.title} - VESMART`}
-                description={`${product?.description}`}
-                
-                canonical={`${siteMetadata?.siteUrl}/san-pham/${product?.slug}`}
+            <ProductSEO
+                title={product?.title}
+                summary={product?.description ?? ""}
+                createdAt={product?.createdAt}
+                updatedAt={product?.updatedAt}
+                images={product?.images}
+                brand={product?.brand}
+                productUrlPath={path}
             />
 
-            <ProductDetailPageTemplate product={product}/>
-                
+            <ProductDetailPageTemplate product={product} />
         </>
     );
 };
@@ -51,12 +51,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     const productsRes = await productService.findOne(slugProduct);
 
-    if (!productsRes?.success) {
-        return {
-            props: {
-                products: null,
-            },
-        };
+    if (!productsRes?.success || !productsRes.product) {
+        return { notFound: true };
     }
 
     return {

@@ -3,10 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
 import { isAdminEmail } from "@/lib/adminAuth";
-import prismaService from "@/lib/prismaService";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "POST") {
+    if (req.method !== "PUT" && req.method !== "PATCH") {
         return res.status(405).json({ success: false, error: "Method not allowed" });
     }
 
@@ -15,26 +14,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    const dbUser = await prismaService.user.findUnique({
-        where: { email: session.user.email },
-    });
-    if (!dbUser) {
-        return res.status(403).json({
-            success: false,
-            message: "Tài khoản chưa có trong hệ thống. Liên hệ quản trị.",
-        });
+    const { id, title, slug, thumbnail, description, blogHashtags, content, status } = req.body;
+    if (!id || typeof id !== "string") {
+        return res.status(400).json({ success: false, message: "Missing blog id" });
     }
 
-    const { title, slug, thumbnail, description, blogHashtags, content } = req.body;
-
-    const productRes = await blogService.createBlog(dbUser.id, {
+    const result = await blogService.updateBlog(id, {
         title,
         slug,
-        thumbnail: typeof thumbnail === "string" && thumbnail.length > 0 ? thumbnail : "",
-        description: description ?? "",
+        thumbnail: thumbnail ?? null,
+        description: description ?? null,
         blogHashtags: Array.isArray(blogHashtags) ? blogHashtags : [],
         content,
+        status: status ?? null,
     });
 
-    return res.status(200).json(productRes);
+    const statusCode = result.success ? 200 : 400;
+    return res.status(statusCode).json(result);
 }

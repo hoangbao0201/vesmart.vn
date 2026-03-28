@@ -14,6 +14,7 @@ import { ShowToastify } from "@/components/share/ShowToastify";
 import LoadingDots from "@/components/share/Loading/LoadingDots";
 import OptionAdress from "@/components/PageComponent/PageCart/OptionAdress";
 import { AdressSlideState } from "@/redux/userSlice";
+import { PageSEO } from "@/components/share/SEO";
 
 
 
@@ -164,7 +165,15 @@ const CartPage : NextPageWithLayout = () => {
     }
 
     return (
-        <> 
+        <>
+            <PageSEO
+                title="Giỏ hàng"
+                description="Xem sản phẩm, chỉnh số lượng và đặt hàng tại VESMART."
+                breadcrumbs={[
+                    { name: "Trang chủ", href: "/" },
+                    { name: "Giỏ hàng", href: "/gio-hang" },
+                ]}
+            />
             <div className="-mx-3">
                 <h1 className="font-semibold text-lg px-3 py-3 mb-3 border-b">Giỏ hàng của bạn</h1>
 

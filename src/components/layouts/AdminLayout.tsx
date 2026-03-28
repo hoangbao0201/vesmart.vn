@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { IconBars } from "../../../public/static/icons/IconSvg";
+import { isAdminEmail } from "@/lib/adminAuth";
 
 interface AdminLayoutProps {
     children?: ReactNode;
@@ -25,8 +26,11 @@ const dataContentSide = [
             },
             {
                 value: "Tạo Blog",
-                // icon: iconSteal,
                 linkItem: "/admin/blog/create",
+            },
+            {
+                value: "Danh sách bài viết",
+                linkItem: "/admin/blog/all",
             },
         ],
     },
@@ -40,7 +44,7 @@ const AdminLayout = ({ children, tab }: AdminLayoutProps) => {
     const [isModalMenu, setIsModalMenu] = useState(false);
     
     useEffect(() => {
-        if(status !== "loading" && email !== "hoangbao020103@gmail.com" && email !== "vesmart98@gmail.com") {
+        if (status !== "loading" && !isAdminEmail(email)) {
             router?.push("/");
         }
     }, [router, status])

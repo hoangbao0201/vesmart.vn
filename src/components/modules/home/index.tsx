@@ -14,8 +14,9 @@ const PageHome = ({ products }: PageHome) => {
     return (
         <>
             <PageSEO
-                title="Trang chủ - VESMART"
-                description={siteMetadata?.description}
+                title="Trang chủ"
+                description={siteMetadata.description}
+                isHome
             />
 
             <div className="-mx-3">
