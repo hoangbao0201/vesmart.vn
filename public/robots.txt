@@ -1,12 +1,9 @@
-
-# *
+# Cho phép bot lập chỉ mục nội dung công khai
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /api/
 
-# Host
-Host: https://vesmart.vn
+# Không index trang quản trị (nếu có)
+Disallow: /admin/
 
-# Sitemaps
+# Sitemap — dùng URL production; có thể đổi domain khi deploy
 Sitemap: https://vesmart.vn/sitemap.xml

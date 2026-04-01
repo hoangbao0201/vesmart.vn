@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -142,3 +143,432 @@ model Order {
 
   productsOrder String
 }
+
+// ========================================================
+
+model ImageV2 {
+  imageId       String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageType     String?  @map("image_type")
+  width         Int?     @map("width")
+  height        Int?     @map("height")
+  index         Int      @default(1)
+  url           String   @map("url")
+  source        String?  @map("source")
+  description   String?  @map("description")
+  dominantColor String?  @map("dominant_color")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  userAvatars   UserAvatarV2[]   @relation("UserAvatarImages")
+  productImages ProductImageV2[] @relation("ProductImages")
+  variantImages VariantImageV2[] @relation("VariantImages")
+  commentImages CommentImageV2[] @relation("CommentImages")
+  postImages    PostImageV2[]    @relation("PostImages")
+  metaImages    MetaV2[]         @relation("MetaImages")
+  banners       BannerV2[]       @relation("BannerImages")
+
+  @@map("images_v2")
+}
+
+model UserV2 {
+  userId    String       @id @default(auto()) @map("_id") @db.ObjectId
+  email     String?      @unique @map("email")
+  phone     String?      @unique @map("phone")
+  password  String?      @map("password")
+  name      String       @map("name")
+  role      UserRoleEnum @default(GUEST) @map("role")
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  avatar   UserAvatarV2? @relation("UserAvatar")
+  products ProductV2[]
+  comments CommentV2[]
+  posts    PostV2[]
+  orders   OrderV2[]
+
+  @@map("users_v2")
+}
+
+model UserAvatarV2 {
+  userId  String @id @map("_id") @db.ObjectId
+  imageId String @map("image_id") @db.ObjectId
+  user    UserV2   @relation("UserAvatar", fields: [userId], references: [userId], onDelete: Cascade)
+  image   ImageV2  @relation("UserAvatarImages", fields: [imageId], references: [imageId], onDelete: Cascade)
+
+  @@map("user_avatars_v2")
+}
+
+// ============================================
+// Product Models
+// ============================================
+
+model ProductV2 {
+  productId        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name             String   @map("name")
+  slug             String?   @map("slug")
+  generalInfo      String?  @map("general_info")
+  promotionContent String?  @map("promotion_content")
+  warrantyContent  String?  @map("warranty_content")
+  isFeatured       Boolean  @default(false) @map("is_featured")
+  createdById      String   @map("created_by_id") @db.ObjectId
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  createdBy UserV2             @relation(fields: [createdById], references: [userId])
+  images    ProductImageV2[]   @relation("ProductImages")
+  options   ProductOptionV2[]
+  variants  ProductVariantV2[]
+  comments  CommentV2[]
+  posts     ProductPostV2[]
+  metas     ProductMetaV2[]
+
+  @@map("products_v2")
+}
+
+model ProductImageV2 {
+  productImageId String  @id @default(auto()) @map("_id") @db.ObjectId
+  productId      String  @map("product_id") @db.ObjectId
+  imageId        String  @map("image_id") @db.ObjectId
+  index          Int     @default(0) @map("index")
+  product        ProductV2 @relation("ProductImages", fields: [productId], references: [productId], onDelete: Cascade)
+  image          ImageV2   @relation("ProductImages", fields: [imageId], references: [imageId], onDelete: Cascade)
+
+  @@unique([productId, imageId])
+  @@map("product_images_v2")
+}
+
+model ProductOptionV2 {
+  productOptionId String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId       String   @map("product_id") @db.ObjectId
+  name            String   @map("name")
+  slug            String   @map("slug")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  product ProductV2              @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  values  ProductOptionValueV2[]
+
+  @@map("product_options_v2")
+}
+
+model ProductOptionValueV2 {
+  productOptionValueId String   @id @default(auto()) @map("_id") @db.ObjectId
+  value                String   @map("value")
+  slug                 String   @map("slug")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  variants        VariantOptionValueV2[]
+  productOptionId String               @map("product_option_id") @db.ObjectId
+  productOption   ProductOptionV2        @relation(fields: [productOptionId], references: [productOptionId], onDelete: Cascade)
+
+  @@map("product_option_values_v2")
+}
+
+model ProductVariantV2 {
+  productVariantId String   @id @default(auto()) @map("_id") @db.ObjectId
+  price            Float    @map("price")
+  quantity         Int      @default(0) @map("quantity")
+  discountPercent  Int?     @default(0) @map("discount_percent")
+  specificInfo     String?  @map("specific_info")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  productId    String               @map("product_id") @db.ObjectId
+  product      ProductV2              @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  images       VariantImageV2[]       @relation("VariantImages")
+  optionValues VariantOptionValueV2[]
+  orderItems   OrderItemV2[]
+
+  @@map("product_variants_v2")
+}
+
+model VariantImageV2 {
+  variantImageId String @id @default(auto()) @map("_id") @db.ObjectId
+  index          Int    @default(0)
+
+  productVariantId String         @map("product_variant_id") @db.ObjectId
+  productVariant   ProductVariantV2 @relation("VariantImages", fields: [productVariantId], references: [productVariantId], onDelete: Cascade)
+  imageId          String         @map("image_id") @db.ObjectId
+  image            ImageV2          @relation("VariantImages", fields: [imageId], references: [imageId], onDelete: Cascade)
+
+  @@unique([productVariantId, imageId])
+  @@map("variant_images_v2")
+}
+
+model VariantOptionValueV2 {
+  variantOptionValueId String @id @default(auto()) @map("_id") @db.ObjectId
+
+  productVariantId     String             @map("product_variant_id") @db.ObjectId
+  productVariant       ProductVariantV2     @relation(fields: [productVariantId], references: [productVariantId], onDelete: Cascade)
+  productOptionValueId String             @map("value_id") @db.ObjectId
+  productOptionValue   ProductOptionValueV2 @relation(fields: [productOptionValueId], references: [productOptionValueId], onDelete: Cascade)
+
+  @@unique([productVariantId, productOptionValueId])
+  @@map("variant_option_values_v2")
+}
+
+model MetaV2 {
+  metaId      String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String       @map("name")
+  description String?      @map("description")
+  type        MetaTypeEnum @default(TAG) @map("type")
+  imageId     String?      @map("image_id") @db.ObjectId
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  image    ImageV2?        @relation("MetaImages", fields: [imageId], references: [imageId], onDelete: SetNull)
+  products ProductMetaV2[]
+  posts    PostMetaV2[]
+
+  @@map("metas_v2")
+}
+
+model ProductMetaV2 {
+  productMetaId String @id @default(auto()) @map("_id") @db.ObjectId
+
+  productId String  @map("product_id") @db.ObjectId
+  metaId    String  @map("meta_id") @db.ObjectId
+  product   ProductV2 @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  meta      MetaV2    @relation(fields: [metaId], references: [metaId], onDelete: Cascade)
+
+  @@unique([productId, metaId])
+  @@map("product_metas_v2")
+}
+
+// ============================================
+// Comment & Review Models
+// ============================================
+
+model CommentV2 {
+  commentId       String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId       String?  @map("product_id") @db.ObjectId
+  userId          String   @map("user_id") @db.ObjectId
+  parentCommentId String?  @map("parent_comment_id") @db.ObjectId
+  content         String   @map("content")
+  rating          Int?     @map("rating")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  product       ProductV2?       @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  user          UserV2           @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  parentComment CommentV2?       @relation("CommentReplies", fields: [parentCommentId], references: [commentId], onDelete: NoAction, onUpdate: NoAction)
+  replies       CommentV2[]      @relation("CommentReplies")
+  images        CommentImageV2[] @relation("CommentImages")
+
+  @@map("comments_v2")
+}
+
+model CommentImageV2 {
+  commentImageId String  @id @default(auto()) @map("_id") @db.ObjectId
+  commentId      String  @map("comment_id") @db.ObjectId
+  imageId        String  @map("image_id") @db.ObjectId
+  index          Int     @default(0) @map("index")
+  comment        CommentV2 @relation("CommentImages", fields: [commentId], references: [commentId], onDelete: Cascade)
+  image          ImageV2   @relation("CommentImages", fields: [imageId], references: [imageId], onDelete: Cascade)
+
+  @@unique([commentId, imageId])
+  @@map("comment_images_v2")
+}
+
+// ============================================
+// Post Model
+// ============================================
+
+model PostV2 {
+  postId      String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @map("user_id") @db.ObjectId
+  slug        String   @unique @map("slug")
+  title       String   @map("title")
+  content     String   @map("content")
+  description String?  @map("description")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user     UserV2          @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  images   PostImageV2[]   @relation("PostImages")
+  metas    PostMetaV2[]
+  products ProductPostV2[]
+
+  @@map("posts_v2")
+}
+
+model PostMetaV2 {
+  postMetaId String @id @default(auto()) @map("_id") @db.ObjectId
+
+  postId String @map("post_id") @db.ObjectId
+  post   PostV2   @relation(fields: [postId], references: [postId], onDelete: Cascade)
+  metaId String @map("meta_id") @db.ObjectId
+  meta   MetaV2   @relation(fields: [metaId], references: [metaId], onDelete: Cascade)
+
+  @@unique([postId, metaId])
+  @@map("post_metas_v2")
+}
+
+model ProductPostV2 {
+  productPostId String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  productId String  @map("product_id") @db.ObjectId
+  product   ProductV2 @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  postId    String  @map("post_id") @db.ObjectId
+  post      PostV2    @relation(fields: [postId], references: [postId], onDelete: Cascade)
+
+  @@unique([productId, postId])
+  @@map("product_posts_v2")
+}
+
+model PostImageV2 {
+  postImageId String @id @default(auto()) @map("_id") @db.ObjectId
+  postId      String @map("post_id") @db.ObjectId
+  imageId     String @map("image_id") @db.ObjectId
+  index       Int    @default(0) @map("index")
+  post        PostV2   @relation("PostImages", fields: [postId], references: [postId], onDelete: Cascade)
+  image       ImageV2  @relation("PostImages", fields: [imageId], references: [imageId], onDelete: Cascade)
+
+  @@unique([postId, imageId])
+  @@map("post_images_v2")
+}
+
+// ============================================
+// Order Models
+// ============================================
+
+model OrderV2 {
+  orderId       String         @id @default(auto()) @map("_id") @db.ObjectId
+  status        OrderStatusEnum    @default(PENDING) @map("status")
+  paymentStatus PaymentStatusEnum  @default(PENDING) @map("payment_status")
+  paymentMethod PaymentMethodEnum? @map("payment_method")
+
+  // Pricing
+  subtotal    Float @default(0) @map("subtotal")
+  shippingFee Float @default(0) @map("shipping_fee")
+  discount    Float @default(0) @map("discount")
+  total       Float @default(0) @map("total")
+
+  // Shipping Information
+  shippingName     String  @map("shipping_name")
+  shippingPhone    String  @map("shipping_phone")
+  shippingEmail    String? @map("shipping_email")
+  shippingAddress  String  @map("shipping_address")
+  shippingCity     String? @map("shipping_city")
+  shippingDistrict String? @map("shipping_district")
+  shippingWard     String? @map("shipping_ward")
+  shippingNote     String? @map("shipping_note")
+
+  // Payment Information
+  paymentTransactionId String?   @map("payment_transaction_id")
+  paidAt               DateTime? @map("paid_at")
+
+  // Shipping Information
+  shippedAt          DateTime? @map("shipped_at")
+  deliveredAt        DateTime? @map("delivered_at")
+  cancelledAt        DateTime? @map("cancelled_at")
+  cancellationReason String?   @map("cancellation_reason")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  items  OrderItemV2[]
+  userId String?      @map("user_id") @db.ObjectId
+  user   UserV2?        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@map("orders_v2")
+}
+
+model OrderItemV2 {
+  orderItemId String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Product Information (snapshot at time of order)
+  productName       String  @map("product_name")
+  variantAttributes String? @map("variant_attributes")
+
+  // Pricing (snapshot at time of order)
+  unitPrice       Float @default(0) @map("unit_price")
+  discountPercent Int?  @default(0) @map("discount_percent")
+  quantity        Int   @default(1) @map("quantity")
+  subtotal        Float @default(0) @map("subtotal")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  orderId          String         @map("order_id") @db.ObjectId
+  order            OrderV2          @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+  productVariantId String         @map("product_variant_id") @db.ObjectId
+  productVariant   ProductVariantV2 @relation(fields: [productVariantId], references: [productVariantId], onDelete: Restrict)
+
+  @@map("order_items_v2")
+}
+
+// ============================================
+// Banner Model
+// ============================================
+
+model BannerV2 {
+  bannerId    String   @id @default(auto()) @map("_id") @db.ObjectId
+  type        String   @default("home") @map("type")
+  index       Int      @default(0)
+  title       String?  @map("title")
+  description String?  @map("description")
+  linkUrl     String?  @map("link_url")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  imageId String @map("image_id") @db.ObjectId
+  image   ImageV2  @relation("BannerImages", fields: [imageId], references: [imageId], onDelete: Cascade)
+
+  @@index([type])
+  @@map("banners_v2")
+}
+
+// ============================================
+// Enum Models
+// ============================================
+
+enum MetaTypeEnum {
+  TAG @map("tag")
+}
+
+enum UserRoleEnum {
+  GUEST @map("guest")
+  ADMIN @map("admin")
+}
+
+enum OrderStatusEnum {
+  PENDING    @map("pending")
+  CONFIRMED  @map("confirmed")
+  PROCESSING @map("processing")
+  SHIPPING   @map("shipping")
+  DELIVERED  @map("delivered")
+  CANCELLED  @map("cancelled")
+}
+
+enum PaymentStatusEnum {
+  PENDING  @map("pending")
+  PAID     @map("paid")
+  FAILED   @map("failed")
+  REFUNDED @map("refunded")
+}
+
+enum PaymentMethodEnum {
+  COD           @map("cod")
+  WALLET        @map("wallet")
+  CREDIT_CARD   @map("credit_card")
+  BANK_TRANSFER @map("bank_transfer")
+}
+

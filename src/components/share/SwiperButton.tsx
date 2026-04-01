@@ -1,5 +1,5 @@
 
-import classNames from 'classnames';
+import classNames from '@/utils/classNames';
 import { useSwiper } from 'swiper/react'
 
 interface SwiperButtonProps {
@@ -24,7 +24,7 @@ export default function SwiperButton({
     }
 
     return (
-        <button aria-label={type === "next" ? "sau" : "trước"} className={classNames(styleButton)} onClick={handleClickButton}>
+        <button aria-label={type === "next" ? "sau" : "trước"} className={classNames(styleButton ?? "")} onClick={handleClickButton}>
             {type === "next" ? (
                 <i>
                    <svg

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { SITE_CONFIG } from "@/configs/site.config";
 
 const Footer = () => {
     return (
@@ -9,8 +10,8 @@ const Footer = () => {
                     <p className="font-semibold text-lg mb-4">VESMART</p>
                     <div className="max-w-full mb-4">
                         <iframe
+                            title="Fanpage Facebook VESMART — Sửa chữa robot hút bụi Đà Nẵng"
                             src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fsuachuarobothutbuidanang&tabs=timeline&width=340&height=230&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=7580406775327227"
-                            // width="340"
                             width="100%"
                             height="200"
                             style={{ border: "none", overflow: "hidden" }}
@@ -19,126 +20,62 @@ const Footer = () => {
                             allowFullScreen={true}
                             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                             className="w-full"
-                        ></iframe>
+                            loading="lazy"
+                        />
                     </div>
                 </div>
                 <div className="lg:w-8/12 md:w-6/12 lg:flex px-3">
-                    <div className="lg:w-1/3 mb-4">
+                    <div className="mb-4">
                         <p className="mb-4 font-semibold">Thông tin liên hệ</p>
-                        <ul>
-                            <li className="mb-2">
-                                <Link
-                                    href={`https://www.facebook.com/suachuarobothutbuidanang`}
+                        <div className="space-y-2">
+                            <p>
+                                <strong className="text-sm">Địa chỉ:</strong> {SITE_CONFIG.address}
+                            </p>
+                            <p>
+                                <strong className="text-sm">Số điện thoại:</strong> <Link
+                                    href={`tel:${SITE_CONFIG.phone}`}
                                     target="_blank"
+                                    title={SITE_CONFIG.phone}
+                                    style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                                    className="text-blue-600 hover:text-blue-700 break-words whitespace-pre-wrap"
                                 >
-                                    <div className="flex items-center hover:underline">
-                                        <Image
-                                            // unoptimized
-                                            width={50}
-                                            height={50}
-                                            alt="image"
-                                            src={`/static/images/icons/facebook.png`}
-                                            className="w-5 h-5 block"
-                                        />
-                                        <span className="ml-2 line-clamp-1">
-                                            Sửa chữa robot hút bụi Đà Nẵng
-                                        </span>
-                                    </div>
+                                    {SITE_CONFIG.phone}
                                 </Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link
-                                    href={`https://zalo.me/0971183153`}
+                            </p>
+                            <p>
+                                <strong className="text-sm">Facebook:</strong> <Link href={`${SITE_CONFIG.facebook}`}
                                     target="_blank"
+                                    title={SITE_CONFIG.facebook}
+                                    style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                                    className="text-blue-600 hover:text-blue-700 break-words whitespace-pre-wrap"
                                 >
-                                    <div className="flex items-center hover:underline">
-                                        <Image
-                                            // unoptimized
-                                            width={50}
-                                            height={50}
-                                            alt="image"
-                                            src={`/static/images/icons/zalo.png`}
-                                            className="w-5 h-5 block"
-                                        />
-                                        <span className="ml-2 line-clamp-1">
-                                            Chuyên viên sửa chửa VESMART
-                                        </span>
-                                    </div>
+                                    @suachuarobothutbui
                                 </Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link
-                                    href={`mailto:vesmart98@gmail.com`}
+                            </p>
+
+                            <p>
+                                <strong className="text-sm">Website:</strong> <Link
+                                    href={`${SITE_CONFIG.url}`}
                                     target="_blank"
+                                    title={SITE_CONFIG.url}
+                                    style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                                    className="text-blue-600 hover:text-blue-700 break-words whitespace-pre-wrap"
                                 >
-                                    <div className="flex items-center hover:underline">
-                                        <Image
-                                            // unoptimized
-                                            width={50}
-                                            height={50}
-                                            alt="image"
-                                            src={`/static/images/icons/gmail.png`}
-                                            className="w-5 h-5 block"
-                                        />
-                                        <span className="ml-2 line-clamp-1">
-                                            VESMART mail
-                                        </span>
-                                    </div>
+                                    {SITE_CONFIG.url.replace('https://', '@')}
                                 </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="lg:w-1/3 mb-4">
-                        <p className="mb-4 font-semibold">Các dịch vụ</p>
-                        <ul>
-                            <li className="mb-2">
-                                <Link href={`/`}>
-                                    <span className="line-clamp-1">
-                                        Sửa chữa robot hút bụi
-                                    </span>
+                            </p>
+                            <p>
+                                <strong className="text-sm">Tiktok:</strong> <Link
+                                    href={`${SITE_CONFIG.tiktok}`}
+                                    target="_blank"
+                                    title={SITE_CONFIG.tiktok}
+                                    style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                                    className="text-blue-600 hover:text-blue-700 break-words whitespace-pre-wrap"
+                                >
+                                    {SITE_CONFIG.tiktok.replace('https://tiktok.com/', '')}
                                 </Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link href={`/`}>
-                                    <span className="line-clamp-1">
-                                        Bán linh kiện điện tử
-                                    </span>
-                                </Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link href={`/`}>
-                                    <span className="line-clamp-1">
-                                        Tư vấn, cố vấn sửa chữa
-                                    </span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="lg:w-1/3 mb-4">
-                        <p className="mb-4 font-semibold">Khác</p>
-                        <ul>
-                            <li className="mb-2">
-                                <Link href={`/`}>
-                                    <span className="line-clamp-1">
-                                        Hướng dẫn mua hàng
-                                    </span>
-                                </Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link href={`/`}>
-                                    <span className="line-clamp-1">
-                                        Chính sách bảo mật
-                                    </span>
-                                </Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link href={`/`}>
-                                    <span className="line-clamp-1">
-                                        Tuyển dụng
-                                    </span>
-                                </Link>
-                            </li>
-                        </ul>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

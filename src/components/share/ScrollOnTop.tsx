@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IconArrowTop } from "../../../public/static/icons/IconSvg";
+import IconArrowDown from "../icons/IconArrowDown";
 
 const ScrollOnTop = () => {
     const buttonRef = useRef<any>(null);
@@ -28,9 +28,9 @@ const ScrollOnTop = () => {
                 <button
                     ref={buttonRef}
                     onClick={eventOnTop}
-                    className="fixed right-7 bottom-7 z-50 bg-gray-600 rounded-full text-center flex flex-col justify-center items-center p-2"
+                    className="fixed cursor-pointer right-5 bottom-7 z-50 bg-white border border-gray-200 shadow-md rounded-full text-center flex flex-col justify-center items-center p-2"
                 >
-                    <IconArrowTop className="w-6 h-6 stroke-white" />
+                    <IconArrowDown className="w-6 h-6 rotate-180 stroke-black" />
                 </button>
             ) : null}
         </div>

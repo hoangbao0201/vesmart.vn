@@ -1,72 +1,123 @@
+import { ReactNode } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
+
+import MainLayout from "@/components/layouts/MainLayout";
+import ProductDetailTemplate from "@/components/modules/ProductDetailTemplate";
+import PageSeoHead from "@/components/seo/PageSeoHead";
+import { SITE_CONFIG } from "@/configs/site.config";
+import { absoluteUrl, breadcrumbJsonLd, buildPageTitle, productDetailPath, toPlainText } from "@/lib/seo";
+import { getProductDetailApi } from "@/services/product/product.api";
+import { IGetProductDetail } from "@/services/product/product.type";
 import { ParsedUrlQuery } from "querystring";
 
-import { ProductTypes } from "@/types";
 import { NextPageWithLayout } from "../_app";
-import MainLayout from "@/components/layouts/MainLayout";
-import productService from "@/serverless/product.service";
-import ProductDetailPageTemplate from "@/components/modules/product";
-import { ProductSEO } from "@/components/share/SEO";
 
-export interface Params extends ParsedUrlQuery {
-    slugProduct: string;
+interface ProductDetailPageProps {
+    product: IGetProductDetail;
 }
 
-interface ProductDetailProps {
-    product: ProductTypes;
-}
+const ProductDetailPage: NextPageWithLayout<ProductDetailPageProps> = ({ product }) => {
+    const path = productDetailPath(product);
+    const title = buildPageTitle(product.name);
+    const description =
+        toPlainText(product.generalInfo, 165) ||
+        toPlainText(product.promotionContent, 165) ||
+        `${product.name} - ${SITE_CONFIG.description}`;
 
-const ProductDetail: NextPageWithLayout<ProductDetailProps> = ({ product }) => {
-    const router = useRouter();
-    if (router.isFallback || !product?.id) {
-        return (
-            <div className="p-8 text-center text-gray-600">Đang tải sản phẩm…</div>
-        );
-    }
+    const firstImg = product.images.find((i) => i.image?.url)?.image;
+    const imageUrls = product.images
+        .map((i) => i.image?.url)
+        .filter((u): u is string => Boolean(u));
+    const primaryImage = imageUrls[0] ?? SITE_CONFIG.logo;
+    const ogDims =
+        firstImg?.width && firstImg?.height
+            ? { width: firstImg.width, height: firstImg.height }
+            : { width: 1200, height: 1200 };
 
-    const path = `/san-pham/${product.slug}-${product.id}`;
+    const firstVariant = product.variants[0];
+    const availability =
+        firstVariant && firstVariant.quantity > 0
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock";
+
+    const productJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.name,
+        description: toPlainText(product.generalInfo, 5000) || description,
+        image: imageUrls.length ? imageUrls.map((u) => absoluteUrl(u)) : [absoluteUrl(primaryImage)],
+        sku: product.productId,
+        brand: { "@type": "Brand", name: SITE_CONFIG.name },
+        offers: firstVariant
+            ? {
+                  "@type": "Offer",
+                  url: absoluteUrl(path),
+                  priceCurrency: SITE_CONFIG.currency,
+                  price: String(firstVariant.price),
+                  availability,
+                  itemCondition: "https://schema.org/NewCondition",
+                  seller: { "@type": "Organization", name: SITE_CONFIG.name },
+              }
+            : undefined,
+    };
+
+    const crumbs = breadcrumbJsonLd([
+        { name: "Trang chủ", path: "/" },
+        { name: "Sản phẩm", path: "/san-pham" },
+        { name: product.name },
+    ]);
 
     return (
         <>
-            <ProductSEO
-                title={product?.title}
-                summary={product?.description ?? ""}
-                createdAt={product?.createdAt}
-                updatedAt={product?.updatedAt}
-                images={product?.images}
-                brand={product?.brand}
-                productUrlPath={path}
+            <PageSeoHead
+                title={title}
+                description={description}
+                canonicalUrl={path}
+                ogImage={primaryImage}
+                ogImageDimensions={ogDims}
+                ogImageAlt={product.name}
+                ogType="product"
+                jsonLd={[crumbs, productJsonLd]}
             />
-
-            <ProductDetailPageTemplate product={product} />
+            <ProductDetailTemplate product={product} />
         </>
     );
 };
 
-export default ProductDetail;
+export default ProductDetailPage;
 
-export const getStaticProps: GetStaticProps = async (context) => {
-    const { slugProduct } = context.params as Params;
+interface Params extends ParsedUrlQuery {
+    slugProduct: string;
+}
+export const getStaticProps: GetStaticProps<any, Params> = async ({ params }) => {
+    const { slugProduct } = params!;
 
-    const productsRes = await productService.findOne(slugProduct);
+    const parts = slugProduct.split("-");
+    const productId = parts.pop() as string;
 
-    if (!productsRes?.success || !productsRes.product) {
+    const productDetailRes = await getProductDetailApi({
+        param: { productId }
+    });
+    if (!productDetailRes) {
         return { notFound: true };
     }
+    const { product } = productDetailRes;
 
     return {
         props: {
-            product: JSON.parse(JSON.stringify(productsRes?.product)),
+            product: JSON.parse(JSON.stringify(product))
         },
-        revalidate: 60 * 5,
-    };
-};
+        revalidate: 60 * 60
+    }
+}
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    return { paths: [], fallback: true };
-};
+export const getStaticPaths = async () => {
+    return {
+        paths: [],
+        fallback: "blocking"
+    }
+}
 
-ProductDetail.getLayout = (page) => {
-    return <MainLayout>{page}</MainLayout>;
+ProductDetailPage.getLayout = (page: ReactNode) => {
+    return <MainLayout isNavbar={true}>{page}</MainLayout>;
 };

@@ -6,7 +6,7 @@ const envSite =
 const siteMetadata = {
     name: "Vesmart",
     title: "Vesmart",
-    defaultTitle: "VESMART — Điện tử & robot hút bụi Đà Nẵng",
+    defaultTitle: "VESMART - Điện tử & robot hút bụi Đà Nẵng",
     titleTemplate: "%s | VESMART",
     author: "Vesmart",
     headerTitle: "Vesmart",

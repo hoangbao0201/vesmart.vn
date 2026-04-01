@@ -40,38 +40,50 @@
 
 // Swipper
 
-.mySwiper {
-    padding: 0px 30px !important;
-    // z-index: 0 !important;
-
-    // .swiper-slide-active,
-    // .swiper-slide-thumb-active {
-    //     border: 2px solid rgb(79 70 229 / 1);
-    // }
-}
-
 // Hashtag
 
 * {
     --tag-color-0: #c30c40;
     --tag-color-1: #234A84;
     --tag-color-2: #e3ca0c;
+
+    --tag-color-0-hover: #55276520;
+    --tag-color-1-hover: #234a841a;
+    --tag-color-2-hover: #e3ca0c1b;
 }
 
-.dev-tag-blog-0:hover {
-    border-color: var(--tag-color-0); 
+.dev-tag-blog-0 {
+    border-color: transparent; 
     color: var(--tag-color-0); 
-    background-color: #55276520;
+    background-color: transparent;
+
+    &:hover {
+        border-color: var(--tag-color-0); 
+        color: var(--tag-color-0); 
+        background-color: var(--tag-color-0-hover);
+    }
 }
-.dev-tag-blog-1:hover {
-    border-color: var(--tag-color-1); 
+.dev-tag-blog-1 {
+    border-color: transparent; 
     color: var(--tag-color-1); 
-    background-color: #234a841a;
+    background-color: transparent;
+
+    &:hover {
+        border-color: var(--tag-color-1); 
+        color: var(--tag-color-1); 
+        background-color: var(--tag-color-1-hover);
+    }
 }
-.dev-tag-blog-2:hover {
-    border-color: var(--tag-color-2); 
+.dev-tag-blog-2 {
+    border-color: transparent; 
     color: var(--tag-color-2); 
-    background-color: #e3ca0c1b;
+    background-color: transparent;
+
+    &:hover {
+        border-color: var(--tag-color-2); 
+        color: var(--tag-color-2); 
+        background-color: var(--tag-color-2-hover);
+    }
 }
 
 // Button Contact

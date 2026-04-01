@@ -3,6 +3,7 @@ import Image from "next/image";
 import { styled } from "styled-components";
 import Link from "next/link";
 import siteMetadata from "@/siteMetadata";
+import IconZalo from "../icons/IconZalo";
 
 const ButtonContactStyles = styled.div<{ $primary?: string }>`
     z-index: 11;
@@ -58,14 +59,7 @@ const ButtonContact = ({ children }: ButtonContactProps) => {
                                 }`}
                                 target="_blank"
                             >
-                                <Image
-                                    // unoptimized
-                                    width={30}
-                                    height={30}
-                                    alt="Image zalo"
-                                    src={`/static/images/icon-zalo.png`}
-                                    className="w-6 h-6 object-cover flex-shrink-0"
-                                />
+                                <IconZalo className="w-8 h-8" />
                             </Link>
                         </div>
                     </ButtonContactStyles>
@@ -110,7 +104,7 @@ const ButtonContact = ({ children }: ButtonContactProps) => {
                         </div>
                     </ButtonContactStyles>
                 </div>
-                <span className="text-white font-semibold bg-blue-500 px-2 rounded-md">
+                <span className="text-white font-semibold bg-blue-800 px-2 rounded-md">
                     Liên hệ
                 </span>
             </div>

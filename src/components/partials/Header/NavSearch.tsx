@@ -1,13 +1,10 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useDebounce } from "usehooks-ts";
-import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
-import IconMagnifyingGlass from "@/components/modules/icons/IconMagnifyingGlass";
-import ModalDialog from "@/components/share/ModalDialog";
-import IconClose from "@/components/modules/icons/IconClose";
-import IconChevronRight from "@/components/modules/icons/IconChevronRight";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
+import IconXmark from "../../icons/IconXmark";
+import { useDebounceValue } from "usehooks-ts";
+import ModalDialog from "@/components/share/ModalDialog";
+import IconMagnifyingGlass from "../../icons/IconMagnifying-glass";
 
 interface ListProductResProps {
     id: string
@@ -26,30 +23,34 @@ const NavSearch = () => {
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const [isModalSearch, setIsModalSearch] = useState<boolean>(false);
     const [valueInputSearch, setValueInputSearch] = useState<string>("");
+    const [allProducts, setAllProducts] = useState<ListProductResProps[]>([]);
     const [listResultProducts, setListResultProducts] = useState<null | ListProductResProps[]>(null);
 
-    const textDebounce = useDebounce(valueInputSearch, 500);
+    const [textDebounce] = useDebounceValue(valueInputSearch, 500);
 
-    const eventSearchProducts = async (value: string) => {
-        try {
-            const productsRes = await axios(`/api/blog/get?search=${value}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-            if (productsRes?.data.success) {
-                setListResultProducts(productsRes.data.products);
-            }
-            else {
-                setListResultProducts([])
-            }
-            
-            setIsLoadingSearch(false);
-        } catch (error) {
-            setListResultProducts([]);
-            setIsLoadingSearch(false);
-        }
+    const fetchAllProducts = async () => {
+        // try {
+        //     setIsLoadingSearch(true);
+        //     const productsRes = await axios("/api/blog/get", {
+        //         method: "GET",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //     });
+
+        //     if (productsRes?.data.success && Array.isArray(productsRes.data.data)) {
+        //         setAllProducts(productsRes.data.data);
+        //         setListResultProducts(productsRes.data.data);
+        //     } else {
+        //         setAllProducts([]);
+        //         setListResultProducts([]);
+        //     }
+        // } catch (error) {
+        //     setAllProducts([]);
+        //     setListResultProducts([]);
+        // } finally {
+        //     setIsLoadingSearch(false);
+        // }
     };
 
     const handleOnchangeValueInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,105 +58,48 @@ const NavSearch = () => {
         setIsLoadingSearch(true);
     }
 
-    // Handle Delete Search
-    const handleDeleteSearch = () => {
-        setValueInputSearch("");
-        setListResultProducts(null);
-    }
+    // Load toàn bộ danh sách sản phẩm khi vừa vào trang
+    useEffect(() => {
+        fetchAllProducts();
+    }, []);
 
     useEffect(() => {
         if (textDebounce === "") {
-            setListResultProducts(null);
+            setListResultProducts(allProducts);
+            setIsLoadingSearch(false);
         } else if (textDebounce) {
-            eventSearchProducts(textDebounce);
+            const text = textDebounce.toLowerCase();
+            const filtered = allProducts.filter((product) =>
+                product.title.toLowerCase().includes(text),
+            );
+            setListResultProducts(filtered);
+            setIsLoadingSearch(false);
         }
 
-    }, [textDebounce]);
+    }, [textDebounce, allProducts]);
 
     return (
         <>
-            <div
+            <button
+                type="button"
+                aria-label="Mở tìm kiếm sản phẩm"
                 onClick={() => {
                     setIsModalSearch(true);
                     inputRef.current?.focus();
                 }}
-                className="flex items-center md:flex-1 md:py-2 py-3 md:px-3 mx-3 select-none md:cursor-text cursor-pointer border md:rounded-sm rounded-full bg-gray-200 fill-gray-500 text-gray-500"
+                className="w-10 h-10 cursor-pointer relative bg-slate-600 hover:bg-slate-500 rounded-full transition-colors"
             >
-                <IconMagnifyingGlass size={15} className="md:mr-2 mx-3" /> 
-                <span className="md:block hidden">Tìm kiếm sản phẩm trên VESMART...</span>
-            </div>
-            {/* <div className="-mx-3 md:px-3">
-                <nav className="relative flex items-center bg-white w-full border-b h-11">
-    
-                    {
-                        textDebounce.length > 0 && (
-                            isLoadingSearch ? (
-                                <span className={`loading-search`}></span>
-                            ) : (
-                                <i
-                                    onClick={handleDeleteSearch}
-                                    className="hover:bg-gray-200 p-1 rounded-full cursor-pointer"
-                                >
-                                    <IconClose
-                                        className="w-5 h-5 block"
-                                    />
-                                </i>
-                            )
-                        )
-                    }
-    
-                    <button className="px-3 h-11 hover:bg-slate-200">
-                        <IconMagnifyingGlass 
-                            className="w-5 h-5 block fill-blue-600"
-                        />
-                    </button>
-                    {
-                        valueInputSearch.length > 0 && (
-                            <div className="bg-white absolute z-10 top-11 w-full px-3 py-4 shadow-lg max-h-52 overflow-y-auto">
-                                <div className="font-semibold text-sm">Kết quả tìm kiếm</div>
-                                <ul>
-                                    {
-                                        listResultProducts && listResultProducts?.length > 0 ? (
-                                            listResultProducts?.map((product, index) => {
-                                                return (
-                                                    <li className="border-b" key={product.id}>
-                                                        <Link href={`/san-pham/${product.slug}`}>
-                                                            <div className="flex py-2">
-                                                                <Image
-                                                                    // unoptimized
-                                                                    width={80}
-                                                                    height={80}
-                                                                    alt={`ảnh ${product.title}`}
-                                                                    src={product.images[0].url}
-                                                                    className="w-12 h-12 block object-cover"
-                                                                />
-                                                                <p className="ml-3">{product.title}</p>
-                                                            </div>
-                                                        </Link>
-                                                    </li>
-                                                )
-                                            })
-                                        ) : (
-                                            <li>{!isLoadingSearch && "Không tìm thấy"}</li>
-                                        )
-                                    }
-                                </ul>
-                            </div>
-                        )
-                    }
-                </nav>
-            </div> */}
+                <IconMagnifyingGlass className="w-10 h-10 p-3 fill-white" aria-hidden />
+            </button>
             <ModalDialog
+                size="large"
                 title="Tìm kiếm"
                 isOpen={isModalSearch}
                 setIsOpen={setIsModalSearch}
-                size="large"
             >
                 <div className="mb-4">
-                    <div className="border-b flex items-center">
-                        <i>
-                            <IconMagnifyingGlass className="fill-gray-500"/>
-                        </i>
+                    <div className="px-3 bg-gray-200 rounded-md flex items-center">
+                        <IconMagnifyingGlass className="w-6 h-6 p-1 fill-gray-500"/>
                         <input
                             ref={inputRef}
                             value={valueInputSearch}
@@ -164,48 +108,44 @@ const NavSearch = () => {
                             placeholder="Tìm kiếm theo tên sản phẩm, loại..."
                         />
 
-                        {textDebounce !== "" &&
+                        {textDebounce.trim() !== "" &&
                             (isLoadingSearch ? (
                                 <span className="loading-search"></span>
                             ) : (
                                 <i
                                     onClick={() => {
                                         setValueInputSearch("");
-                                        setListResultProducts([]);
+                                        setListResultProducts(allProducts);
                                     }}
                                     className="p-1 hover:bg-gray-200 rounded-full cursor-pointer"
                                 >
-                                    <IconClose />
+                                    <IconXmark />
                                 </i>
                             ))}
                     </div>
-                    <div
+                    {/* <div
                         style={{ height: "2px" }}
                         className={`loading-bar ${
-                            !isLoadingSearch && "before:content-none"
+                            textDebounce.trim() !== "" && "before:content-none"
                         }`}
-                    ></div>
+                    ></div> */}
                 </div>
-                <ul className="flex-auto overflow-y-auto px-2">
+                <ul className="flex-auto overflow-y-auto">
                     {listResultProducts && listResultProducts.map((product) => {
                         return (
                             <li
                                 key={product?.id}
-                                className="rounded-md mb-2 bg-gray-50 dark:bg-slate-800/70 group hover:bg-blue-500 hover:text-white"
+                                className="rounded-md mb-2 bg-gray-100 group hover:bg-blue-500 hover:text-white"
                             >
                                 <Link
                                     onClick={() => setIsModalSearch(false)}
                                     href={`/san-pham/${product?.slug}-${product?.id}`}
                                 >
                                     <div className="flex items-center px-4 py-3">
-                                        <span className="border rounded-md px-[7px] py-[1px]">
+                                        <span className="">
                                             #
                                         </span>
-                                        <p className="ml-3">{product?.title}</p>
-                                        <IconChevronRight
-                                            size={15}
-                                            className="ml-auto fill-gray-800 group-hover:fill-white"
-                                        />
+                                        <p className="pl-6 flex-shink-0 ">{product?.title}</p>
                                     </div>
                                 </Link>
                             </li>
