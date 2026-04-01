@@ -94,7 +94,7 @@ export const markdownComponents: Components = {
         srcSet={srcSet}
         sizes={srcSet ? sizes : undefined}
         alt={alt || ""}
-        className="mx-auto mb-1 max-w-full h-auto my-6 block"
+        className="mx-auto mb-5 max-w-full h-auto my-6 block"
         loading="lazy"
         decoding="async"
       />

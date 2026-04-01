@@ -22,7 +22,7 @@ const PostDetailTemplate = ({ post }: PostDetailTemplateProps) => {
             />
             <div className="lg:flex">
                 <div className="lg:w-8/12 md:px-3 mb-5">
-                    <div className="bg-white border border-gray-200/80 md:rounded-lg md:px-14 px-4 py-10 min-h-screen">
+                    <div className="bg-white border border-gray-200/80 md:rounded-lg md:px-14 px-2 py-10 min-h-screen">
                         <article>
                             <header>
                                 <h1 title={post?.title} className="font-bold md:text-3xl text-2xl text-blue-950 mb-7 leading-[1.5] capitalize">
