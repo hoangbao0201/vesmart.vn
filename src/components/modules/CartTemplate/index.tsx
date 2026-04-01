@@ -87,14 +87,14 @@ const CartTemplate = () => {
                                         </div>
                                         <p className="text-sm text-gray-500">
                                             {
-                                                product.selectedOptions.length > 0
-                                                    ?
-                                                    product.selectedOptions.map(
-                                                        (option) => {
-                                                            return `${option.optionName}: ${option.valueLabel}`
-                                                        }).join(", ")
-                                                    :
-                                                    ""
+                                                (product.selectedOptions?.length ?? 0) > 0
+                                                    ? (product.selectedOptions ?? [])
+                                                        .map(
+                                                            (option) =>
+                                                                `${option.optionName}: ${option.valueLabel}`,
+                                                        )
+                                                        .join(", ")
+                                                    : ""
                                             }
                                         </p>
                                         <div className="flex items-center justify-between gap-2">
