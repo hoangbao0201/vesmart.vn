@@ -110,7 +110,7 @@ const PostDetailTemplate = ({ post }: PostDetailTemplateProps) => {
 
                 </div>
                 <aside className="lg:w-4/12 md:px-3 mb-5 min-h-full top-0 bottom-0" aria-label="Liên hệ VESMART">
-                    <div className="sticky top-[110px] bg-white border border-gray-200/80 rounded-lg">
+                    <div className="sticky top-[40px] bg-white border border-gray-200/80 rounded-lg">
 
                         <div className="relative flex flex-col min-h-[200px] px-4 py-4">
                             <h2 className="mb-3 font-extrabold text-lg text-blue-950">Liên hệ VESMART</h2>
