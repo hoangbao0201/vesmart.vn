@@ -29,28 +29,6 @@ const NavSearch = () => {
     const [textDebounce] = useDebounceValue(valueInputSearch, 500);
 
     const fetchAllProducts = async () => {
-        // try {
-        //     setIsLoadingSearch(true);
-        //     const productsRes = await axios("/api/blog/get", {
-        //         method: "GET",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //     });
-
-        //     if (productsRes?.data.success && Array.isArray(productsRes.data.data)) {
-        //         setAllProducts(productsRes.data.data);
-        //         setListResultProducts(productsRes.data.data);
-        //     } else {
-        //         setAllProducts([]);
-        //         setListResultProducts([]);
-        //     }
-        // } catch (error) {
-        //     setAllProducts([]);
-        //     setListResultProducts([]);
-        // } finally {
-        //     setIsLoadingSearch(false);
-        // }
     };
 
     const handleOnchangeValueInput = (e: ChangeEvent<HTMLInputElement>) => {

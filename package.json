@@ -2,6 +2,9 @@
   "name": "vesmart-demo",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,7 +20,6 @@
     "@prisma/client": "6.19",
     "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/typography": "^0.5.19",
-    "axios": "^1.14.0",
     "dotenv": "^17.3.1",
     "next": "16.2.1",
     "next-auth": "^4.24.13",
