@@ -269,7 +269,7 @@ const ProductDetailTemplate = ({ product }: ProductDetailTemplateProps) => {
 
                         <div className="mb-4 flex flex-wrap whitespace-nowrap">
                             <p className="sm:w-2/12 w-3/12">Số lượng: </p>
-                            <div className="sm:flex items-center flex-1 flex-wrap">
+                            <div className="flex items-center flex-1 flex-wrap">
                                 <button
                                     type="button"
                                     aria-label="Giảm số lượng"
@@ -286,7 +286,7 @@ const ProductDetailTemplate = ({ product }: ProductDetailTemplateProps) => {
                                     max={maxBuyQuantity}
                                     disabled={maxBuyQuantity <= 0}
                                     onChange={(e) => handleChangeBuyQuantity(Number(e.target.value))}
-                                    className="h-10 outline-none border-t border-b border-gray-200 text-center w-20 focus:border-gray-300 bg-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    className="w-16 h-10 outline-none border-t border-b border-gray-200 text-center focus:border-gray-300 bg-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                                 <button
                                     type="button"

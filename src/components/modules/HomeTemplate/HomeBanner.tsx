@@ -47,7 +47,7 @@ export default function HomeBanner({ }: HomeBannerProps) {
                         ]}
                         imageAlt="Dịch vụ sửa chữa robot hút bụi tại VESMART"
                         title="Sửa chữa nhanh chóng"
-                        className="lg:w-2/3 w-full relative md:rounded-lg"
+                        className="hidden md:block lg:w-2/3 w-full relative md:rounded-lg"
                         description="Trải nghiệm dịch vụ chuyên nghiệp và hiệu quả. Chúng tôi cam kết sửa chữa nhanh chóng trong 24-48h, bảo hành dài hạn, hỗ trợ tư vấn miễn phí và không thu phí nếu không sửa được. Liên hệ ngay để được phục vụ tốt nhất!"
                     />
                 </div>
@@ -94,12 +94,12 @@ export default function HomeBanner({ }: HomeBannerProps) {
                                 >
                                     <div className="relative overflow-hidden aspect-square rounded-t-lg">
                                         <Image
-                                            unoptimized
                                             alt={`${item.title} - hình minh họa dịch vụ VESMART`}
                                             width={1000}
                                             height={1000}
                                             src={item.image}
-                                            loading="lazy"
+                                            sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                                            quality={80}
                                             className="p-3 w-full h-full object-cover"
                                         />
                                     </div>
@@ -150,12 +150,12 @@ const BannerSlideItem = ({
 
     return (
         <div
-            className={`${className} h-[490px] bg-white relative group overflow-hidden`}
+            className={`${className} md:h-[490px] bg-white relative group overflow-hidden`}
         >
             {
                 imageUrls && (
                     <div
-                        className="p-1 md:h-[370px] h-[325px] md:group-hover:h-[325px] transition-all duration-200 object-cover transition-height relative"
+                        className="p-1 md:h-[370px] md:group-hover:h-[325px] transition-all duration-200 object-cover transition-height relative"
                     >
                         <div
                             className="w-full h-full relative rounded-lg lg:px-6 px-3 py-4 overflow-hidden bg-gradient-to-b from-transparent to-[#085eba2d]"
@@ -190,7 +190,7 @@ const BannerSlideItem = ({
                     </div>
                 )
             }
-            <div className="bg-white w-full pt-4 px-6 relative">
+            <div className="bg-white w-full pt-4 md:pb-0 pb-5 px-6 relative">
                 <h2 className="text-xl font-extrabold mb-3 line-clamp-2 leading-tight">
                     {title}
                 </h2>

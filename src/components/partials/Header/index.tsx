@@ -114,13 +114,13 @@ export default function Header({ isDynamic }: HeaderProps) {
       {/* Nav links */}
       <nav className="bg-white border-b border-gray-100">
         <div className="container max-w-7xl px-3 mx-auto">
-          <div className="py-1 font-semibold flex items-center flex-wrap gap-2">
+          <div className="py-1 grid grid-cols-2 md:grid-cols-4 font-semibold flex items-center flex-wrap gap-1">
             {NAV_ITEMS.map(({ href, label, isActive }) => (
               <Link
                 key={href}
                 href={href}
                 className={classNames("group flex items-center justify-center gap-2 px-3 py-1 rounded-sm transition-colors",
-                  isActive(pathname) ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100"
+                  isActive(pathname) ? "bg-blue-100 text-blue-700" : "bg-gray-100 hover:bg-gray-200"
                 )}
               >
                 <span className="font-medium">{label}</span>

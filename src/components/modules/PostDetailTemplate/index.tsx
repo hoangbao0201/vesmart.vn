@@ -22,7 +22,7 @@ const PostDetailTemplate = ({ post }: PostDetailTemplateProps) => {
             />
             <div className="lg:flex">
                 <div className="lg:w-8/12 md:px-3 mb-5">
-                    <div className="bg-white border border-gray-200/80 md:rounded-lg md:px-14 px-2 py-10 min-h-screen">
+                    <div className="md:px-14 px-3 py-10 bg-white border border-gray-200/80 md:rounded-lg min-h-screen">
                         <article>
                             <header>
                                 <h1 title={post?.title} className="font-bold md:text-3xl text-2xl text-blue-950 mb-7 leading-[1.5] capitalize">
@@ -35,7 +35,7 @@ const PostDetailTemplate = ({ post }: PostDetailTemplateProps) => {
                                                 <li className="" key={tag.name}>
                                                     <Link
                                                         href={`/the-loai/${tagNameToSlug(tag.name)}`}
-                                                        className={`px-2 py-[2px] text-lg font-semibold border border-transparent rounded-sm dev-tag-blog-${index}`}
+                                                        className={`px-2 py-[2px] text-lg font-semibold border border-transparent dev-tag-blog-${index}`}
                                                     >
                                                         <span style={{ color: `var(--tag-color-${index})` }} className={`mr-px`}>#</span>{tag.name}
                                                     </Link>

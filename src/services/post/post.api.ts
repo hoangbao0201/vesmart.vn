@@ -12,8 +12,10 @@ import {
     IUpsertPostBody,
 } from "./post.type";
 import { PageOptionsMapper } from "../mappers/page-options.mapper";
+import { unstable_cache } from "next/cache";
+
 import { PostSelectConfig } from "../prisma-select/post-select";
-import { SelectContext, SelectRole } from "../prisma-select/prisma-select-config";
+import { Order, SelectContext, SelectRole } from "../prisma-select/prisma-select-config";
 import { PostMapper } from "./post.mappers";
 import prisma from "@/lib/prisma";
 import { MetaTypeEnum } from "../../../generated/prisma";
@@ -63,6 +65,13 @@ export const getPostListApi = async ({ query }: { query: IGetPostListQuery }): P
         };
     } catch { return null; }
 }
+
+/** Chỉ dùng cho /bai-viet trang 1: giảm tải DB, tái validate mỗi 120s. Trang page≥2 gọi getPostListApi trực tiếp. */
+export const getPostListApiPageFirstCached = unstable_cache(
+    async (take: number, order: Order) => getPostListApi({ query: { page: 1, take, order } }),
+    ["post-list-guest-page-1"],
+    { revalidate: 120, tags: ["posts-list"] },
+);
 
 export const getPostListByTagSlugApi = async ({
     query,
