@@ -1,11 +1,14 @@
-import { ReactNode } from "react";
-import type { GetServerSideProps } from "next";
+import { type ReactNode } from "react";
+import type { GetStaticPaths, GetStaticProps } from "next";
+import type { ParsedUrlQuery } from "querystring";
 
 import MainLayout from "@/components/layouts/MainLayout";
 import PostListTemplate from "@/components/modules/PostListTemplate";
 import PageSeoHead from "@/components/seo/PageSeoHead";
+import { LIST_PAGE_SIZE } from "@/configs/list-infinite.config";
 import { SITE_CONFIG } from "@/configs/site.config";
-import { absoluteUrl, breadcrumbJsonLd, buildPageTitle, paginationPrevNextPaths } from "@/lib/seo";
+import { absoluteUrl, breadcrumbJsonLd, buildPageTitle } from "@/lib/seo";
+import { pageMetaToPlain } from "@/lib/page-meta-to-plain";
 import { PageOptionsMapper } from "@/services/mappers/page-options.mapper";
 import { getPostListByTagSlugApi } from "@/services/post/post.api";
 import { IGetPostList } from "@/services/post/post.type";
@@ -23,6 +26,8 @@ interface TagArchivePageProps {
     pageDescription: string;
 }
 
+const PUBLIC_POSTS_BY_TAG_API = "/api/public/posts-by-tag";
+
 const TagArchivePage: NextPageWithLayout<TagArchivePageProps> = ({
     posts,
     meta,
@@ -32,12 +37,6 @@ const TagArchivePage: NextPageWithLayout<TagArchivePageProps> = ({
     pageTitle,
     pageDescription,
 }) => {
-    const pagination = paginationPrevNextPaths(
-        `/the-loai/${slugTag}`,
-        meta.page,
-        meta.pageCount,
-        meta.take,
-    );
     const listJsonLd =
         posts.length > 0
             ? {
@@ -45,7 +44,7 @@ const TagArchivePage: NextPageWithLayout<TagArchivePageProps> = ({
                   "@type": "ItemList",
                   itemListElement: posts.slice(0, 24).map((post, i) => ({
                       "@type": "ListItem",
-                      position: (meta.page - 1) * meta.take + i + 1,
+                      position: i + 1,
                       url: absoluteUrl(`/bai-viet/${post.slug}`),
                       name: post.title,
                   })),
@@ -68,29 +67,43 @@ const TagArchivePage: NextPageWithLayout<TagArchivePageProps> = ({
                 ogImageDimensions={{ width: 1200, height: 630 }}
                 ogImageAlt={`Thể loại ${tagName} — ${SITE_CONFIG.name}`}
                 ogType="website"
-                pagination={pagination}
                 jsonLd={listJsonLd ? [crumbs, listJsonLd] : crumbs}
             />
-            <PostListTemplate posts={posts} meta={meta} tagArchive={{ tagName }} />
+            <PostListTemplate
+                posts={posts}
+                meta={meta}
+                tagArchive={{ tagName }}
+                infinite={{
+                    apiPath: PUBLIC_POSTS_BY_TAG_API,
+                    metaPlain: pageMetaToPlain(meta),
+                    extraQuery: { slugTag },
+                }}
+            />
         </>
     );
 };
 
 export default TagArchivePage;
 
-export const getServerSideProps: GetServerSideProps<TagArchivePageProps> = async (ctx) => {
-    const { query, resolvedUrl, params } = ctx;
+interface Params extends ParsedUrlQuery {
+    slugTag: string;
+}
+
+export const getStaticPaths: GetStaticPaths<Params> = async () => ({
+    paths: [],
+    fallback: "blocking",
+});
+
+export const getStaticProps: GetStaticProps<TagArchivePageProps, Params> = async ({ params }) => {
     const slugTag = typeof params?.slugTag === "string" ? params.slugTag : "";
     if (!slugTag) {
         return { notFound: true };
     }
 
-    const page = query.page ? Number(query.page) : 1;
-    const take = query.take ? Number(query.take) : 20;
-    const canonicalPath = resolvedUrl.split("#")[0] || `/the-loai/${slugTag}`;
+    const canonicalPath = `/the-loai/${slugTag}`;
 
     const listRes = await getPostListByTagSlugApi({
-        query: { slugTag, page, take, order: Order.DESC },
+        query: { slugTag, page: 1, take: LIST_PAGE_SIZE, order: Order.DESC },
     });
 
     if (!listRes) {
@@ -99,21 +112,22 @@ export const getServerSideProps: GetServerSideProps<TagArchivePageProps> = async
 
     const { posts, meta, tagName } = listRes;
 
-    const pageTitle = buildPageTitle(
-        meta.page > 1 ? `Thể loại: ${tagName} — Trang ${meta.page}` : `Thể loại: ${tagName}`,
-    );
+    const pageTitle = buildPageTitle(`Thể loại: ${tagName}`);
     const pageDescription = `Đọc ${meta.itemCount} bài viết gắn thẻ “${tagName}” — ${SITE_CONFIG.description}`;
 
     return {
-        props: {
-            meta: JSON.parse(JSON.stringify(meta)),
-            posts: JSON.parse(JSON.stringify(posts)),
-            tagName,
-            slugTag,
-            canonicalPath,
-            pageTitle,
-            pageDescription,
-        },
+        props: JSON.parse(
+            JSON.stringify({
+                meta,
+                posts,
+                tagName,
+                slugTag,
+                canonicalPath,
+                pageTitle,
+                pageDescription,
+            }),
+        ),
+        revalidate: 300,
     };
 };
 

@@ -6,17 +6,19 @@ import ProductDetailTemplate from "@/components/modules/ProductDetailTemplate";
 import PageSeoHead from "@/components/seo/PageSeoHead";
 import { SITE_CONFIG } from "@/configs/site.config";
 import { absoluteUrl, breadcrumbJsonLd, buildPageTitle, productDetailPath, toPlainText } from "@/lib/seo";
+import { buildOfferShippingAndReturnPolicy } from "@/lib/seo/product-offer-jsonld";
 import { getProductDetailApi } from "@/services/product/product.api";
-import { IGetProductDetail } from "@/services/product/product.type";
+import { IGetProductDetail, IProductReviewSnippet } from "@/services/product/product.type";
 import { ParsedUrlQuery } from "querystring";
 
 import { NextPageWithLayout } from "../_app";
 
 interface ProductDetailPageProps {
     product: IGetProductDetail;
+    reviewSnippet: IProductReviewSnippet | null;
 }
 
-const ProductDetailPage: NextPageWithLayout<ProductDetailPageProps> = ({ product }) => {
+const ProductDetailPage: NextPageWithLayout<ProductDetailPageProps> = ({ product, reviewSnippet }) => {
     const path = productDetailPath(product);
     const title = buildPageTitle(product.name);
     const description =
@@ -40,6 +42,8 @@ const ProductDetailPage: NextPageWithLayout<ProductDetailPageProps> = ({ product
             ? "https://schema.org/InStock"
             : "https://schema.org/OutOfStock";
 
+    const offerMerchant = firstVariant ? buildOfferShippingAndReturnPolicy(SITE_CONFIG) : null;
+
     const productJsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
@@ -48,6 +52,29 @@ const ProductDetailPage: NextPageWithLayout<ProductDetailPageProps> = ({ product
         image: imageUrls.length ? imageUrls.map((u) => absoluteUrl(u)) : [absoluteUrl(primaryImage)],
         sku: product.productId,
         brand: { "@type": "Brand", name: SITE_CONFIG.name },
+        ...(reviewSnippet
+            ? {
+                  aggregateRating: {
+                      "@type": "AggregateRating",
+                      ratingValue: String(reviewSnippet.aggregateRating.ratingValue),
+                      reviewCount: String(reviewSnippet.aggregateRating.reviewCount),
+                      bestRating: String(reviewSnippet.aggregateRating.bestRating),
+                      worstRating: String(reviewSnippet.aggregateRating.worstRating),
+                  },
+                  review: reviewSnippet.reviews.map((r) => ({
+                      "@type": "Review",
+                      author: { "@type": "Person", name: r.authorName },
+                      reviewRating: {
+                          "@type": "Rating",
+                          ratingValue: String(r.rating),
+                          bestRating: "5",
+                          worstRating: "1",
+                      },
+                      reviewBody: r.reviewBody,
+                      datePublished: r.datePublished,
+                  })),
+              }
+            : {}),
         offers: firstVariant
             ? {
                   "@type": "Offer",
@@ -57,6 +84,7 @@ const ProductDetailPage: NextPageWithLayout<ProductDetailPageProps> = ({ product
                   availability,
                   itemCondition: "https://schema.org/NewCondition",
                   seller: { "@type": "Organization", name: SITE_CONFIG.name },
+                  ...offerMerchant,
               }
             : undefined,
     };
@@ -96,19 +124,17 @@ export const getStaticProps: GetStaticProps<any, Params> = async ({ params }) =>
     const productId = parts.pop() as string;
 
     const productDetailRes = await getProductDetailApi({
-        param: { productId }
+        param: { productId },
     });
     if (!productDetailRes) {
         return { notFound: true };
     }
-    const { product } = productDetailRes;
+    const { product, reviewSnippet } = productDetailRes;
 
     return {
-        props: {
-            product: JSON.parse(JSON.stringify(product))
-        },
-        revalidate: 60 * 60
-    }
+        props: JSON.parse(JSON.stringify({ product, reviewSnippet })),
+        revalidate: 60 * 60,
+    };
 }
 
 export const getStaticPaths = async () => {

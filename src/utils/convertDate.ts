@@ -1,4 +1,4 @@
-const convertDate = (date: Date) => {
+const convertDate = (date: Date | string) => {
     const now = new Date();
     const passedTime = new Date(date);
     const diffInSeconds = Math.floor(

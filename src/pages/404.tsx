@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { type ReactNode } from "react";
 
 import PageSeoHead from "@/components/seo/PageSeoHead";
+import MainLayout from "@/components/layouts/MainLayout";
 import { SITE_CONFIG } from "@/configs/site.config";
 import { buildPageTitle } from "@/lib/seo";
 
-export default function Page404() {
+function Page404() {
     const title = buildPageTitle("Không tìm thấy trang");
 
     return (
@@ -47,3 +49,9 @@ export default function Page404() {
         </>
     );
 }
+
+export default Page404;
+
+Page404.getLayout = (page: ReactNode) => {
+    return <MainLayout isNavbar={true}>{page}</MainLayout>;
+};

@@ -31,6 +31,10 @@ const PostDetailTemplate = ({ post }: PostDetailTemplateProps) => {
                                 <ul className="flex flex-wrap mb-4 -mx-2">
                                     {
                                         post?.tags && post?.tags.map((tag, index) => {
+                                            const slug = tagNameToSlug(tag.name);
+                                            if (!slug) {
+                                                return null;
+                                            }
                                             return (
                                                 <li className="" key={tag.name}>
                                                     <Link

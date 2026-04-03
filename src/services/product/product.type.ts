@@ -76,9 +76,21 @@ export type IGetProductDetail = {
         }>;
     }>;
 }
+/** Đánh giá thật từ CommentV2 (rating) để bổ sung JSON-LD Product. */
+export type IProductReviewSnippet = {
+    aggregateRating: { ratingValue: number; reviewCount: number; bestRating: number; worstRating: number };
+    reviews: Array<{
+        authorName: string;
+        rating: number;
+        reviewBody: string;
+        datePublished: string;
+    }>;
+};
+
 export type IGetProductDetailResponse = {
     product: IGetProductDetail;
-}
+    reviewSnippet: IProductReviewSnippet | null;
+};
 
 // ============================================
 // PRODUCT LIST TYPE
