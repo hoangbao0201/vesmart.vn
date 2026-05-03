@@ -2,13 +2,19 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 import { IGetPostDetail } from "@/services/post/post.type";
-import { createAdminPostClientApi, updateAdminPostClientApi } from "@/services/admin/admin.client";
+import {
+    createAdminPostClientApi,
+    updateAdminPostClientApi,
+    uploadAdminImageClientApi,
+} from "@/services/admin/admin.client";
 import MarkContent from "@/components/share/MarkContent";
 import classNames from "@/utils/classNames";
+import ModalDialog from "@/components/share/ModalDialog";
+import BoxStorage from "@/components/share/BoxStorage";
 
 const MdEditor = dynamic(() => import("react-markdown-editor-lite"), {
     ssr: false,
@@ -18,6 +24,16 @@ interface AdminPostDetailFormTemplateProps {
     postId?: string;
     initialPost?: IGetPostDetail | null;
     tagOptions: string[];
+}
+
+interface StorageImageItem {
+    imageId: string;
+    url: string;
+}
+
+interface SelectionRange {
+    start: number;
+    end: number;
 }
 
 const slugify = (value: string) => {
@@ -54,6 +70,10 @@ const AdminPostDetailFormTemplate = ({
     const [newTagInput, setNewTagInput] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [slugTouched, setSlugTouched] = useState(Boolean(initialPost?.slug));
+    const [selectedPostImages, setSelectedPostImages] = useState<StorageImageItem[]>([]);
+    const [isOpenBoxStorage, setIsOpenBoxStorage] = useState(false);
+    const [storedSelection, setStoredSelection] = useState<SelectionRange | null>(null);
+    const editorWrapRef = useRef<HTMLDivElement | null>(null);
 
     const availableTags = useMemo(() => {
         return Array.from(
@@ -95,6 +115,7 @@ const AdminPostDetailFormTemplate = ({
             description: description.trim() || null,
             content: content.trim(),
             tags: selectedTags,
+            images: selectedPostImages.map((item) => ({ imageId: item.imageId })),
         };
 
         if (!payload.title || !payload.slug || !payload.content) {
@@ -120,6 +141,63 @@ const AdminPostDetailFormTemplate = ({
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const addSelectedImage = (image: StorageImageItem) => {
+        setSelectedPostImages((prev) => {
+            if (prev.some((item) => item.imageId === image.imageId)) {
+                return prev;
+            }
+            return [...prev, image];
+        });
+    };
+
+    const handleEditorImageUpload = async (file: File) => {
+        const response = await uploadAdminImageClientApi({ file });
+        if (!response?.success || !response.data) {
+            throw new Error(response?.messages?.[0] || "Upload ảnh thất bại.");
+        }
+        addSelectedImage({
+            imageId: response.data.imageId,
+            url: response.data.url,
+        });
+        toast.success("Upload ảnh thành công.");
+        return response.data.url;
+    };
+
+    const getEditorSelection = (): SelectionRange | null => {
+        const textarea = editorWrapRef.current?.querySelector("textarea");
+        if (!textarea) return null;
+        return {
+            start: textarea.selectionStart || 0,
+            end: textarea.selectionEnd || 0,
+        };
+    };
+
+    const insertMarkdownAtStoredSelection = (imageUrl: string) => {
+        const markdown = `![Ảnh bài viết](${imageUrl})`;
+        setContent((prev) => {
+            const value = prev || "";
+            const start = storedSelection?.start ?? value.length;
+            const end = storedSelection?.end ?? start;
+            const prefix = value.slice(0, start);
+            const suffix = value.slice(end);
+            const separatorBefore = start > 0 && !prefix.endsWith("\n") ? "\n\n" : "";
+            const separatorAfter = suffix.length > 0 && !suffix.startsWith("\n") ? "\n\n" : "";
+            return `${prefix}${separatorBefore}${markdown}${separatorAfter}${suffix}`;
+        });
+    };
+
+    const handleOpenStorage = () => {
+        setStoredSelection(getEditorSelection());
+        setIsOpenBoxStorage(true);
+    };
+
+    const handleAddStorageImage = (image: StorageImageItem) => {
+        addSelectedImage(image);
+        insertMarkdownAtStoredSelection(image.url);
+        setIsOpenBoxStorage(false);
+        toast.success("Đã chèn ảnh vào đúng vị trí đã chọn.");
     };
 
     return (
@@ -178,13 +256,23 @@ const AdminPostDetailFormTemplate = ({
                 </div>
 
                 <div>
-                    <label className="block mb-1 text-sm font-medium">Nội dung (Markdown)</label>
-                    <div className="border border-gray-300 overflow-hidden">
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                        <label className="text-sm font-medium">Nội dung (Markdown)</label>
+                        <button
+                            type="button"
+                            onClick={handleOpenStorage}
+                            className="px-3 py-1.5 cursor-pointer rounded-md bg-indigo-100 text-indigo-700 hover:bg-indigo-200 text-sm"
+                        >
+                            VESMART Store
+                        </button>
+                    </div>
+                    <div ref={editorWrapRef} className="border border-gray-300 overflow-hidden">
                         <MdEditor
                             value={content}
                             style={{ height: "420px" }}
                             renderHTML={(text: string) => <MarkContent>{text}</MarkContent>}
                             onChange={({ text }: { text: string }) => setContent(text)}
+                            onImageUpload={handleEditorImageUpload}
                         />
                     </div>
                 </div>
@@ -274,6 +362,18 @@ const AdminPostDetailFormTemplate = ({
                     </button>
                 </div>
             </form>
+
+            <ModalDialog
+                title="VESMART Storage"
+                isOpen={isOpenBoxStorage}
+                setIsOpen={setIsOpenBoxStorage}
+                size="extra"
+            >
+                <BoxStorage
+                    onAddImage={handleAddStorageImage}
+                    selectedImageIds={selectedPostImages.map((item) => item.imageId)}
+                />
+            </ModalDialog>
         </div>
     );
 };

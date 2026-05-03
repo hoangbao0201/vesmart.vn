@@ -34,4 +34,34 @@ export interface IAdminUpsertPostBody {
     content: string;
     description?: string | null;
     tags: string[];
+    images?: {
+        imageId: string;
+    }[];
+}
+
+export type IAdminGetImageListQuery = IPageOptions;
+
+export interface IAdminImageItem {
+    imageId: string;
+    url: string;
+    width: number | null;
+    height: number | null;
+    imageType: string | null;
+    dominantColor: string | null;
+    createdAt: Date;
+}
+
+export interface IAdminGetImageListResponse {
+    images: IAdminImageItem[];
+    meta: PageOptionsMapper;
+}
+
+export interface IAdminCreateImageBody {
+    url: string;
+    width?: number | null;
+    height?: number | null;
+    imageType?: string | null;
+    dominantColor?: string | null;
+    source?: string | null;
+    description?: string | null;
 }

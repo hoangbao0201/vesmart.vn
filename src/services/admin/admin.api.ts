@@ -7,6 +7,9 @@ import { Order, SelectContext, SelectRole } from "../prisma-select/prisma-select
 import { ProductMapper } from "../mappers/product.mappers";
 import { MetaTypeEnum } from "../../../generated/prisma";
 import {
+    IAdminCreateImageBody,
+    IAdminGetImageListQuery,
+    IAdminGetImageListResponse,
     IAdminGetPostDetailByIdResponse,
     IAdminGetOrderListQuery,
     IAdminGetOrderListResponse,
@@ -198,6 +201,15 @@ export const upsertAdminPostApi = async ({
         content: body.content,
         description: body.description?.trim() || null,
     };
+    const imageConnections = (body.images || [])
+        .map((item) => item?.imageId?.trim())
+        .filter(Boolean)
+        .map((imageId, index) => ({
+            image: {
+                connect: { imageId },
+            },
+            index,
+        }));
 
     if (postId) {
         return prisma.postV2.update({
@@ -211,6 +223,10 @@ export const upsertAdminPostApi = async ({
                             connect: { metaId: tag.metaId },
                         },
                     })),
+                },
+                images: {
+                    deleteMany: {},
+                    create: imageConnections,
                 },
             },
             select: {
@@ -233,10 +249,86 @@ export const upsertAdminPostApi = async ({
                     },
                 })),
             },
+            images: {
+                create: imageConnections,
+            },
         },
         select: {
             postId: true,
             slug: true,
         },
+    });
+};
+
+export const getAdminImageListApi = async ({
+    query,
+}: {
+    query: IAdminGetImageListQuery;
+}): Promise<IAdminGetImageListResponse | null> => {
+    try {
+        const { take, page, order = Order.DESC } = query;
+        const [images, count] = await prisma.$transaction([
+            prisma.imageV2.findMany({
+                take,
+                skip: (page - 1) * take,
+                orderBy: { createdAt: order },
+                select: {
+                    imageId: true,
+                    url: true,
+                    width: true,
+                    height: true,
+                    imageType: true,
+                    dominantColor: true,
+                    createdAt: true,
+                },
+            }),
+            prisma.imageV2.count(),
+        ]);
+
+        return {
+            images,
+            meta: new PageOptionsMapper({ page, take, itemCount: count }),
+        };
+    } catch {
+        return null;
+    }
+};
+
+export const createAdminImageApi = async ({
+    body,
+}: {
+    body: IAdminCreateImageBody;
+}) => {
+    return prisma.imageV2.create({
+        data: {
+            url: body.url,
+            width: body.width ?? null,
+            height: body.height ?? null,
+            imageType: body.imageType ?? null,
+            dominantColor: body.dominantColor ?? null,
+            source: body.source ?? "VESMART Storage",
+            description: body.description ?? null,
+            index: 1,
+        },
+        select: {
+            imageId: true,
+            url: true,
+            width: true,
+            height: true,
+            imageType: true,
+            dominantColor: true,
+            createdAt: true,
+        },
+    });
+};
+
+export const deleteAdminImageApi = async ({
+    imageId,
+}: {
+    imageId: string;
+}) => {
+    return prisma.imageV2.delete({
+        where: { imageId },
+        select: { imageId: true },
     });
 };
